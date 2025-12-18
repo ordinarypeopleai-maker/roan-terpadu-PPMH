@@ -74,7 +74,7 @@ const pages=['home','kubro','tps','info'];
 function showPage(p){pages.forEach(x=>document.getElementById(x).style.display=x===p?'block':'none')}
 window.showPage=showPage;
 
-// Inisialisasi Kubro
+// KUBRO
 const bulanNama=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 const bulan=document.getElementById('bulan'),tahun=document.getElementById('tahun'),tbody=document.querySelector('#tabelKUBRO tbody');
 bulanNama.forEach((b,i)=>bulan.innerHTML+=`<option value="${i}">${b}</option>`);
@@ -126,8 +126,43 @@ window.exportPDFKUBRO=function(){
  doc.save('roan_jumat_kubro.pdf');
 }
 
-// Inisialisasi TPS (gunakan logika data array langsung agar cepat)
-// Tambahkan logika renderTPS() dan exportPDFTPS() sesuai pola Kubro
+// TPS
+const bulanTPS=document.getElementById('bulanTPS');
+const tahunTPS=document.getElementById('tahunTPS');
+const cariTPS=document.getElementById('cariTPS');
+const tbodyTPS=document.querySelector('#tabelTPS tbody');
+const komplekHarian = ["A","B","C","E","F","G","H","I","J"];
+const komplekJumat = ["A","B","C","D","E","F","G","H","I","J"];
+let dataTPS=[];
+let dt=new Date(2025,11,1),endTPS=new Date(2029,11,31),di=6,fi=2;
+while(dt<=endTPS){
+  const day=dt.getDay();
+  let petugas='';
+  if(day===0) petugas='Pengurus kebersihan';
+  else if(day===5){petugas=komplekJumat[fi%10];fi++;}
+  else{petugas=komplekHarian[di%9];di++;}
+  dataTPS.push({tgl:dt.toLocaleDateString('id-ID'),hari:dt.toLocaleDateString('id-ID',{weekday:'long'}),petugas,bulan:dt.getMonth(),tahun:dt.getFullYear()});
+  dt.setDate(dt.getDate()+1);
+}
+bulanNama.forEach((b,i)=>bulanTPS.innerHTML+=`<option value="${i}">${b}</option>`);
+for(let y=2025;y<=2029;y++)tahunTPS.innerHTML+=`<option>${y}</option>`;
+bulanTPS.value=11;tahunTPS.value=2025;
+
+window.renderTPS=function(){
+ tbodyTPS.innerHTML='';
+ const q=cariTPS.value.toUpperCase();
+ dataTPS.filter(x=>x.bulan==bulanTPS.value&&x.tahun==tahunTPS.value&&(q==''||x.petugas.includes(q))).forEach(x=>{
+   tbodyTPS.innerHTML+=`<tr><td>${x.tgl}</td><td>${x.hari}</td><td>${x.petugas}</td></tr>`;
+ });
+}
+
+window.exportPDFTPS=function(){
+ const { jsPDF }=window.jspdf;
+ const doc=new jsPDF('p','mm','a4');
+ doc.text("Jadwal Ro'an TPS",105,15,{align:'center'});
+ const res = doc.autoTable({startY:22,head:[["Tanggal","Hari","Petugas"]],body:dataTPS.filter(x=>x.bulan==bulanTPS.value&&x.tahun==tahunTPS.value).map(d=>[d.tgl,d.hari,d.petugas])});
+ doc.save('roan_tps.pdf');
+}
 
 showPage('home');
 });
