@@ -43,8 +43,8 @@ footer{text-align:center;font-size:12px;color:#777;margin:20px}
 <div class="controls">
 <select id="bulan"></select>
 <select id="tahun"></select>
-<button class="primary" onclick="renderKUBRO()">Tampilkan</button>
-<button onclick="exportPDFKUBRO()">Export PDF</button>
+<button class="primary" id="btnTampilkanKUBRO">Tampilkan</button>
+<button id="btnExportKUBRO">Export PDF</button>
 </div>
 <table id="tabelKUBRO"><thead><tr><th>Tanggal</th><th>Lokasi</th><th>Keterangan</th><th>Komplek</th></tr></thead><tbody></tbody></table>
 </section>
@@ -55,8 +55,8 @@ footer{text-align:center;font-size:12px;color:#777;margin:20px}
 <select id="bulanTPS"></select>
 <select id="tahunTPS"></select>
 <input id="cariTPS" placeholder="Cari Komplek">
-<button class="primary" onclick="renderTPS(true)">Tampilkan</button>
-<button onclick="exportPDFTPS()">Export PDF</button>
+<button class="primary" id="btnTampilkanTPS">Tampilkan</button>
+<button id="btnExportTPS">Export PDF</button>
 </div>
 <table id="tabelTPS"><thead><tr><th>Tanggal</th><th>Hari</th><th>Petugas</th></tr></thead><tbody></tbody></table>
 </section>
@@ -95,7 +95,7 @@ while(d<=new Date(2029,11,31)){
  d.setDate(d.getDate()+1);
 }
 
-window.renderKUBRO=function(){
+function renderKUBRO(){
  tbody.innerHTML='';
  let last='';
  dataKubro.filter(x=>x.bulan==bulan.value&&x.tahun==tahun.value).forEach(x=>{
@@ -104,7 +104,7 @@ window.renderKUBRO=function(){
  });
 }
 
-window.exportPDFKUBRO=function(){
+function exportPDFKUBRO(){
  const { jsPDF } = window.jspdf;
  const doc = new jsPDF('p','mm','a4');
  doc.setFontSize(14);
@@ -121,51 +121,11 @@ window.exportPDFKUBRO=function(){
    doc.text(tglKeys[i],105,22,{align:'center'});
    doc.autoTable({startY:28,head:[["Lokasi","Keterangan","Komplek"]],body:groups[tglKeys[i]],theme:'grid'});
  }
- // hapus halaman kosong terakhir jika ada
- const pageCount = doc.getNumberOfPages();
- if(doc.getPageHeight() - doc.internal.pageSize.getHeight() > 0) doc.deletePage(pageCount);
  doc.save('roan_jumat_kubro.pdf');
 }
 
-// TPS
-const bulanTPS=document.getElementById('bulanTPS');
-const tahunTPS=document.getElementById('tahunTPS');
-const cariTPS=document.getElementById('cariTPS');
-const tbodyTPS=document.querySelector('#tabelTPS tbody');
-const komplekHarian=["A","B","C","E","F","G","H","I","J"];
-const komplekJumat=["A","B","C","D","E","F","G","H","I","J"];
-let dataTPS=[];
-let dt=new Date(2025,11,1),endTPS=new Date(2029,11,31),di=6,fi=2;
-while(dt<=endTPS){
-  const day=dt.getDay();
-  let petugas='';
-  if(day===0) petugas='Pengurus kebersihan';
-  else if(day===5){petugas=komplekJumat[fi%10];fi++;}
-  else{petugas=komplekHarian[di%komplekHarian.length];di++;}
-  dataTPS.push({tgl:dt.toLocaleDateString('id-ID'),hari:dt.toLocaleDateString('id-ID',{weekday:'long'}),petugas,bulan:dt.getMonth(),tahun:dt.getFullYear()});
-  dt.setDate(dt.getDate()+1);
-}
-bulanNama.forEach((b,i)=>bulanTPS.innerHTML+=`<option value="${i}">${b}</option>`);
-for(let y=2025;y<=2029;y++)tahunTPS.innerHTML+=`<option>${y}</option>`;
-bulanTPS.value=11;tahunTPS.value=2025;
-
-window.renderTPS=function(short=false){
- tbodyTPS.innerHTML='';
- const q=cariTPS.value.toUpperCase();
- let filtered=dataTPS.filter(x=>x.bulan==bulanTPS.value&&x.tahun==tahunTPS.value&&(q==''||x.petugas.toUpperCase().includes(q)));
- if(short) filtered=filtered.slice(0,50);
- filtered.forEach(x=>{
-   tbodyTPS.innerHTML+=`<tr><td>${x.tgl}</td><td>${x.hari}</td><td>${x.petugas}</td></tr>`;
- });
-}
-
-window.exportPDFTPS=function(){
- const { jsPDF }=window.jspdf;
- const doc=new jsPDF('p','mm','a4');
- doc.text("Jadwal Ro'an TPS",105,15,{align:'center'});
- const res=doc.autoTable({startY:22,head:[["Tanggal","Hari","Petugas"]],body:dataTPS.filter(x=>x.bulan==bulanTPS.value&&x.tahun==tahunTPS.value).map(d=>[d.tgl,d.hari,d.petugas])});
- doc.save('roan_tps.pdf');
-}
+document.getElementById('btnTampilkanKUBRO').addEventListener('click',renderKUBRO);
+document.getElementById('btnExportKUBRO').addEventListener('click',exportPDFKUBRO);
 
 showPage('home');
 });
