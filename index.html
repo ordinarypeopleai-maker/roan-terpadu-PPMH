@@ -87,7 +87,7 @@ const keteranganLokasi=["Masjid Lt 1, 2 dan Depan perpustakaan","Jeding Masjid",
 let dataKubro=[],idx=0,d=new Date(2025,11,1);
 while(d<=new Date(2029,11,31)){
  if(d.getDay()==5){
-   for(let i=0;i<10;i++){
+   for(let i=3;i<10;i++){
      dataKubro.push({tgl:d.toLocaleDateString('id-ID'),bulan:d.getMonth(),tahun:d.getFullYear(),lokasi:lokasiNama[i],keterangan:keteranganLokasi[i],komplek:komplek[(idx+i)%10]});
    }
    idx++
