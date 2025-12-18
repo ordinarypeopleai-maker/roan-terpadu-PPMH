@@ -108,31 +108,26 @@ function exportPDFKUBRO(){
   [...tbody.querySelectorAll('tr')].forEach(r=>{
     if(r.children.length===1){
       currentDate = r.children[0].innerText;
-      groups[currentDate]=[];
+      if(!groups[currentDate]) groups[currentDate]=[];
     } else if(r.children.length===3){
       groups[currentDate].push([
-        currentDate,
         r.children[1].innerText,
         r.children[2].innerText
       ]);
     }
   });
 
-  let startY = 22;
-  Object.keys(groups).forEach(tgl=>{
+  Object.keys(groups).forEach((tgl,index)=>{
+    if(index>0) doc.addPage();
     doc.setFontSize(12);
-    doc.text(tgl,105,startY-2,{align:'center'});
+    doc.text(tgl,105,22,{align:'center'});
     doc.autoTable({
-      startY:startY,
-      head:[["Tanggal","Lokasi","Komplek"]],
+      startY:28,
+      head:[["Lokasi","Komplek"]],
       body:groups[tgl]
     });
-    startY = 22; // reset Y setiap halaman
-    doc.addPage();
   });
 
-  // Hapus halaman kosong terakhir
-  doc.deletePage(doc.getNumberOfPages());
   doc.save('roan_jumat_kubro.pdf');
 }
 
