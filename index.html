@@ -184,11 +184,11 @@ window.exportPDFTPS=function(){
 const infoText=document.getElementById('infoText');
 const statusInfo=document.getElementById('statusInfo');
 if(localStorage.getItem('roanInfo')) infoText.value=localStorage.getItem('roanInfo');
-window.simpanInfo=function(){
+document.getElementById('btnSimpan').addEventListener('click',()=>{
  localStorage.setItem('roanInfo',infoText.value.trim());
  statusInfo.textContent="Informasi berhasil disimpan ✅";
  setTimeout(()=>{statusInfo.textContent='';},3000);
-}
+});
 
 showPage('home');
 });
