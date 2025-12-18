@@ -119,15 +119,20 @@ function exportPDFKUBRO(){
   });
 
   let startY = 22;
-  Object.keys(groups).forEach((tgl,index)=>{
-    if(index>0) doc.addPage();
+  Object.keys(groups).forEach(tgl=>{
+    doc.setFontSize(12);
+    doc.text(tgl,105,startY-2,{align:'center'});
     doc.autoTable({
       startY:startY,
       head:[["Tanggal","Lokasi","Komplek"]],
       body:groups[tgl]
     });
+    startY = 22; // reset Y setiap halaman
+    doc.addPage();
   });
 
+  // Hapus halaman kosong terakhir
+  doc.deletePage(doc.getNumberOfPages());
   doc.save('roan_jumat_kubro.pdf');
 }
 
