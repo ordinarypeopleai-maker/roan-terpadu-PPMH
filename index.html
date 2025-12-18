@@ -56,10 +56,8 @@
         }
 
         .sidebar-header {
-    padding: 0;
-    border-bottom: none;
-    display: flex;
-    align-items: center;
+            padding: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .sidebar-logo {
@@ -101,11 +99,12 @@
         }
 
         .sidebar-nav {
-    flex: 1;
-    flex-direction: row;   /* dari column */
-    align-items: center;
-    gap: 12px;
-    padding: 0 24px;
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
 
         .nav-item {
@@ -130,7 +129,7 @@
         .nav-item.active {
             background: var(--primary);
             color: white;
-            box-shadow: flex rgba(38, 165, 154, 0.3);
+            box-shadow: 0 8px 16px rgba(38, 165, 154, 0.3);
         }
 
         .nav-icon {
@@ -656,7 +655,26 @@
             </div>
 
             <nav class="sidebar-nav">
-                
+                <a href="#" class="nav-item active" data-page="dashboard">
+                    <span class="nav-icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-page="kubro">
+                    <span class="nav-icon">📅</span>
+                    <span>Jumat Kubro</span>
+                </a>
+                <a href="#" class="nav-item" data-page="tps">
+                    <span class="nav-icon">📋</span>
+                    <span>Jadwal TPS</span>
+                </a>
+                <a href="#" class="nav-item" data-page="info">
+                    <span class="nav-icon">ℹ️</span>
+                    <span>Informasi</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn-logout">🚪 Keluar</button>
                 <div class="copyright">© 2025 Ro'an Terpadu</div>
             </div>
         </div>
