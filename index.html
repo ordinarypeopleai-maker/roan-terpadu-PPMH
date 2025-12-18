@@ -20,14 +20,13 @@ button.primary{background:var(--primary);color:#fff;border:none}
 table{width:100%;border-collapse:collapse}
 th,td{padding:10px;border-bottom:1px solid #eee}
 th{background:#f0f2f5}
-th:hover{background:#e0e4e8}
 footer{text-align:center;font-size:12px;color:#777;margin:20px}
 </style>
 </head>
 <body>
 <header>
-<h1>SERDADU PPMH</h1>
-<p>Sistem Ro'an Terpadu PPMH </p>
+<h1>Ro'an Terpadu</h1>
+<p>Sistem Penjadwalan Ro'an TPS & Jumat Kubro</p>
 </header>
 <main>
 <section id="home" class="card">
@@ -38,32 +37,29 @@ footer{text-align:center;font-size:12px;color:#777;margin:20px}
   <div class="card" onclick="showPage('info')" style="cursor:pointer"><h3>📢 Informasi</h3></div>
 </div>
 </section>
-
 <section id="kubro" class="card" style="display:none">
 <button onclick="showPage('home')">⬅ Home</button>
 <h2>Jadwal Ro'an Jumat Kubro</h2>
 <div class="controls">
 <select id="bulan"></select>
 <select id="tahun"></select>
-<button class="primary" id="btnTampilkanKUBRO">Tampilkan</button>
-<button id="btnExportKUBRO">Export PDF</button>
+<button class="primary" onclick="renderKUBRO()">Tampilkan</button>
+<button onclick="exportPDFKUBRO()">Export PDF</button>
 </div>
 <table id="tabelKUBRO"><thead><tr><th>Tanggal</th><th>Lokasi</th><th>Keterangan</th><th>Komplek</th></tr></thead><tbody></tbody></table>
 </section>
-
 <section id="tps" class="card" style="display:none">
 <button onclick="showPage('home')">⬅ Home</button>
 <h2>Jadwal Ro'an TPS</h2>
 <div class="controls">
 <select id="bulanTPS"></select>
 <select id="tahunTPS"></select>
-<input id="cariTPS" placeholder="Cari Petugas">
-<button class="primary" id="btnTampilkanTPS">Tampilkan</button>
-<button id="btnExportTPS">Export PDF</button>
+<input id="cariTPS" placeholder="Cari Komplek">
+<button class="primary" onclick="renderTPS(true)">Tampilkan</button>
+<button onclick="exportPDFTPS()">Export PDF</button>
 </div>
 <table id="tabelTPS"><thead><tr><th>Tanggal</th><th>Hari</th><th>Petugas</th></tr></thead><tbody></tbody></table>
 </section>
-
 <section id="info" class="card" style="display:none">
 <button onclick="showPage('home')">⬅ Home</button>
 <h2>📢 Informasi</h2>
@@ -71,146 +67,106 @@ footer{text-align:center;font-size:12px;color:#777;margin:20px}
 <br><br><button class="primary" onclick="simpanInfo()">Simpan</button>
 </section>
 </main>
-<footer>© Sistem Ro'an Terpadu</footer>
-
+<footer>© 2025–2029 Ro'an Terpadu</footer>
 <script defer>
 window.addEventListener('DOMContentLoaded',()=>{
-    // ================== Halaman ==================
-    const pages=['home','kubro','tps','info'];
-    function showPage(p){pages.forEach(x=>document.getElementById(x).style.display=x===p?'block':'none')}
-    window.showPage=showPage;
+const pages=['home','kubro','tps','info'];
+function showPage(p){pages.forEach(x=>document.getElementById(x).style.display=x===p?'block':'none')}
+window.showPage=showPage;
 
-    // ================== KUBRO ==================
-    const bulanNama=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-    const bulan=document.getElementById('bulan'),tahun=document.getElementById('tahun'),tbody=document.querySelector('#tabelKUBRO tbody');
-    bulanNama.forEach((b,i)=>bulan.innerHTML+=`<option value="${i}">${b}</option>`);
-    for(let y=2025;y<=2029;y++)tahun.innerHTML+=`<option>${y}</option>`;
-    bulan.value=11;tahun.value=2025;
+// KUBRO
+const bulanNama=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const bulan=document.getElementById('bulan'),tahun=document.getElementById('tahun'),tbody=document.querySelector('#tabelKUBRO tbody');
+bulanNama.forEach((b,i)=>bulan.innerHTML+=`<option value="${i}">${b}</option>`);
+for(let y=2025;y<=2029;y++)tahun.innerHTML+=`<option>${y}</option>`;
+bulan.value=11;tahun.value=2025;
 
-    const komplek=['A','B','C','D','E','F','G','H','I','J'];
-    const lokasiNama=["Lokasi 1","Lokasi 2","Lokasi 3","Lokasi 4","Lokasi 5","Lokasi 6","Lokasi 7","Lokasi 8","Lokasi 9","Lokasi 10"];
-    const keteranganLokasi=["Masjid Lt 1, 2 dan Depan perpustakaan","Jeding Masjid","Teras Ndalem Gus Minan sampai Halaqoh","Ziarah & Membersihkan Makam Klaseman","Depan Mifda + Komp. C","Madrasah Lt. 1-3, Parkiran Bawah dan Maqom","Jeding Santri dan Depan Laundry","Dapur & Jemuran","Parkiran depan dan samping DU, Teras DU & Jeding Tamu DU","Membuang sampah ke TPS & Mengepel belakang Komp. C"];
-    let dataKubro=[],idx=0,d=new Date(2025,11,1);
-    while(d<=new Date(2029,11,31)){
-        if(d.getDay()==5){
-            for(let i=3;i<10;i++){
-                dataKubro.push({tgl:d.toLocaleDateString('id-ID'),bulan:d.getMonth(),tahun:d.getFullYear(),lokasi:lokasiNama[i],keterangan:keteranganLokasi[i],komplek:komplek[(idx+i)%10]});
-            }
-            idx++
-        }
-        d.setDate(d.getDate()+1);
-    }
+const komplek=['A','B','C','D','E','F','G','H','I','J'];
+const lokasiNama=["Lokasi 1","Lokasi 2","Lokasi 3","Lokasi 4","Lokasi 5","Lokasi 6","Lokasi 7","Lokasi 8","Lokasi 9","Lokasi 10"];
+const keteranganLokasi=["Masjid Lt 1, 2 dan Depan perpustakaan","Jeding Masjid","Teras Ndalem Gus Minan sampai Halaqoh","Ziarah & Membersihkan Makam Klaseman","Depan Mifda + Komp. C","Madrasah Lt. 1-3, Parkiran Bawah dan Maqom","Jeding Santri dan Depan Laundry","Dapur & Jemuran","Parkiran depan dan samping DU, Teras DU & Jeding Tamu DU","Membuang sampah ke TPS & Mengepel belakang Komp. C"];
+let dataKubro=[],idx=0,d=new Date(2025,11,1);
+while(d<=new Date(2029,11,31)){
+ if(d.getDay()==5){
+   for(let i=0;i<10;i++){
+     dataKubro.push({tgl:d.toLocaleDateString('id-ID'),bulan:d.getMonth(),tahun:d.getFullYear(),lokasi:lokasiNama[i],keterangan:keteranganLokasi[i],komplek:komplek[(idx+i)%10]});
+   }
+   idx++
+ }
+ d.setDate(d.getDate()+1);
+}
 
-    function renderKUBRO(){
-        tbody.innerHTML='';
-        let last='';
-        dataKubro.filter(x=>x.bulan==bulan.value&&x.tahun==tahun.value).forEach(x=>{
-            if(x.tgl!==last){tbody.innerHTML+=`<tr><td colspan="4" style="background:#eef">${x.tgl}</td></tr>`;last=x.tgl;}
-            tbody.innerHTML+=`<tr><td></td><td>${x.lokasi}</td><td>${x.keterangan}</td><td>${x.komplek}</td></tr>`;
-        });
-    }
+window.renderKUBRO=function(){
+ tbody.innerHTML='';
+ let last='';
+ dataKubro.filter(x=>x.bulan==bulan.value&&x.tahun==tahun.value).forEach(x=>{
+   if(x.tgl!==last){tbody.innerHTML+=`<tr><td colspan="4" style="background:#eef">${x.tgl}</td></tr>`;last=x.tgl;}
+   tbody.innerHTML+=`<tr><td></td><td>${x.lokasi}</td><td>${x.keterangan}</td><td>${x.komplek}</td></tr>`;
+ });
+}
 
-    function exportPDFKUBRO(){
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('p','mm','a4');
-        doc.setFontSize(14);
-        doc.text("JADWAL RO'AN JUMAT KUBRO",105,15,{align:'center'});
-        let groups={};
-        dataKubro.filter(x=>x.bulan==bulan.value&&x.tahun==tahun.value).forEach(x=>{
-            if(!groups[x.tgl]) groups[x.tgl]=[];
-            groups[x.tgl].push([x.lokasi,x.keterangan,x.komplek]);
-        });
-        const tglKeys = Object.keys(groups);
-        for(let i=0;i<tglKeys.length;i++){
-            if(i>0) doc.addPage();
-            doc.setFontSize(12);
-            doc.text(tglKeys[i],105,22,{align:'center'});
-            doc.autoTable({startY:28,head:[["Lokasi","Keterangan","Komplek"]],body:groups[tglKeys[i]],theme:'grid'});
-        }
-        doc.save('roan_jumat_kubro.pdf');
-    }
+window.exportPDFKUBRO=function(){
+ const { jsPDF } = window.jspdf;
+ const doc = new jsPDF('p','mm','a4');
+ doc.setFontSize(14);
+ doc.text("JADWAL RO'AN JUMAT KUBRO",105,15,{align:'center'});
+ let groups={};
+ dataKubro.filter(x=>x.bulan==bulan.value&&x.tahun==tahun.value).forEach(x=>{
+   if(!groups[x.tgl]) groups[x.tgl]=[];
+   groups[x.tgl].push([x.lokasi,x.keterangan,x.komplek]);
+ });
+ const tglKeys = Object.keys(groups);
+ let offsetY = 22;
+ for(let i=0;i<tglKeys.length;i++){
+   if(i>0) doc.addPage();
+   doc.setFontSize(12);
+   doc.text(tglKeys[i],105,offsetY,{align:'center'});
+   const res = doc.autoTable({startY:offsetY+6,head:[["Lokasi","Keterangan","Komplek"]],body:groups[tglKeys[i]],theme:'grid'});
+   offsetY = res.finalY + 10;
+ }
+ doc.save('roan_jumat_kubro.pdf');
+}
 
-    document.getElementById('btnTampilkanKUBRO').addEventListener('click',renderKUBRO);
-    document.getElementById('btnExportKUBRO').addEventListener('click',exportPDFKUBRO);
+// TPS
+const bulanTPS=document.getElementById('bulanTPS');
+const tahunTPS=document.getElementById('tahunTPS');
+const cariTPS=document.getElementById('cariTPS');
+const tbodyTPS=document.querySelector('#tabelTPS tbody');
+const komplekHarian=["A","B","C","E","F","G","H","I","J"];
+const komplekJumat=["A","B","C","D","E","F","G","H","I","J"];
+let dataTPS=[];
+let dt=new Date(2025,11,1),endTPS=new Date(2029,11,31),di=6,fi=2;
+while(dt<=endTPS){
+  const day=dt.getDay();
+  let petugas='';
+  if(day===0) petugas='Pengurus kebersihan';
+  else if(day===5){petugas=komplekJumat[fi%10];fi++;}
+  else{petugas=komplekHarian[di%komplekHarian.length];di++;}
+  dataTPS.push({tgl:dt.toLocaleDateString('id-ID'),hari:dt.toLocaleDateString('id-ID',{weekday:'long'}),petugas,bulan:dt.getMonth(),tahun:dt.getFullYear()});
+  dt.setDate(dt.getDate()+1);
+}
+bulanNama.forEach((b,i)=>bulanTPS.innerHTML+=`<option value="${i}">${b}</option>`);
+for(let y=2025;y<=2029;y++)tahunTPS.innerHTML+=`<option>${y}</option>`;
+bulanTPS.value=11;tahunTPS.value=2025;
 
-    // ================== TPS ==================
-    const bulanTPS = document.getElementById('bulanTPS');
-    const tahunTPS = document.getElementById('tahunTPS');
-    const cariTPS = document.getElementById('cariTPS');
-    const tbodyTPS = document.querySelector('#tabelTPS tbody');
+window.renderTPS=function(short=false){
+ tbodyTPS.innerHTML='';
+ const q=cariTPS.value.toUpperCase();
+ let filtered=dataTPS.filter(x=>x.bulan==bulanTPS.value&&x.tahun==tahunTPS.value&&(q==''||x.petugas.toUpperCase().includes(q)));
+ if(short) filtered=filtered.slice(0,50);
+ filtered.forEach(x=>{
+   tbodyTPS.innerHTML+=`<tr><td>${x.tgl}</td><td>${x.hari}</td><td>${x.petugas}</td></tr>`;
+ });
+}
 
-    bulanNama.forEach((b,i)=>bulanTPS.innerHTML+=`<option value="${i}">${b}</option>`);
-    for(let y=2025;y<=2029;y++)tahunTPS.innerHTML+=`<option>${y}</option>`;
-    bulanTPS.value=11;tahunTPS.value=2025;
+window.exportPDFTPS=function(){
+ const { jsPDF }=window.jspdf;
+ const doc=new jsPDF('p','mm','a4');
+ doc.text("Jadwal Ro'an TPS",105,15,{align:'center'});
+ const res=doc.autoTable({startY:22,head:[["Tanggal","Hari","Petugas"]],body:dataTPS.filter(x=>x.bulan==bulanTPS.value&&x.tahun==tahunTPS.value).map(d=>[d.tgl,d.hari,d.petugas])});
+ doc.save('roan_tps.pdf');
+}
 
-    const petugasTPS=["Ali","Budi","Citra","Dewi","Eka","Fajar","Gita"];
-    let dataTPS=[],dTPS=new Date(2025,11,1);
-    while(dTPS<=new Date(2029,11,31)){
-        let hariNama = dTPS.toLocaleDateString('id-ID',{weekday:'long'});
-        let petugas = petugasTPS[Math.floor(Math.random()*petugasTPS.length)];
-        dataTPS.push({tgl:dTPS.toLocaleDateString('id-ID'),hari:hariNama,petugas:petugas});
-        dTPS.setDate(dTPS.getDate()+1);
-    }
-
-    function renderTPS(sortColumn=null, asc=true){
-        let filterBulan = parseInt(bulanTPS.value);
-        let filterTahun = parseInt(tahunTPS.value);
-        let filterCari = cariTPS.value.toLowerCase();
-
-        let filtered = dataTPS.filter(x=>new Date(x.tgl).getMonth()===filterBulan && new Date(x.tgl).getFullYear()===filterTahun);
-
-        if(filterCari) filtered = filtered.filter(x=>x.petugas.toLowerCase().includes(filterCari));
-
-        if(sortColumn){
-            filtered.sort((a,b)=>{
-                if(a[sortColumn]<b[sortColumn]) return asc?-1:1;
-                if(a[sortColumn]>b[sortColumn]) return asc?1:-1;
-                return 0;
-            });
-        }
-
-        tbodyTPS.innerHTML='';
-        filtered.forEach(x=>{
-            tbodyTPS.innerHTML+=`<tr><td>${x.tgl}</td><td>${x.hari}</td><td>${x.petugas}</td></tr>`;
-        });
-    }
-
-    // Sorting klik header
-    document.querySelectorAll('#tabelTPS th').forEach(th=>{
-        let asc=true;
-        th.style.cursor='pointer';
-        th.addEventListener('click',()=>{
-            let col = th.textContent.toLowerCase();
-            if(col==='tanggal') col='tgl';
-            renderTPS(col,asc);
-            asc = !asc;
-        });
-    });
-
-    function exportPDFTPS(){
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('p','mm','a4');
-        doc.setFontSize(14);
-        doc.text("JADWAL RO'AN TPS",105,15,{align:'center'});
-        const filterBulan = parseInt(bulanTPS.value);
-        const filterTahun = parseInt(tahunTPS.value);
-        const filterCari = cariTPS.value.toLowerCase();
-
-        let filtered = dataTPS.filter(x=>new Date(x.tgl).getMonth()===filterBulan && new Date(x.tgl).getFullYear()===filterTahun);
-        if(filterCari) filtered = filtered.filter(x=>x.petugas.toLowerCase().includes(filterCari));
-
-        const body = filtered.map(x=>[x.tgl,x.hari,x.petugas]);
-        doc.autoTable({startY:22, head:[["Tanggal","Hari","Petugas"]], body, theme:'grid'});
-        doc.save('roan_tps.pdf');
-    }
-
-    document.getElementById('btnTampilkanTPS').addEventListener('click',()=>renderTPS());
-    document.getElementById('btnExportTPS').addEventListener('click',exportPDFTPS);
-
-    showPage('home');
-
-    // ================== Info ==================
-    window.simpanInfo=()=>{alert('Informasi tersimpan.');}
+showPage('home');
 });
 </script>
 </body>
