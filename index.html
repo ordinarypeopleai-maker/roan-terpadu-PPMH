@@ -180,6 +180,16 @@ window.exportPDFTPS=function(){
  doc.save('roan_tps.pdf');
 }
 
+  // ===== INFORMASI =====
+const infoText=document.getElementById('infoText');
+const statusInfo=document.getElementById('statusInfo');
+if(localStorage.getItem('roanInfo')) infoText.value=localStorage.getItem('roanInfo');
+window.simpanInfo=function(){
+ localStorage.setItem('roanInfo',infoText.value.trim());
+ statusInfo.textContent="Informasi berhasil disimpan ✅";
+ setTimeout(()=>{statusInfo.textContent='';},3000);
+}
+
 showPage('home');
 });
 </script>
