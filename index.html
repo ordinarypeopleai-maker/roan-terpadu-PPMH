@@ -2,209 +2,244 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Ro'an Terpadu – Versi Profesional</title>
+<title>Ro'an Terpadu – Profesional</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#1b8f3a">
+
+<!-- Tailwind CSS -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
+<!-- jsPDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js" defer></script>
-<style>
-:root{--primary:#1b8f3a;--bg:#f4f6f8}
-*{box-sizing:border-box}
-body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:var(--bg);font-size:16px;line-height:1.5}
-header{background:linear-gradient(135deg,#1b8f3a,#2ecc71);color:#fff;padding:1rem;text-align:center}
-header h1{font-size:1.75rem}
-header p{font-size:1rem}
-main{max-width:1100px;margin:auto;padding:1rem}
-.card{background:#fff;border-radius:14px;padding:1rem;box-shadow:0 4px 12px rgba(0,0,0,.08)}
-.controls{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.75rem}
-select,input,button,textarea{padding:0.5rem 0.75rem;border-radius:6px;border:1px solid #ccc;font-size:1rem}
-button.primary{background:var(--primary);color:#fff;border:none}
-table{width:100%;border-collapse:collapse;font-size:0.9rem;overflow-x:auto;display:block}
-th,td{padding:0.5rem;border-bottom:1px solid #eee;text-align:left}
-th{background:#f0f2f5}
-footer{text-align:center;font-size:0.8rem;color:#777;margin:1rem}
 
-/* MEDIA QUERY UNTUK HP */
-@media (max-width: 600px) {
-  header h1{font-size:1.5rem}
-  header p{font-size:0.9rem}
-  h2{font-size:1.1rem}
-  h3{font-size:1rem}
-  .card{padding:0.75rem}
-  .controls select, .controls input, .controls button, textarea{font-size:0.9rem;padding:0.4rem 0.6rem}
-  table{font-size:0.8rem}
-  footer{font-size:0.75rem}
-}
+<style>
+/* Smooth fade for page transition */
+.page { display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
+.page.active { display: block; opacity: 1; }
+/* Scrollable tables on small devices */
+.table-container { overflow-x: auto; }
 </style>
 </head>
-<body>
-<header>
-<h1>Ro'an Terpadu</h1>
-<p>Sistem Penjadwalan Ro'an TPS & Jumat Kubro</p>
+<body class="bg-gray-50 font-sans">
+
+<header class="bg-gradient-to-r from-green-700 to-green-500 text-white p-4 shadow sticky top-0 z-20">
+  <h1 class="text-2xl font-bold">Ro'an Terpadu</h1>
+  <p class="text-sm">Sistem Penjadwalan Ro'an TPS & Jumat Kubro</p>
 </header>
-<main>
-<section id="home" class="card">
-<h2>Pilih Layanan</h2>
-<div style="display:flex;flex-direction:column;gap:1rem">
-  <div class="card" onclick="showPage('kubro')" style="cursor:pointer"><h3>🗓️ Ro'an Jumat Kubro</h3></div>
-  <div class="card" onclick="showPage('tps')" style="cursor:pointer"><h3>📋 Ro'an TPS</h3></div>
-  <div class="card" onclick="showPage('info')" style="cursor:pointer"><h3>📢 Informasi</h3></div>
-</div>
-</section>
-<section id="kubro" class="card" style="display:none">
-<button id="btnHomeKUBRO">⬅ Home</button>
-<h2>Jadwal Ro'an Jumat Kubro</h2>
-<div class="controls">
-<select id="bulan"></select>
-<select id="tahun"></select>
-<button class="primary" id="btnTampilKUBRO">Tampilkan</button>
-<button id="btnExportKUBRO">Export PDF</button>
-</div>
-<div style="overflow-x:auto">
-<table id="tabelKUBRO"><thead><tr><th>Tanggal</th><th>Lokasi</th><th>Keterangan</th><th>Komplek</th></tr></thead><tbody></tbody></table>
-</div>
-</section>
-<section id="tps" class="card" style="display:none">
-<button id="btnHomeTPS">⬅ Home</button>
-<h2>Jadwal Ro'an TPS</h2>
-<div class="controls">
-<select id="bulanTPS"></select>
-<select id="tahunTPS"></select>
-<input id="cariTPS" placeholder="Cari Komplek">
-<button class="primary" id="btnTampilTPS">Tampilkan</button>
-<button id="btnExportTPS">Export PDF</button>
-</div>
-<div style="overflow-x:auto">
-<table id="tabelTPS"><thead><tr><th>Tanggal</th><th>Hari</th><th>Petugas</th></tr></thead><tbody></tbody></table>
-</div>
-</section>
-<section id="info" class="card" style="display:none">
-<button id="btnHomeInfo">⬅ Home</button>
-<h2>📢 Informasi</h2>
-<textarea id="infoText" style="width:100%;min-height:120px"></textarea>
-<br><br><button id="btnSimpan" class="primary">Simpan</button>
-<p id="statusInfo" style="color:green; font-size:0.9rem; margin-top:0.4rem;"></p>
-</section>
+
+<main class="max-w-5xl mx-auto p-4 space-y-6">
+
+  <!-- HOME -->
+  <section id="home" class="page active bg-white rounded-xl shadow p-6 space-y-4">
+    <h2 class="text-xl font-semibold">Pilih Layanan</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-green-100 p-6 rounded-xl cursor-pointer hover:bg-green-200 hover:scale-105 transition" onclick="showPage('kubro')">
+        <h3 class="font-medium text-md">🗓️ Ro'an Jumat Kubro</h3>
+      </div>
+      <div class="bg-blue-100 p-6 rounded-xl cursor-pointer hover:bg-blue-200 hover:scale-105 transition" onclick="showPage('tps')">
+        <h3 class="font-medium text-md">📋 Ro'an TPS</h3>
+      </div>
+      <div class="bg-yellow-100 p-6 rounded-xl cursor-pointer hover:bg-yellow-200 hover:scale-105 transition" onclick="showPage('info')">
+        <h3 class="font-medium text-md">📢 Informasi</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- KUBRO -->
+  <section id="kubro" class="page bg-white rounded-xl shadow p-6">
+    <button class="text-green-700 font-medium mb-4" onclick="showPage('home')">⬅ Home</button>
+    <h2 class="text-lg font-semibold mb-4">Jadwal Ro'an Jumat Kubro</h2>
+
+    <div class="flex flex-wrap gap-2 mb-4 items-center">
+      <select id="bulan" class="border rounded px-2 py-1"></select>
+      <select id="tahun" class="border rounded px-2 py-1"></select>
+      <button id="btnTampilKUBRO" class="bg-green-700 text-white px-4 py-1 rounded hover:bg-green-800">Tampilkan</button>
+      <button id="btnExportKUBRO" class="bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700">Export PDF</button>
+    </div>
+
+    <div class="table-container">
+      <table class="min-w-full border border-gray-200 table-auto" id="tabelKUBRO">
+        <thead class="bg-gray-200 sticky top-0 z-10">
+          <tr>
+            <th class="p-2">Tanggal</th>
+            <th class="p-2">Lokasi</th>
+            <th class="p-2">Keterangan</th>
+            <th class="p-2">Komplek</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- TPS -->
+  <section id="tps" class="page bg-white rounded-xl shadow p-6">
+    <button class="text-blue-700 font-medium mb-4" onclick="showPage('home')">⬅ Home</button>
+    <h2 class="text-lg font-semibold mb-4">Jadwal Ro'an TPS</h2>
+
+    <div class="flex flex-wrap gap-2 mb-4 items-center">
+      <select id="bulanTPS" class="border rounded px-2 py-1"></select>
+      <select id="tahunTPS" class="border rounded px-2 py-1"></select>
+      <input id="cariTPS" placeholder="Cari Komplek" class="border rounded px-2 py-1">
+      <button id="btnTampilTPS" class="bg-blue-700 text-white px-4 py-1 rounded hover:bg-blue-800">Tampilkan</button>
+      <button id="btnExportTPS" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">Export PDF</button>
+    </div>
+
+    <div class="table-container">
+      <table class="min-w-full border border-gray-200 table-auto" id="tabelTPS">
+        <thead class="bg-gray-200 sticky top-0 z-10">
+          <tr>
+            <th class="p-2">Tanggal</th>
+            <th class="p-2">Hari</th>
+            <th class="p-2">Petugas</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- INFO -->
+  <section id="info" class="page bg-white rounded-xl shadow p-6">
+    <button class="text-yellow-700 font-medium mb-4" onclick="showPage('home')">⬅ Home</button>
+    <h2 class="text-lg font-semibold mb-4">📢 Informasi</h2>
+    <textarea id="infoText" class="w-full border rounded p-2 min-h-[120px]"></textarea>
+    <div class="mt-2 flex items-center gap-2">
+      <button id="btnSimpan" class="bg-yellow-700 text-white px-4 py-1 rounded hover:bg-yellow-800">Simpan</button>
+      <span id="statusInfo" class="text-green-600 text-sm"></span>
+    </div>
+  </section>
+
 </main>
-<footer>© 2025–2029 Ro'an Terpadu</footer>
+
+<footer class="text-center text-gray-500 text-sm mt-4 mb-2">© 2025–2029 Ro'an Terpadu</footer>
+
 <script defer>
-// ShowPage global
+/* Page switching */
 const pages=['home','kubro','tps','info'];
-function showPage(p){pages.forEach(x=>document.getElementById(x).style.display=x===p?'block':'none')}
+function showPage(p){
+  pages.forEach(x=>{
+    const el = document.getElementById(x);
+    if(x===p){el.classList.add('active');} else {el.classList.remove('active');}
+  });
+}
 window.showPage=showPage;
 
 window.addEventListener('DOMContentLoaded',()=>{
-// ===== KUBRO =====
-const bulanNama=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-const bulan=document.getElementById('bulan'),tahun=document.getElementById('tahun'),tbody=document.querySelector('#tabelKUBRO tbody');
-bulanNama.forEach((b,i)=>bulan.innerHTML+=`<option value="${i}">${b}</option>`);
-for(let y=2025;y<=2029;y++)tahun.innerHTML+=`<option>${y}</option>`;
-bulan.value=11;tahun.value=2025;
 
-const komplek=['A','B','C','D','E','F','G','H','I','J'];
-const lokasiNama=["Lokasi 1","Lokasi 2","Lokasi 3","Lokasi 4","Lokasi 5","Lokasi 6","Lokasi 7","Lokasi 8","Lokasi 9","Lokasi 10"];
-const keteranganLokasi=["Masjid Lt 1, 2 dan Depan perpustakaan","Jeding Masjid","Teras Ndalem Gus Minan sampai Halaqoh","Ziarah & Membersihkan Makam Klaseman","Depan Mifda + Komp. C","Madrasah Lt. 1-3, Parkiran Bawah dan Maqom","Jeding Santri dan Depan Laundry","Dapur & Jemuran","Parkiran depan dan samping DU, Teras DU & Jeding Tamu DU","Membuang sampah ke TPS & Mengepel belakang Komp. C"];
-let dataKubro=[],idx=0,d=new Date(2025,11,1);
-while(d<=new Date(2029,11,31)){
- if(d.getDay()==5){
-   for(let i=0;i<10;i++){
-     dataKubro.push({tgl:d.toLocaleDateString('id-ID'),bulan:d.getMonth(),tahun:d.getFullYear(),lokasi:lokasiNama[i],keterangan:keteranganLokasi[i],komplek:komplek[(idx+i)%10]});
-   }
-   idx++
- }
- d.setDate(d.getDate()+1);
-}
+  // ===== KUBRO =====
+  const bulanNama=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  const bulan=document.getElementById('bulan'), tahun=document.getElementById('tahun'), tbody=document.querySelector('#tabelKUBRO tbody');
 
-// Render KUBRO
-document.getElementById('btnTampilKUBRO').addEventListener('click',()=>{
- tbody.innerHTML='';
- let last='';
- dataKubro.filter(x=>x.bulan==bulan.value&&x.tahun==tahun.value).forEach(x=>{
-   if(x.tgl!==last){tbody.innerHTML+=`<tr><td colspan="4" style="background:#eef">${x.tgl}</td></tr>`;last=x.tgl;}
-   tbody.innerHTML+=`<tr><td></td><td>${x.lokasi}</td><td>${x.keterangan}</td><td>${x.komplek}</td></tr>`;
- });
-});
+  bulanNama.forEach((b,i)=>bulan.innerHTML+=`<option value="${i}">${b}</option>`);
+  for(let y=2025;y<=2029;y++) tahun.innerHTML+=`<option>${y}</option>`;
+  bulan.value=11; tahun.value=2025;
 
-// Export PDF KUBRO (multi-Jumat per halaman)
-function exportPDFKUBRO(){
- const { jsPDF } = window.jspdf;
- const doc = new jsPDF('p','mm','a4');
- doc.setFontSize(14);
- doc.text("JADWAL RO'AN JUMAT KUBRO",105,15,{align:'center'});
- let groups={};
- dataKubro.filter(x=>x.bulan==bulan.value&&x.tahun==tahun.value).forEach(x=>{
-   if(!groups[x.tgl]) groups[x.tgl]=[];
-   groups[x.tgl].push([x.lokasi,x.keterangan,x.komplek]);
- });
- const tglKeys = Object.keys(groups);
- tglKeys.forEach((tgl,i)=>{
-   if(i>0) doc.addPage();
-   doc.setFontSize(12);
-   doc.text(tgl,105,22,{align:'center'});
-   doc.autoTable({startY:28,head:[["Lokasi","Keterangan","Komplek"]],body:groups[tgl],theme:'grid',styles:{cellWidth:'wrap'}});
- });
- doc.save('roan_jumat_kubro.pdf');
-}
-document.getElementById('btnExportKUBRO').addEventListener('click',exportPDFKUBRO);
+  const komplek=['A','B','C','D','E','F','G','H','I','J'];
+  const lokasiNama=["Lokasi 1","Lokasi 2","Lokasi 3","Lokasi 4","Lokasi 5","Lokasi 6","Lokasi 7","Lokasi 8","Lokasi 9","Lokasi 10"];
+  const keteranganLokasi=["Masjid Lt 1, 2 dan Depan perpustakaan","Jeding Masjid","Teras Ndalem Gus Minan sampai Halaqoh","Ziarah & Membersihkan Makam Klaseman","Depan Mifda + Komp. C","Madrasah Lt. 1-3, Parkiran Bawah dan Maqom","Jeding Santri dan Depan Laundry","Dapur & Jemuran","Parkiran depan dan samping DU, Teras DU & Jeding Tamu DU","Membuang sampah ke TPS & Mengepel belakang Komp. C"];
 
-// ===== TPS =====
-const bulanTPS=document.getElementById('bulanTPS');
-const tahunTPS=document.getElementById('tahunTPS');
-const cariTPS=document.getElementById('cariTPS');
-const tbodyTPS=document.querySelector('#tabelTPS tbody');
-const komplekHarian=["A","B","C","E","F","G","H","I","J"];
-const komplekJumat=["A","B","C","D","E","F","G","H","I","J"];
-let dataTPS=[];
-let dt=new Date(2025,11,1),endTPS=new Date(2029,11,31),di=6,fi=2;
-while(dt<=endTPS){
-  const day=dt.getDay();
-  let petugas='';
-  if(day===0) petugas='Pengurus kebersihan';
-  else if(day===5){petugas=komplekJumat[fi%10];fi++;}
-  else{petugas=komplekHarian[di%komplekHarian.length];di++;}
-  dataTPS.push({tgl:dt.toLocaleDateString('id-ID'),hari:dt.toLocaleDateString('id-ID',{weekday:'long'}),petugas,bulan:dt.getMonth(),tahun:dt.getFullYear()});
-  dt.setDate(dt.getDate()+1);
-}
-bulanNama.forEach((b,i)=>bulanTPS.innerHTML+=`<option value="${i}">${b}</option>`);
-for(let y=2025;y<=2029;y++)tahunTPS.innerHTML+=`<option>${y}</option>`;
-bulanTPS.value=11;tahunTPS.value=2025;
+  let dataKubro=[], idx=0, d=new Date(2025,11,1);
+  while(d<=new Date(2029,11,31)){
+    if(d.getDay()==5){
+      for(let i=0;i<10;i++){
+        dataKubro.push({tgl:d.toLocaleDateString('id-ID'), bulan:d.getMonth(), tahun:d.getFullYear(), lokasi:lokasiNama[i], keterangan:keteranganLokasi[i], komplek:komplek[(idx+i)%10]});
+      }
+      idx++;
+    }
+    d.setDate(d.getDate()+1);
+  }
 
-// Render TPS
-document.getElementById('btnTampilTPS').addEventListener('click',()=>{
- tbodyTPS.innerHTML='';
- const q=cariTPS.value.toUpperCase();
- let filtered=dataTPS.filter(x=>x.bulan==bulanTPS.value&&x.tahun==tahunTPS.value&&(q==''||x.petugas.toUpperCase().includes(q)));
- filtered.slice(0,50).forEach(x=>{
-   tbodyTPS.innerHTML+=`<tr><td>${x.tgl}</td><td>${x.hari}</td><td>${x.petugas}</td></tr>`;
- });
-});
+  function renderKUBRO(){
+    tbody.innerHTML='';
+    let last='';
+    dataKubro.filter(x=>x.bulan==bulan.value && x.tahun==tahun.value).forEach(x=>{
+      if(x.tgl!==last){tbody.innerHTML+=`<tr><td colspan="4" class="bg-gray-200 font-semibold">${x.tgl}</td></tr>`; last=x.tgl;}
+      tbody.innerHTML+=`<tr><td></td><td>${x.lokasi}</td><td>${x.keterangan}</td><td>${x.komplek}</td></tr>`;
+    });
+  }
 
-// Export PDF TPS
-document.getElementById('btnExportTPS').addEventListener('click',()=>{
- const { jsPDF }=window.jspdf;
- const doc=new jsPDF('p','mm','a4');
- doc.text("Jadwal Ro'an TPS",105,15,{align:'center'});
- doc.autoTable({startY:22,head:[["Tanggal","Hari","Petugas"]],body:dataTPS.filter(x=>x.bulan==bulanTPS.value&&x.tahun==tahunTPS.value).map(d=>[d.tgl,d.hari,d.petugas]),theme:'grid'});
- doc.save('roan_tps.pdf');
-});
+  function exportPDFKUBRO(){
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p','mm','a4');
+    doc.setFontSize(14);
+    doc.text("JADWAL RO'AN JUMAT KUBRO",105,15,{align:'center'});
 
-// ===== INFORMASI =====
-const infoText=document.getElementById('infoText');
-const statusInfo=document.getElementById('statusInfo');
-if(localStorage.getItem('roanInfo')) infoText.value=localStorage.getItem('roanInfo');
-document.getElementById('btnSimpan').addEventListener('click',()=>{
- localStorage.setItem('roanInfo',infoText.value.trim());
- statusInfo.textContent="Informasi berhasil disimpan ✅";
- setTimeout(()=>{statusInfo.textContent='';},3000);
-});
+    let groups={};
+    dataKubro.filter(x=>x.bulan==bulan.value && x.tahun==tahun.value).forEach(x=>{
+      if(!groups[x.tgl]) groups[x.tgl]=[];
+      groups[x.tgl].push([x.lokasi,x.keterangan,x.komplek]);
+    });
 
-// Home buttons
-document.getElementById('btnHomeKUBRO').addEventListener('click',()=>showPage('home'));
-document.getElementById('btnHomeTPS').addEventListener('click',()=>showPage('home'));
-document.getElementById('btnHomeInfo').addEventListener('click',()=>showPage('home'));
+    const tglKeys = Object.keys(groups);
+    for(let i=0;i<tglKeys.length;i++){
+      if(i>0) doc.addPage();
+      doc.setFontSize(12);
+      doc.text(tglKeys[i],105,22,{align:'center'});
+      doc.autoTable({startY:28, head:[["Lokasi","Keterangan","Komplek"]], body:groups[tglKeys[i]], theme:'grid'});
+    }
 
-showPage('home');
+    doc.save('roan_jumat_kubro.pdf');
+  }
+
+  document.getElementById('btnTampilKUBRO').addEventListener('click', renderKUBRO);
+  document.getElementById('btnExportKUBRO').addEventListener('click', exportPDFKUBRO);
+
+  // ===== TPS =====
+  const bulanTPS=document.getElementById('bulanTPS');
+  const tahunTPS=document.getElementById('tahunTPS');
+  const cariTPS=document.getElementById('cariTPS');
+  const tbodyTPS=document.querySelector('#tabelTPS tbody');
+  const komplekHarian=["A","B","C","E","F","G","H","I","J"];
+  const komplekJumat=["A","B","C","D","E","F","G","H","I","J"];
+  let dataTPS=[], dt=new Date(2025,11,1), endTPS=new Date(2029,11,31), di=6, fi=2;
+  while(dt<=endTPS){
+    const day=dt.getDay();
+    let petugas='';
+    if(day===0) petugas='Pengurus kebersihan';
+    else if(day===5){petugas=komplekJumat[fi%10]; fi++;}
+    else{petugas=komplekHarian[di%komplekHarian.length]; di++;}
+    dataTPS.push({tgl:dt.toLocaleDateString('id-ID'), hari:dt.toLocaleDateString('id-ID',{weekday:'long'}), petugas, bulan:dt.getMonth(), tahun:dt.getFullYear()});
+    dt.setDate(dt.getDate()+1);
+  }
+
+  bulanNama.forEach((b,i)=>bulanTPS.innerHTML+=`<option value="${i}">${b}</option>`);
+  for(let y=2025;y<=2029;y++)tahunTPS.innerHTML+=`<option>${y}</option>`;
+  bulanTPS.value=11; tahunTPS.value=2025;
+
+  function renderTPS(){
+    tbodyTPS.innerHTML='';
+    const q=cariTPS.value.toUpperCase();
+    dataTPS.filter(x=>x.bulan==bulanTPS.value && x.tahun==tahunTPS.value && (q=='' || x.petugas.toUpperCase().includes(q)))
+      .forEach(x=>{tbodyTPS.innerHTML+=`<tr><td>${x.tgl}</td><td>${x.hari}</td><td>${x.petugas}</td></tr>`});
+  }
+
+  function exportPDFTPS(){
+    const { jsPDF }=window.jspdf;
+    const doc=new jsPDF('p','mm','a4');
+    doc.text("Jadwal Ro'an TPS",105,15,{align:'center'});
+    doc.autoTable({startY:22, head:[["Tanggal","Hari","Petugas"]], body:dataTPS.filter(x=>x.bulan==bulanTPS.value && x.tahun==tahunTPS.value).map(d=>[d.tgl,d.hari,d.petugas])});
+    doc.save('roan_tps.pdf');
+  }
+
+  document.getElementById('btnTampilTPS').addEventListener('click', renderTPS);
+  document.getElementById('btnExportTPS').addEventListener('click', exportPDFTPS);
+
+  // ===== INFO =====
+  const infoText=document.getElementById('infoText');
+  const statusInfo=document.getElementById('statusInfo');
+  document.getElementById('btnSimpan').addEventListener('click', ()=>{
+    localStorage.setItem('roanInfo', infoText.value);
+    statusInfo.textContent='Berhasil disimpan!';
+    setTimeout(()=>statusInfo.textContent='',2000);
+  });
+  if(localStorage.getItem('roanInfo')) infoText.value=localStorage.getItem('roanInfo');
+
+  // initial render
+  renderKUBRO();
+  renderTPS();
 });
 </script>
+
 </body>
 </html>
