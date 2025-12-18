@@ -104,26 +104,40 @@ window.renderKUBRO=function(){
  });
 }
 
-window.exportPDFKUBRO=function(){
- const { jsPDF } = window.jspdf;
- const doc = new jsPDF('p','mm','a4');
- doc.setFontSize(14);
- doc.text("JADWAL RO'AN JUMAT KUBRO",105,15,{align:'center'});
- let groups={};
- dataKubro.filter(x=>x.bulan==bulan.value&&x.tahun==tahun.value).forEach(x=>{
-   if(!groups[x.tgl]) groups[x.tgl]=[];
-   groups[x.tgl].push([x.lokasi,x.keterangan,x.komplek]);
- });
- const tglKeys = Object.keys(groups);
- let offsetY = 22;
- for(let i=0;i<tglKeys.length;i++){
-   if(i>0) doc.addPage();
-   doc.setFontSize(12);
-   doc.text(tglKeys[i],105,offsetY,{align:'center'});
-   const res = doc.autoTable({startY:offsetY+6,head:[["Lokasi","Keterangan","Komplek"]],body:groups[tglKeys[i]],theme:'grid'});
-   offsetY = res.finalY + 10;
- }
- doc.save('roan_jumat_kubro.pdf');
+window.exportPDFKUBRO = function() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF('p','mm','a4');
+  doc.setFontSize(14);
+  doc.text("JADWAL RO'AN JUMAT KUBRO", 105, 15, {align: 'center'});
+
+  // Kelompokkan data per tanggal
+  let groups = {};
+  dataKubro.filter(x => x.bulan == bulan.value && x.tahun == tahun.value)
+           .forEach(x => {
+              if(!groups[x.tgl]) groups[x.tgl] = [];
+              groups[x.tgl].push([x.lokasi, x.keterangan, x.komplek]);
+           });
+
+  const tglKeys = Object.keys(groups);
+
+  tglKeys.forEach((tgl, i) => {
+    if(i > 0) doc.addPage();
+    doc.setFontSize(12);
+    doc.text(tgl, 105, 22, {align:'center'});
+
+    const res = doc.autoTable({
+      startY: 28,
+      head: [["Lokasi","Keterangan","Komplek"]],
+      body: groups[tgl],
+      theme: 'grid',
+      styles: {cellWidth: 'wrap'}
+    });
+
+    // Jika tabel melebihi halaman, doc.addPage() otomatis dibuat oleh autoTable
+    // Tidak perlu menyesuaikan startY untuk halaman berikutnya karena kita mulai tiap Jumat di halaman baru
+  });
+
+  doc.save('roan_jumat_kubro.pdf');
 }
 
 // TPS
