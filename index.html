@@ -77,21 +77,8 @@ bulanNama.forEach((b,i)=>bulan.innerHTML+=`<option value="${i}">${b}</option>`);
 for(let y=2025;y<=2029;y++)tahun.innerHTML+=`<option>${y}</option>`;
 bulan.value=11;tahun.value=2025;
 const komplek=['A','B','C','D','E','F','G','H','I','J'];
-const lokasiNama=[
-  "Lokasi 1","Lokasi 2","Lokasi 3","Lokasi 4","Lokasi 5","Lokasi 6","Lokasi 7","Lokasi 8","Lokasi 9","Lokasi 10"
-];
-const keteranganLokasi=[
-  "Masjid Lt 1, 2 dan Depan perpustakaan",
-  "Jeding Masjid",
-  "Teras Ndalem Gus Minan sampai Halaqoh",
-  "Ziarah & Membersihkan Makam Klaseman",
-  "Depan Mifda + Komp. C",
-  "Madrasah Lt. 1-3, Parkiran Bawah dan Maqom",
-  "Jeding Santri dan Depan Laundry",
-  "Dapur & Jemuran",
-  "Parkiran depan dan samping DU, Teras DU & Jeding Tamu DU",
-  "Membuang sampah ke TPS & Mengepel belakang Komp. C"
-];
+const lokasiNama=["Lokasi 1","Lokasi 2","Lokasi 3","Lokasi 4","Lokasi 5","Lokasi 6","Lokasi 7","Lokasi 8","Lokasi 9","Lokasi 10"];
+const keteranganLokasi=["Masjid Lt 1, 2 dan Depan perpustakaan","Jeding Masjid","Teras Ndalem Gus Minan sampai Halaqoh","Ziarah & Membersihkan Makam Klaseman","Depan Mifda + Komp. C","Madrasah Lt. 1-3, Parkiran Bawah dan Maqom","Jeding Santri dan Depan Laundry","Dapur & Jemuran","Parkiran depan dan samping DU, Teras DU & Jeding Tamu DU","Membuang sampah ke TPS & Mengepel belakang Komp. C"];
 let dataKubro=[],idx=0,d=new Date(2025,11,1);
 while(d<=new Date(2029,11,31)){
  if(d.getDay()==5){
@@ -131,7 +118,7 @@ while(dt<=new Date(2029,11,31)){
    bulan:dt.getMonth(),
    tahun:dt.getFullYear()
  });
- dt.setDate(dt.getDate()+1);
+ dt.setDate(dt.getDate()+1;
 }
 function renderTPS(){tbodyTPS.innerHTML='';let q=cariTPS.value.toUpperCase();dataTPS.filter(x=>x.bulan==bulanTPS.value&&x.tahun==tahunTPS.value&&(q==''||x.petugas.includes(q))).forEach(x=>tbodyTPS.innerHTML+=`<tr><td>${x.tgl}</td><td>${x.hari}</td><td>${x.petugas}</td></tr>`);}
 
@@ -144,6 +131,7 @@ function exportPDFKUBRO(){
   doc.setFontSize(14);
   doc.text("JADWAL RO'AN JUMAT KUBRO",105,15,{align:'center'});
   let groups = {};
+  let currentDate;
   [...tbody.querySelectorAll('tr')].forEach(r=>{
     if(r.children.length===1){
       currentDate=r.children[0].innerText;
