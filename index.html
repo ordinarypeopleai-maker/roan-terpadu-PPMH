@@ -107,16 +107,13 @@ function exportPDFKUBRO(){
     }
   });
   const tglKeys = Object.keys(groups);
-  for(let i=0;i<tglKeys.length;i+=2){
-    if(i>0) doc.addPage();
-    let yStart = 22;
-    let head=["Lokasi","Keterangan","Komplek"];
-    for(let j=i;j<i+2 && j<tglKeys.length;j++){
-      doc.setFontSize(12);
-      doc.text(tglKeys[j],105,yStart,{align:'center'});
-      doc.autoTable({startY:yStart+6,head:[head],body:groups[tglKeys[j]],theme:'grid'});
-      yStart += 6 + groups[tglKeys[j]].length * 10 + 10; // adjust spacing for next Jumat
-    }
+  let offsetY = 22;
+  for(let i=0;i<tglKeys.length;i++){
+    if(i>0 && i%2===0) doc.addPage();
+    doc.setFontSize(12);
+    doc.text(tglKeys[i],105,offsetY,{align:'center'});
+    const res = doc.autoTable({startY:offsetY+6,head:[["Lokasi","Keterangan","Komplek"]],body:groups[tglKeys[i]],theme:'grid'});
+    offsetY = res.finalY + 10;
   }
   doc.save('roan_jumat_kubro.pdf');
 }
