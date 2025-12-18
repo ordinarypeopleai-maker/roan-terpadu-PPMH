@@ -91,40 +91,6 @@ while(d<=new Date(2029,11,31)){
 }
 function renderKUBRO(){tbody.innerHTML='';let last='';dataKubro.filter(x=>x.bulan==bulan.value&&x.tahun==tahun.value).forEach(x=>{if(x.tgl!==last){tbody.innerHTML+=`<tr><td colspan="4" style="background:#eef">${x.tgl}</td></tr>`;last=x.tgl;}tbody.innerHTML+=`<tr><td></td><td>${x.lokasi}</td><td>${x.keterangan}</td><td>${x.komplek}</td></tr>`;});}
 
-// ===== Ro'an TPS Integrasi =====
-const bulanTPS=document.getElementById('bulanTPS'),tahunTPS=document.getElementById('tahunTPS'),cariTPS=document.getElementById('cariTPS'),tbodyTPS=document.querySelector('#tabelTPS tbody');
-bulanNama.forEach((b,i)=>bulanTPS.innerHTML+=`<option value="${i}">${b}</option>`);
-for(let y=2025;y<=2029;y++)tahunTPS.innerHTML+=`<option>${y}</option>`;
-bulanTPS.value=11;tahunTPS.value=2025;
-const komplekHarian = ["A","B","C","E","F","G","H","I","J"];
-const komplekJumat  = ["A","B","C","D","E","F","G","H","I","J"];
-let dataTPS=[];
-let dt=new Date(2025,11,1),dailyIndex=6,fridayIndex=2;
-while(dt<=new Date(2029,11,31)){
- let day=dt.getDay();
- let pet="";
- if(day===0) pet="Pengurus kebersihan";
- else if(day===5){
-   pet=komplekJumat[fridayIndex%komplekJumat.length];
-   fridayIndex++;
- } else {
-   pet=komplekHarian[dailyIndex%komplekHarian.length];
-   dailyIndex++;
- }
- dataTPS.push({
-   tgl:dt.toLocaleDateString('id-ID'),
-   hari:dt.toLocaleDateString('id-ID',{weekday:'long'}),
-   petugas:pet,
-   bulan:dt.getMonth(),
-   tahun:dt.getFullYear()
- });
- dt.setDate(dt.getDate()+1;
-}
-function renderTPS(){tbodyTPS.innerHTML='';let q=cariTPS.value.toUpperCase();dataTPS.filter(x=>x.bulan==bulanTPS.value&&x.tahun==tahunTPS.value&&(q==''||x.petugas.includes(q))).forEach(x=>tbodyTPS.innerHTML+=`<tr><td>${x.tgl}</td><td>${x.hari}</td><td>${x.petugas}</td></tr>`);}
-
-const infoText=document.getElementById('infoText');infoText.value=localStorage.getItem('infoRoan')||'';
-function simpanInfo(){localStorage.setItem('infoRoan',infoText.value);alert('Disimpan');}
-
 function exportPDFKUBRO(){
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF('p','mm','a4');
@@ -140,27 +106,19 @@ function exportPDFKUBRO(){
       groups[currentDate].push([r.children[1].innerText,r.children[2].innerText,r.children[3].innerText]);
     }
   });
-  Object.keys(groups).forEach((tgl,index)=>{
-    if(index>0) doc.addPage();
-    doc.setFontSize(12);
-    doc.text(tgl,105,22,{align:'center'});
-    doc.autoTable({startY:28,head:[["Lokasi","Keterangan","Komplek"]],body:groups[tgl]});
-  });
+  const tglKeys = Object.keys(groups);
+  for(let i=0;i<tglKeys.length;i+=2){ // 2 Jumat per halaman
+    if(i>0) doc.addPage();
+    let body=[];
+    let head=["Lokasi","Keterangan","Komplek"];
+    for(let j=i;j<i+2 && j<tglKeys.length;j++){
+      doc.setFontSize(12);
+      doc.text(tglKeys[j],105,22 + (j-i)*10,{align:'center'});
+      body = body.concat(groups[tglKeys[j]]);
+    }
+    doc.autoTable({startY:28,head:[head],body:body});
+  }
   doc.save('roan_jumat_kubro.pdf');
-}
-
-function exportPDFTPS(){
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF('p','mm','a4');
-  doc.setFontSize(14);
-  doc.text("JADWAL RO'AN TPS",105,15,{align:'center'});
-  doc.setFontSize(11);
-  doc.autoTable({
-    startY:22,
-    head:[["Tanggal","Hari","Petugas"]],
-    body:dataTPS.filter(x=>x.bulan==bulanTPS.value&&x.tahun==tahunTPS.value).map(x=>[x.tgl,x.hari,x.petugas])
-  });
-  doc.save('roan_tps.pdf');
 }
 
 showPage('home');
