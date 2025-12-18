@@ -78,23 +78,44 @@ for(let y=2025;y<=2029;y++)tahun.innerHTML+=`<option>${y}</option>`;
 bulan.value=11;tahun.value=2025;
 const komplek=['A','B','C','D','E','F','G','H','I','J'];
 const lokasi=['Lokasi 1','Lokasi 2','Lokasi 3','Lokasi 4','Lokasi 5','Lokasi 6','Lokasi 7','Lokasi 8','Lokasi 9','Lokasi 10'];
-let data=[],idx=0,d=new Date(2025,11,1);
+let dataKubro=[],idx=0,d=new Date(2025,11,1);
 while(d<=new Date(2029,11,31)){
- if(d.getDay()==5){for(let i=0;i<10;i++)data.push({tgl:d.toLocaleDateString('id-ID'),bulan:d.getMonth(),tahun:d.getFullYear(),lokasi:lokasi[i],komplek:komplek[(idx+i)%10]});idx++}
+ if(d.getDay()==5){for(let i=0;i<10;i++)dataKubro.push({tgl:d.toLocaleDateString('id-ID'),bulan:d.getMonth(),tahun:d.getFullYear(),lokasi:lokasi[i],komplek:komplek[(idx+i)%10]});idx++}
  d.setDate(d.getDate()+1);
 }
-function renderKUBRO(){tbody.innerHTML='';let last='';data.filter(x=>x.bulan==bulan.value&&x.tahun==tahun.value).forEach(x=>{if(x.tgl!==last){tbody.innerHTML+=`<tr><td colspan="3" style="background:#eef">${x.tgl}</td></tr>`;last=x.tgl;}tbody.innerHTML+=`<tr><td></td><td>${x.lokasi}</td><td>${x.komplek}</td></tr>`;});}
+function renderKUBRO(){tbody.innerHTML='';let last='';dataKubro.filter(x=>x.bulan==bulan.value&&x.tahun==tahun.value).forEach(x=>{if(x.tgl!==last){tbody.innerHTML+=`<tr><td colspan="3" style="background:#eef">${x.tgl}</td></tr>`;last=x.tgl;}tbody.innerHTML+=`<tr><td></td><td>${x.lokasi}</td><td>${x.komplek}</td></tr>`;});}
+
+// ===== Ro'an TPS Integrasi =====
 const bulanTPS=document.getElementById('bulanTPS'),tahunTPS=document.getElementById('tahunTPS'),cariTPS=document.getElementById('cariTPS'),tbodyTPS=document.querySelector('#tabelTPS tbody');
 bulanNama.forEach((b,i)=>bulanTPS.innerHTML+=`<option value="${i}">${b}</option>`);
 for(let y=2025;y<=2029;y++)tahunTPS.innerHTML+=`<option>${y}</option>`;
 bulanTPS.value=11;tahunTPS.value=2025;
-let dataTPS=[],dt=new Date(2025,11,1),di=0,harian=['A','B','C','E','F','G','H','I','J'];
+const komplekHarian = ["A","B","C","E","F","G","H","I","J"];
+const komplekJumat  = ["A","B","C","D","E","F","G","H","I","J"];
+let dataTPS=[];
+let dt=new Date(2025,11,1),dailyIndex=6,fridayIndex=2;
 while(dt<=new Date(2029,11,31)){
- let pet=dt.getDay()==5?komplek[di++%10]:harian[di++%9];
- dataTPS.push({tgl:dt.toLocaleDateString('id-ID'),hari:dt.toLocaleDateString('id-ID',{weekday:'long'}),pet,bulan:dt.getMonth(),tahun:dt.getFullYear()});
+ let day=dt.getDay();
+ let pet="";
+ if(day===0) pet="Pengurus kebersihan";
+ else if(day===5){
+   pet=komplekJumat[fridayIndex%komplekJumat.length];
+   fridayIndex++;
+ } else {
+   pet=komplekHarian[dailyIndex%komplekHarian.length];
+   dailyIndex++;
+ }
+ dataTPS.push({
+   tgl:dt.toLocaleDateString('id-ID'),
+   hari:dt.toLocaleDateString('id-ID',{weekday:'long'}),
+   petugas:pet,
+   bulan:dt.getMonth(),
+   tahun:dt.getFullYear()
+ });
  dt.setDate(dt.getDate()+1);
 }
-function renderTPS(){tbodyTPS.innerHTML='';let q=cariTPS.value.toUpperCase();dataTPS.filter(x=>x.bulan==bulanTPS.value&&x.tahun==tahunTPS.value&&(q==''||x.pet.includes(q))).forEach(x=>tbodyTPS.innerHTML+=`<tr><td>${x.tgl}</td><td>${x.hari}</td><td>${x.pet}</td></tr>`);}
+function renderTPS(){tbodyTPS.innerHTML='';let q=cariTPS.value.toUpperCase();dataTPS.filter(x=>x.bulan==bulanTPS.value&&x.tahun==tahunTPS.value&&(q==''||x.petugas.includes(q))).forEach(x=>tbodyTPS.innerHTML+=`<tr><td>${x.tgl}</td><td>${x.hari}</td><td>${x.petugas}</td></tr>`);}
+
 const infoText=document.getElementById('infoText');infoText.value=localStorage.getItem('infoRoan')||'';
 function simpanInfo(){localStorage.setItem('infoRoan',infoText.value);alert('Disimpan');}
 
@@ -103,31 +124,21 @@ function exportPDFKUBRO(){
   const doc = new jsPDF('p','mm','a4');
   doc.setFontSize(14);
   doc.text("JADWAL RO'AN JUMAT KUBRO",105,15,{align:'center'});
-
   let groups = {};
   [...tbody.querySelectorAll('tr')].forEach(r=>{
     if(r.children.length===1){
-      currentDate = r.children[0].innerText;
+      currentDate=r.children[0].innerText;
       if(!groups[currentDate]) groups[currentDate]=[];
     } else if(r.children.length===3){
-      groups[currentDate].push([
-        r.children[1].innerText,
-        r.children[2].innerText
-      ]);
+      groups[currentDate].push([r.children[1].innerText,r.children[2].innerText]);
     }
   });
-
   Object.keys(groups).forEach((tgl,index)=>{
     if(index>0) doc.addPage();
     doc.setFontSize(12);
     doc.text(tgl,105,22,{align:'center'});
-    doc.autoTable({
-      startY:28,
-      head:[["Lokasi","Komplek"]],
-      body:groups[tgl]
-    });
+    doc.autoTable({startY:28,head:[["Lokasi","Komplek"]],body:groups[tgl]});
   });
-
   doc.save('roan_jumat_kubro.pdf');
 }
 
@@ -138,9 +149,9 @@ function exportPDFTPS(){
   doc.text("JADWAL RO'AN TPS",105,15,{align:'center'});
   doc.setFontSize(11);
   doc.autoTable({
-    startY: 22,
-    head: [["Tanggal","Hari","Petugas"]],
-    body: [...tbodyTPS.querySelectorAll('tr')].map(r=>[r.children[0].innerText,r.children[1].innerText,r.children[2].innerText])
+    startY:22,
+    head:[["Tanggal","Hari","Petugas"]],
+    body:dataTPS.filter(x=>x.bulan==bulanTPS.value&&x.tahun==tahunTPS.value).map(x=>[x.tgl,x.hari,x.petugas])
   });
   doc.save('roan_tps.pdf');
 }
