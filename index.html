@@ -84,10 +84,10 @@ bulan.value=11;tahun.value=2025;
 const komplek=['A','B','C','D','E','F','G','H','I','J'];
 const lokasiNama=["Lokasi 1","Lokasi 2","Lokasi 3","Lokasi 4","Lokasi 5","Lokasi 6","Lokasi 7","Lokasi 8","Lokasi 9","Lokasi 10"];
 const keteranganLokasi=["Masjid Lt 1, 2 dan Depan perpustakaan","Jeding Masjid","Teras Ndalem Gus Minan sampai Halaqoh","Ziarah & Membersihkan Makam Klaseman","Depan Mifda + Komp. C","Madrasah Lt. 1-3, Parkiran Bawah dan Maqom","Jeding Santri dan Depan Laundry","Dapur & Jemuran","Parkiran depan dan samping DU, Teras DU & Jeding Tamu DU","Membuang sampah ke TPS & Mengepel belakang Komp. C"];
-let dataKubro=[],idx=0,d=new Date(2025,11,1);
+let dataKubro=[],idx=3,d=new Date(2025,11,1);
 while(d<=new Date(2029,11,31)){
  if(d.getDay()==5){
-   for(let i=3;i<10;i++){
+   for(let i=0;i<10;i++){
      dataKubro.push({tgl:d.toLocaleDateString('id-ID'),bulan:d.getMonth(),tahun:d.getFullYear(),lokasi:lokasiNama[i],keterangan:keteranganLokasi[i],komplek:komplek[(idx+i)%10]});
    }
    idx++
