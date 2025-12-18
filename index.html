@@ -97,9 +97,13 @@ while(dt<=new Date(2029,11,31)){
 function renderTPS(){tbodyTPS.innerHTML='';let q=cariTPS.value.toUpperCase();dataTPS.filter(x=>x.bulan==bulanTPS.value&&x.tahun==tahunTPS.value&&(q==''||x.pet.includes(q))).forEach(x=>tbodyTPS.innerHTML+=`<tr><td>${x.tgl}</td><td>${x.hari}</td><td>${x.pet}</td></tr>`);}
 const infoText=document.getElementById('infoText');infoText.value=localStorage.getItem('infoRoan')||'';
 function simpanInfo(){localStorage.setItem('infoRoan',infoText.value);alert('Disimpan');}
+
 function exportPDFKUBRO(){
   const { jsPDF } = window.jspdf;
-  // kelompokkan baris per tanggal
+  const doc = new jsPDF('p','mm','a4');
+  doc.setFontSize(14);
+  doc.text("JADWAL RO'AN JUMAT KUBRO",105,15,{align:'center'});
+
   let groups = {};
   [...tbody.querySelectorAll('tr')].forEach(r=>{
     if(r.children.length===1){
@@ -114,49 +118,35 @@ function exportPDFKUBRO(){
     }
   });
 
-  Object.keys(groups).forEach(tgl=>{
-    const doc = new jsPDF('p','mm','a4');
-    doc.setFontSize(14);
-    doc.text("JADWAL RO'AN JUMAT KUBRO",105,15,{align:'center'});
-    doc.setFontSize(11);
-    doc.text(tgl,105,22,{align:'center'});
+  let startY = 22;
+  Object.keys(groups).forEach((tgl,index)=>{
+    if(index > 0) doc.addPage();
+    doc.setFontSize(12);
+    doc.text(tgl,105,startY+5,{align:'center'});
     doc.autoTable({
-      startY: 28,
+      startY: startY + 10,
       head: [["Tanggal","Lokasi","Komplek"]],
       body: groups[tgl]
     });
-    doc.save(`roan_kubro_${tgl.replace(/\//g,'-')}.pdf`);
   });
+
+  doc.save('roan_jumat_kubro.pdf');
 }
 
 function exportPDFTPS(){
   const { jsPDF } = window.jspdf;
-  // kelompokkan TPS per tanggal
-  let groups = {};
-  [...tbodyTPS.querySelectorAll('tr')].forEach(r=>{
-    const tgl = r.children[0].innerText;
-    if(!groups[tgl]) groups[tgl]=[];
-    groups[tgl].push([
-      r.children[0].innerText,
-      r.children[1].innerText,
-      r.children[2].innerText
-    ]);
+  const doc = new jsPDF('p','mm','a4');
+  doc.setFontSize(14);
+  doc.text("JADWAL RO'AN TPS",105,15,{align:'center'});
+  doc.setFontSize(11);
+  doc.autoTable({
+    startY: 22,
+    head: [["Tanggal","Hari","Petugas"]],
+    body: [...tbodyTPS.querySelectorAll('tr')].map(r=>[r.children[0].innerText,r.children[1].innerText,r.children[2].innerText])
   });
-
-  Object.keys(groups).forEach(tgl=>{
-    const doc = new jsPDF('p','mm','a4');
-    doc.setFontSize(14);
-    doc.text("JADWAL RO'AN TPS",105,15,{align:'center'});
-    doc.setFontSize(11);
-    doc.text(tgl,105,22,{align:'center'});
-    doc.autoTable({
-      startY: 28,
-      head: [["Tanggal","Hari","Petugas"]],
-      body: groups[tgl]
-    });
-    doc.save(`roan_tps_${tgl.replace(/\//g,'-')}.pdf`);
-  });
+  doc.save('roan_tps.pdf');
 }
+
 showPage('home');
 </script>
 </body>
