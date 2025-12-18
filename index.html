@@ -25,8 +25,8 @@ footer{text-align:center;font-size:12px;color:#777;margin:20px}
 </head>
 <body>
 <header>
-<h1>Ro'an Terpadu</h1>
-<p>Sistem Penjadwalan Ro'an TPS & Jumat Kubro</p>
+<h1>SERDADU PPMH</h1>
+<p>Sistem Ro'an Terpadu PPMH </p>
 </header>
 <main>
 <section id="home" class="card">
@@ -67,7 +67,7 @@ footer{text-align:center;font-size:12px;color:#777;margin:20px}
 <br><br><button class="primary" onclick="simpanInfo()">Simpan</button>
 </section>
 </main>
-<footer>© 2025–2029 Ro'an Terpadu</footer>
+<footer>© Sistem Ro'an Terpadu</footer>
 <script defer>
 window.addEventListener('DOMContentLoaded',()=>{
 const pages=['home','kubro','tps','info'];
@@ -87,7 +87,7 @@ const keteranganLokasi=["Masjid Lt 1, 2 dan Depan perpustakaan","Jeding Masjid",
 let dataKubro=[],idx=0,d=new Date(2025,11,1);
 while(d<=new Date(2029,11,31)){
  if(d.getDay()==5){
-   for(let i=0;i<10;i++){
+   for(let i=3;i<10;i++){
      dataKubro.push({tgl:d.toLocaleDateString('id-ID'),bulan:d.getMonth(),tahun:d.getFullYear(),lokasi:lokasiNama[i],keterangan:keteranganLokasi[i],komplek:komplek[(idx+i)%10]});
    }
    idx++
