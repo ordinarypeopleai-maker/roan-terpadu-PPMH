@@ -5,8 +5,8 @@
 <title>Ro'an Terpadu – Versi Profesional</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#1b8f3a">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js" defer></script>
 <style>
 :root{--primary:#1b8f3a;--bg:#f4f6f8}
 *{box-sizing:border-box}
@@ -68,14 +68,18 @@ footer{text-align:center;font-size:12px;color:#777;margin:20px}
 </section>
 </main>
 <footer>© 2025–2029 Ro'an Terpadu</footer>
-<script>
+<script defer>
+window.addEventListener('DOMContentLoaded',()=>{
 const pages=['home','kubro','tps','info'];
 function showPage(p){pages.forEach(x=>document.getElementById(x).style.display=x===p?'block':'none')}
+window.showPage=showPage;
+
 const bulanNama=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 const bulan=document.getElementById('bulan'),tahun=document.getElementById('tahun'),tbody=document.querySelector('#tabelKUBRO tbody');
 bulanNama.forEach((b,i)=>bulan.innerHTML+=`<option value="${i}">${b}</option>`);
 for(let y=2025;y<=2029;y++)tahun.innerHTML+=`<option>${y}</option>`;
 bulan.value=11;tahun.value=2025;
+
 const komplek=['A','B','C','D','E','F','G','H','I','J'];
 const lokasiNama=["Lokasi 1","Lokasi 2","Lokasi 3","Lokasi 4","Lokasi 5","Lokasi 6","Lokasi 7","Lokasi 8","Lokasi 9","Lokasi 10"];
 const keteranganLokasi=["Masjid Lt 1, 2 dan Depan perpustakaan","Jeding Masjid","Teras Ndalem Gus Minan sampai Halaqoh","Ziarah & Membersihkan Makam Klaseman","Depan Mifda + Komp. C","Madrasah Lt. 1-3, Parkiran Bawah dan Maqom","Jeding Santri dan Depan Laundry","Dapur & Jemuran","Parkiran depan dan samping DU, Teras DU & Jeding Tamu DU","Membuang sampah ke TPS & Mengepel belakang Komp. C"];
@@ -89,22 +93,26 @@ while(d<=new Date(2029,11,31)){
  }
  d.setDate(d.getDate()+1);
 }
-function renderKUBRO(){tbody.innerHTML='';let last='';dataKubro.filter(x=>x.bulan==bulan.value&&x.tahun==tahun.value).forEach(x=>{if(x.tgl!==last){tbody.innerHTML+=`<tr><td colspan="4" style="background:#eef">${x.tgl}</td></tr>`;last=x.tgl;}tbody.innerHTML+=`<tr><td></td><td>${x.lokasi}</td><td>${x.keterangan}</td><td>${x.komplek}</td></tr>`;});}
 
-function exportPDFKUBRO(){
+window.renderKUBRO=function(){
+ tbody.innerHTML='';
+ let last='';
+ dataKubro.filter(x=>x.bulan==bulan.value&&x.tahun==tahun.value).forEach(x=>{
+   if(x.tgl!==last){tbody.innerHTML+=`<tr><td colspan="4" style="background:#eef">${x.tgl}</td></tr>`;last=x.tgl;}
+   tbody.innerHTML+=`<tr><td></td><td>${x.lokasi}</td><td>${x.keterangan}</td><td>${x.komplek}</td></tr>`;
+ });
+}
+
+window.exportPDFKUBRO=function(){
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF('p','mm','a4');
   doc.setFontSize(14);
   doc.text("JADWAL RO'AN JUMAT KUBRO",105,15,{align:'center'});
-  let groups = {};
+  let groups={};
   let currentDate;
-  [...tbody.querySelectorAll('tr')].forEach(r=>{
-    if(r.children.length===1){
-      currentDate=r.children[0].innerText;
-      if(!groups[currentDate]) groups[currentDate]=[];
-    } else if(r.children.length===4){
-      groups[currentDate].push([r.children[1].innerText,r.children[2].innerText,r.children[3].innerText]);
-    }
+  dataKubro.filter(x=>x.bulan==bulan.value&&x.tahun==tahun.value).forEach(x=>{
+    if(!groups[x.tgl]) groups[x.tgl]=[];
+    groups[x.tgl].push([x.lokasi,x.keterangan,x.komplek]);
   });
   const tglKeys = Object.keys(groups);
   let offsetY = 22;
@@ -119,6 +127,7 @@ function exportPDFKUBRO(){
 }
 
 showPage('home');
+});
 </script>
 </body>
 </html>
