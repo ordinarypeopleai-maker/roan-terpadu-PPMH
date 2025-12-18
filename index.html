@@ -115,14 +115,15 @@ window.exportPDFKUBRO=function(){
    groups[x.tgl].push([x.lokasi,x.keterangan,x.komplek]);
  });
  const tglKeys = Object.keys(groups);
- let offsetY = 22;
  for(let i=0;i<tglKeys.length;i++){
-   if(i>0 && i%2===0) doc.addPage();
+   if(i>0) doc.addPage();
    doc.setFontSize(12);
-   doc.text(tglKeys[i],105,offsetY,{align:'center'});
-   const res = doc.autoTable({startY:offsetY+6,head:[["Lokasi","Keterangan","Komplek"]],body:groups[tglKeys[i]],theme:'grid'});
-   offsetY = res.finalY + 10;
+   doc.text(tglKeys[i],105,22,{align:'center'});
+   doc.autoTable({startY:28,head:[["Lokasi","Keterangan","Komplek"]],body:groups[tglKeys[i]],theme:'grid'});
  }
+ // hapus halaman kosong terakhir jika ada
+ const pageCount = doc.getNumberOfPages();
+ if(doc.getPageHeight() - doc.internal.pageSize.getHeight() > 0) doc.deletePage(pageCount);
  doc.save('roan_jumat_kubro.pdf');
 }
 
@@ -151,8 +152,8 @@ bulanTPS.value=11;tahunTPS.value=2025;
 window.renderTPS=function(short=false){
  tbodyTPS.innerHTML='';
  const q=cariTPS.value.toUpperCase();
- let filtered=dataTPS.filter(x=>x.bulan==bulanTPS.value&&x.tahun==tahunTPS.value&&(q==''||x.petugas.includes(q)));
- if(short) filtered=filtered.slice(0,50); // menampilkan versi short (misal 50 baris)
+ let filtered=dataTPS.filter(x=>x.bulan==bulanTPS.value&&x.tahun==tahunTPS.value&&(q==''||x.petugas.toUpperCase().includes(q)));
+ if(short) filtered=filtered.slice(0,50);
  filtered.forEach(x=>{
    tbodyTPS.innerHTML+=`<tr><td>${x.tgl}</td><td>${x.hari}</td><td>${x.petugas}</td></tr>`;
  });
