@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Ro'an Terpadu – Full Color</title>
+<title>Ro'an Terpadu – Hijau Gradasi</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#1b8f3a">
 
@@ -13,52 +13,54 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js" defer></script>
 
 <style>
+body {
+  background: linear-gradient(to bottom, #1b8f3a, #ffffff);
+  font-family: 'Segoe UI', sans-serif;
+}
 .page { display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
 .page.active { display: block; opacity: 1; }
+.card-hover:hover { transform: scale(1.03); transition: all 0.3s; }
 .table-container { overflow-x: auto; }
-.card-hover:hover { transform: scale(1.05); transition: all 0.3s; }
 </style>
 </head>
-<body class="bg-gradient-to-b from-blue-50 via-purple-50 to-pink-50 font-sans">
+<body>
 
-<header class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4 shadow-lg sticky top-0 z-30">
-  <h1 class="text-2xl font-bold">Ro'an Terpadu</h1>
-  <p class="text-sm">Sistem Penjadwalan Ro'an TPS & Jumat Kubro</p>
+<header class="bg-green-700 text-white p-4 shadow sticky top-0 z-30">
+  <h1 class="text-2xl font-bold text-center">Ro'an Terpadu</h1>
+  <p class="text-sm text-center">Sistem Penjadwalan Ro'an TPS & Jumat Kubro</p>
 </header>
 
 <main class="max-w-5xl mx-auto p-4 space-y-6">
 
   <!-- HOME -->
   <section id="home" class="page active space-y-4">
-    <h2 class="text-xl font-bold text-gray-700">Pilih Layanan</h2>
+    <h2 class="text-xl font-bold text-green-900">Pilih Layanan</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="bg-gradient-to-br from-green-400 to-green-200 p-6 rounded-xl cursor-pointer card-hover text-white shadow-lg text-center" onclick="showPage('kubro')">
+      <div class="bg-gradient-to-b from-green-400 to-green-100 p-6 rounded-xl card-hover cursor-pointer text-center shadow text-white" onclick="showPage('kubro')">
         <h3 class="font-semibold text-lg">🗓️ Ro'an Jumat Kubro</h3>
       </div>
-      <div class="bg-gradient-to-br from-blue-400 to-blue-200 p-6 rounded-xl cursor-pointer card-hover text-white shadow-lg text-center" onclick="showPage('tps')">
+      <div class="bg-gradient-to-b from-green-500 to-green-200 p-6 rounded-xl card-hover cursor-pointer text-center shadow text-white" onclick="showPage('tps')">
         <h3 class="font-semibold text-lg">📋 Ro'an TPS</h3>
       </div>
-      <div class="bg-gradient-to-br from-yellow-400 to-yellow-200 p-6 rounded-xl cursor-pointer card-hover text-white shadow-lg text-center" onclick="showPage('info')">
+      <div class="bg-gradient-to-b from-green-600 to-green-300 p-6 rounded-xl card-hover cursor-pointer text-center shadow text-white" onclick="showPage('info')">
         <h3 class="font-semibold text-lg">📢 Informasi</h3>
       </div>
     </div>
   </section>
 
   <!-- KUBRO -->
-  <section id="kubro" class="page bg-white rounded-2xl shadow-xl p-6">
+  <section id="kubro" class="page bg-white rounded-2xl shadow p-6">
     <button class="text-green-700 font-medium mb-4 hover:text-green-900" onclick="showPage('home')">⬅ Home</button>
     <h2 class="text-lg font-semibold mb-4">Jadwal Ro'an Jumat Kubro</h2>
-
     <div class="flex flex-wrap gap-3 mb-4 items-center">
       <select id="bulan" class="border rounded px-2 py-1"></select>
       <select id="tahun" class="border rounded px-2 py-1"></select>
       <button id="btnTampilKUBRO" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 shadow">Tampilkan</button>
       <button id="btnExportKUBRO" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 shadow">Export PDF</button>
     </div>
-
     <div class="table-container rounded-lg overflow-hidden shadow-md">
       <table class="min-w-full table-auto border border-gray-300" id="tabelKUBRO">
-        <thead class="bg-gradient-to-r from-green-300 to-green-100 sticky top-0 z-10">
+        <thead class="bg-green-200 sticky top-0 z-10">
           <tr>
             <th class="p-2 text-left">Tanggal</th>
             <th class="p-2 text-left">Lokasi</th>
@@ -72,21 +74,19 @@
   </section>
 
   <!-- TPS -->
-  <section id="tps" class="page bg-white rounded-2xl shadow-xl p-6">
-    <button class="text-blue-700 font-medium mb-4 hover:text-blue-900" onclick="showPage('home')">⬅ Home</button>
+  <section id="tps" class="page bg-white rounded-2xl shadow p-6">
+    <button class="text-green-700 font-medium mb-4 hover:text-green-900" onclick="showPage('home')">⬅ Home</button>
     <h2 class="text-lg font-semibold mb-4">Jadwal Ro'an TPS</h2>
-
     <div class="flex flex-wrap gap-3 mb-4 items-center">
       <select id="bulanTPS" class="border rounded px-2 py-1"></select>
       <select id="tahunTPS" class="border rounded px-2 py-1"></select>
       <input id="cariTPS" placeholder="Cari Komplek" class="border rounded px-2 py-1">
-      <button id="btnTampilTPS" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 shadow">Tampilkan</button>
-      <button id="btnExportTPS" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 shadow">Export PDF</button>
+      <button id="btnTampilTPS" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 shadow">Tampilkan</button>
+      <button id="btnExportTPS" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 shadow">Export PDF</button>
     </div>
-
     <div class="table-container rounded-lg overflow-hidden shadow-md">
       <table class="min-w-full table-auto border border-gray-300" id="tabelTPS">
-        <thead class="bg-gradient-to-r from-blue-300 to-blue-100 sticky top-0 z-10">
+        <thead class="bg-green-100 sticky top-0 z-10">
           <tr>
             <th class="p-2 text-left">Tanggal</th>
             <th class="p-2 text-left">Hari</th>
@@ -99,19 +99,19 @@
   </section>
 
   <!-- INFO -->
-  <section id="info" class="page bg-white rounded-2xl shadow-xl p-6">
-    <button class="text-yellow-700 font-medium mb-4 hover:text-yellow-900" onclick="showPage('home')">⬅ Home</button>
+  <section id="info" class="page bg-white rounded-2xl shadow p-6">
+    <button class="text-green-700 font-medium mb-4 hover:text-green-900" onclick="showPage('home')">⬅ Home</button>
     <h2 class="text-lg font-semibold mb-4">📢 Informasi</h2>
     <textarea id="infoText" class="w-full border rounded-lg p-2 min-h-[120px]"></textarea>
     <div class="mt-3 flex items-center gap-3">
-      <button id="btnSimpan" class="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 shadow">Simpan</button>
-      <span id="statusInfo" class="text-green-600 font-medium"></span>
+      <button id="btnSimpan" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 shadow">Simpan</button>
+      <span id="statusInfo" class="text-green-700 font-medium"></span>
     </div>
   </section>
 
 </main>
 
-<footer class="text-center text-gray-600 text-sm mt-6 mb-4">© 2025–2029 Ro'an Terpadu</footer>
+<footer class="text-center text-green-800 text-sm mt-6 mb-4">© 2025–2029 Ro'an Terpadu</footer>
 
 <script defer>
 const pages=['home','kubro','tps','info'];
@@ -125,7 +125,6 @@ window.showPage=showPage;
 
 window.addEventListener('DOMContentLoaded',()=>{
 
-  // ===== KUBRO =====
   const bulanNama=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
   const bulan=document.getElementById('bulan'), tahun=document.getElementById('tahun'), tbody=document.querySelector('#tabelKUBRO tbody');
   bulanNama.forEach((b,i)=>bulan.innerHTML+=`<option value="${i}">${b}</option>`);
@@ -134,7 +133,7 @@ window.addEventListener('DOMContentLoaded',()=>{
 
   const komplek=['A','B','C','D','E','F','G','H','I','J'];
   const lokasiNama=["Lokasi 1","Lokasi 2","Lokasi 3","Lokasi 4","Lokasi 5","Lokasi 6","Lokasi 7","Lokasi 8","Lokasi 9","Lokasi 10"];
-  const keteranganLokasi=["Masjid Lt 1,2 dan Depan perpustakaan","Jeding Masjid","Teras Ndalem Gus Minan","Ziarah & Membersihkan Makam","Depan Mifda + Komp. C","Madrasah Lt.1-3","Jeding Santri dan Laundry","Dapur & Jemuran","Parkiran depan DU","Membuang sampah & Mengepel belakang Komp. C"];
+  const keteranganLokasi=["Masjid Lt1-2 & Depan perpustakaan","Jeding Masjid","Teras Ndalem Gus Minan","Ziarah & Membersihkan Makam","Depan Mifda + Komp. C","Madrasah Lt1-3","Jeding Santri & Laundry","Dapur & Jemuran","Parkiran depan DU","Membuang sampah & Mengepel belakang Komp. C"];
 
   let dataKubro=[], idx=0, d=new Date(2025,11,1);
   while(d<=new Date(2029,11,31)){
@@ -236,5 +235,6 @@ window.addEventListener('DOMContentLoaded',()=>{
   renderTPS();
 });
 </script>
+
 </body>
 </html>
