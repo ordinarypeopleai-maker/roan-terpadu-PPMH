@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Ro'an Terpadu - PP Miftahul Huda Gading Malang</title>
+    <title>Ro'an Terpadu – Sistem Penjadwalan Modern</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
@@ -15,15 +15,17 @@
         }
 
         :root {
-            --primary: #0f766e;
-            --primary-light: #e0f2f1;
-            --accent: #f59e0b;
-            --bg: #f2f7f6;
+            --bg: #f7f8fb;
+            --fg: #1a2332;
             --card: #ffffff;
-            --border: #d1e7e5;
-            --fg: #164e48;
-            --muted: #7a8a87;
-            --muted-light: #f0f3f2;
+            --border: #d4dae8;
+            --primary: #26a59a;
+            --primary-light: #e6f5f3;
+            --accent: #ff8c1a;
+            --muted: #7a8699;
+            --muted-light: #f0f1f5;
+            --sidebar: #1a2332;
+            --sidebar-light: #f0f1f5;
         }
 
         body {
@@ -40,140 +42,153 @@
 
         .container {
             display: flex;
-            flex-direction: column;
             min-height: 100vh;
         }
 
-        header {
-            height: 64px;
-            border-bottom: 1px solid var(--border);
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
-            padding: 0 1.5rem;
+        /* Sidebar */
+        .sidebar {
+            width: fit-content;
+            background: var(--sidebar);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-logo {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            gap: 1rem;
+            gap: 12px;
+            margin-bottom: 8px;
         }
 
-        .header-left {
+        .logo-badge {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #26a59a, #20826f);
+            border-radius: 8px;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            flex: 1;
-            min-width: 0;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
         }
 
-        .nav-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--fg);
-        }
-
-        .header-title {
-            font-size: 1.125rem;
+        .sidebar-title {
+            font-size: 18px;
             font-weight: bold;
             font-family: 'Playfair Display', serif;
-            white-space: nowrap;
         }
 
-        .header-subtitle {
-            font-size: 0.875rem;
-            color: var(--muted);
-            display: none;
+        .sidebar-subtitle {
+            font-size: 12px;
+            opacity: 0.6;
         }
 
-        .header-right {
+        .sidebar-desc {
+            font-size: 12px;
+            opacity: 0.5;
+            margin-top: 12px;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .nav-item {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap-reverse;
-        }
-
-        .date-display {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(0, 0, 0, 0.05);
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            border: 1px solid var(--border);
-            font-size: 0.875rem;
-        }
-
-        .btn {
-            padding: 0.625rem 1rem;
-            border: none;
-            border-radius: 0.5rem;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 0.875rem;
-            font-weight: 600;
+            gap: 12px;
+            padding: 10px 16px;
+            border-radius: 8px;
             cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
             transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
         }
 
-        .btn-primary {
+        .nav-item:hover {
+            background: rgba(38, 165, 154, 0.2);
+            color: white;
+        }
+
+        .nav-item.active {
             background: var(--primary);
             color: white;
-            box-shadow: 0 4px 12px rgba(15, 118, 110, 0.2);
+            box-shadow: 0 8px 16px rgba(38, 165, 154, 0.3);
         }
 
-        .btn-primary:hover {
-            background: #0d5f5a;
-            box-shadow: 0 8px 20px rgba(15, 118, 110, 0.3);
-            transform: translateY(-2px);
+        .nav-icon {
+            width: 20px;
+            height: 20px;
         }
 
-        .btn-accent {
-            background: var(--accent);
-            color: white;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        .sidebar-footer {
+            padding: 16px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        .btn-accent:hover {
-            background: #d97706;
-            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .btn-outline {
+        .btn-logout {
+            padding: 8px 12px;
             background: transparent;
-            border: 1px solid var(--border);
-            color: var(--fg);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.7);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
         }
 
-        .btn-outline:hover {
-            background: var(--muted-light);
+        .btn-logout:hover {
+            background: rgba(38, 165, 154, 0.2);
+            color: white;
         }
 
-        .main-content {
+        .copyright {
+            font-size: 11px;
+            text-align: center;
+            color: rgba(255,255,255,0.3);
+            padding-top: 8px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Main Content */
+        .main {
             flex: 1;
             overflow-y: auto;
-            padding: 1rem;
+            background: var(--bg);
         }
 
         .content {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 1rem 0;
+            padding: 32px;
         }
 
         .page {
             display: none;
-            animation: fadeIn 0.5s ease;
         }
 
         .page.active {
             display: block;
+            animation: fadeIn 0.3s ease;
         }
 
         @keyframes fadeIn {
@@ -181,296 +196,263 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Landing Page */
-        .landing-container {
-            min-height: 100vh;
+        /* Header */
+        .page-header {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 32px;
+            gap: 16px;
         }
 
-        .landing-bg {
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at center, rgba(15, 118, 110, 0.05), transparent);
-            pointer-events: none;
-        }
-
-        .landing-content {
-            position: relative;
-            text-align: center;
-            z-index: 10;
-        }
-
-        .landing-logo {
-            width: 96px;
-            height: 96px;
-            background: linear-gradient(135deg, var(--primary), #0d5f5a);
-            border-radius: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: white;
-            font-family: 'Playfair Display', serif;
-            font-weight: bold;
-            margin: 0 auto 2rem;
-            box-shadow: 0 20px 40px rgba(15, 118, 110, 0.3);
-        }
-
-        .landing-title {
-            font-size: 3rem;
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .landing-subtitle {
-            font-size: 2rem;
+        .page-title {
+            font-size: 36px;
             font-weight: bold;
             color: var(--fg);
-            margin-bottom: 1rem;
         }
 
-        .landing-desc {
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
+        .page-subtitle {
+            font-size: 14px;
             color: var(--muted);
+            margin-top: 8px;
+        }
+
+        .date-display {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 10px 16px;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            font-size: 14px;
             font-weight: 500;
-            margin-bottom: 3rem;
         }
 
-        .landing-btn {
-            width: 160px;
-            height: 48px;
-            font-size: 1rem;
-            border-radius: 9999px;
-            box-shadow: 0 10px 30px rgba(15, 118, 110, 0.3);
-            transition: all 0.3s;
-        }
-
-        .landing-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(15, 118, 110, 0.4);
-        }
-
-        /* Dashboard */
+        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
+            gap: 16px;
+            margin-bottom: 32px;
         }
 
         .stat-card {
             background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 0.75rem;
-            padding: 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s;
-            border-left: 4px solid rgba(15, 118, 110, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            transition: all 0.2s;
         }
 
         .stat-card:hover {
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .stat-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 0.75rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #3b82f6, #1e40af);
             color: white;
-            font-size: 1.5rem;
-            flex-shrink: 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-size: 24px;
         }
 
-        .stat-icon.blue { background: #3b82f6; }
-        .stat-icon.green { background: #10b981; }
-        .stat-icon.amber { background: #f59e0b; }
-
-        .stat-content h3 {
-            font-size: 1.875rem;
-            font-weight: bold;
-            margin-top: 0.25rem;
-        }
-
-        .stat-content p {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+        .stat-label {
+            font-size: 12px;
             color: var(--muted);
-            font-weight: 600;
+            margin-bottom: 4px;
         }
 
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--fg);
+        }
+
+        /* Cards Grid */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
         }
 
         .feature-card {
             background: var(--card);
             border: 2px solid var(--border);
-            border-top: 4px solid var(--primary);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-top-color: var(--primary);
+            border-top-width: 4px;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             transition: all 0.3s;
             cursor: pointer;
         }
 
         .feature-card:hover {
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 16px 32px rgba(0,0,0,0.15);
             transform: translateY(-4px);
         }
 
         .feature-card.blue { border-top-color: #3b82f6; }
+        .feature-card.blue .card-icon { background: #dbeafe; color: #3b82f6; }
+        .feature-card.blue:hover .card-icon { background: #3b82f6; color: white; }
         .feature-card.green { border-top-color: #10b981; }
+        .feature-card.green .card-icon { background: #d1fae5; color: #10b981; }
+        .feature-card.green:hover .card-icon { background: #10b981; color: white; }
         .feature-card.amber { border-top-color: #f59e0b; }
+        .feature-card.amber .card-icon { background: #fef3c7; color: #f59e0b; }
+        .feature-card.amber:hover .card-icon { background: #f59e0b; color: white; }
 
-        .feature-icon {
+        .card-icon {
             width: 48px;
             height: 48px;
-            border-radius: 0.75rem;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
+            margin-bottom: 16px;
+            font-size: 24px;
             transition: all 0.2s;
         }
 
-        .feature-card.blue .feature-icon { background: #dbeafe; color: #3b82f6; }
-        .feature-card.green .feature-icon { background: #d1fae5; color: #10b981; }
-        .feature-card.amber .feature-icon { background: #fef3c7; color: #f59e0b; }
-
-        .feature-card:hover .feature-icon {
-            transform: scale(1.1);
-        }
-
-        .feature-card h3 {
-            font-size: 1.125rem;
+        .card-title {
+            font-size: 18px;
             font-weight: bold;
-            margin-bottom: 0.5rem;
+            margin-bottom: 8px;
+            color: var(--fg);
         }
 
-        .feature-card p {
-            font-size: 0.875rem;
+        .card-desc {
+            font-size: 14px;
             color: var(--muted);
-            margin-bottom: 1rem;
-            line-height: 1.6;
+            margin-bottom: 16px;
         }
 
-        .feature-link {
-            display: inline-flex;
+        .card-link {
+            display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 8px;
+            font-size: 14px;
             font-weight: 600;
-            font-size: 0.875rem;
-            transition: all 0.2s;
+            color: #3b82f6;
         }
 
-        .feature-card.blue .feature-link { color: #3b82f6; }
-        .feature-card.green .feature-link { color: #10b981; }
-        .feature-card.amber .feature-link { color: #f59e0b; }
+        .feature-card.green .card-link { color: #10b981; }
+        .feature-card.amber .card-link { color: #f59e0b; }
 
-        .feature-card:hover .feature-link {
-            transform: translateX(4px);
+        /* Forms */
+        .form-group {
+            margin-bottom: 16px;
         }
 
-        /* Tables */
-        .filters {
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
             display: flex;
+            gap: 16px;
             flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            align-items: flex-end;
         }
 
-        .filter-group {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        select, input[type="text"] {
-            padding: 0.625rem 0.75rem;
+        select, input[type="text"], textarea {
+            padding: 10px 12px;
             border: 1px solid var(--border);
             background: var(--card);
             color: var(--fg);
-            border-radius: 0.5rem;
+            border-radius: 8px;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 0.875rem;
+            font-size: 14px;
             transition: all 0.2s;
         }
 
-        select:focus, input[type="text"]:focus {
+        select:focus, input[type="text"]:focus, textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+            box-shadow: 0 0 0 3px rgba(38, 165, 154, 0.1);
         }
 
+        .select-wrapper {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        textarea {
+            width: 100%;
+            resize: vertical;
+            min-height: 300px;
+            padding: 16px;
+        }
+
+        /* Buttons */
+        button {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 2px 8px rgba(38, 165, 154, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: #1f9985;
+            box-shadow: 0 8px 16px rgba(38, 165, 154, 0.3);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 2px 8px rgba(255, 140, 26, 0.2);
+        }
+
+        .btn-accent:hover {
+            background: #e67e0a;
+            box-shadow: 0 8px 16px rgba(255, 140, 26, 0.3);
+        }
+
+        /* Card Container */
         .card {
             background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 0.75rem;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 24px;
         }
 
         .card-header {
             background: var(--muted-light);
-            padding: 1rem;
+            padding: 20px;
             border-bottom: 1px solid var(--border);
         }
 
         .card-content {
-            padding: 0;
+            padding: 20px;
         }
 
-        .date-group {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .date-group:last-child {
-            border-bottom: none;
-        }
-
-        .date-group-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .date-icon {
-            width: 40px;
-            height: 40px;
-            background: #dbeafe;
-            color: #3b82f6;
-            border-radius: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-        }
-
-        .date-group-title {
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
+        /* Table */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -481,23 +463,23 @@
         }
 
         th {
-            padding: 0.75rem 1rem;
+            padding: 12px 16px;
             text-align: left;
             font-weight: 600;
-            font-size: 0.75rem;
+            font-size: 12px;
             color: var(--muted);
             border-bottom: 1px solid var(--border);
             text-transform: uppercase;
         }
 
         td {
-            padding: 0.75rem 1rem;
+            padding: 12px 16px;
             border-bottom: 1px solid var(--border);
-            font-size: 0.875rem;
+            font-size: 14px;
         }
 
         tbody tr:hover {
-            background: rgba(15, 118, 110, 0.03);
+            background: rgba(38, 165, 154, 0.05);
         }
 
         .komplek-badge {
@@ -507,213 +489,109 @@
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background: rgba(15, 118, 110, 0.1);
+            background: rgba(38, 165, 154, 0.15);
             color: var(--primary);
             font-weight: bold;
-            font-size: 0.875rem;
+            font-size: 14px;
         }
 
+        /* Date Group */
+        .date-group {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .date-group:last-child {
+            border-bottom: none;
+        }
+
+        .date-group-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .date-icon {
+            width: 40px;
+            height: 40px;
+            background: #dbeafe;
+            color: #3b82f6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .date-group-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--fg);
+        }
+
+        /* Empty State */
         .empty-state {
             text-align: center;
-            padding: 3rem 1.5rem;
+            padding: 48px 24px;
             color: var(--muted);
         }
 
-        /* Info Page */
-        .info-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
+        .empty-state p {
+            font-size: 16px;
         }
 
-        .textarea-wrapper {
-            position: relative;
-        }
-
-        textarea {
-            width: 100%;
-            min-height: 200px;
-            padding: 1rem;
-            border: 1px solid var(--border);
-            background: rgba(0, 0, 0, 0.02);
-            color: var(--fg);
-            border-radius: 0.5rem;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 0.875rem;
-            resize: vertical;
-            transition: all 0.2s;
-        }
-
-        textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: var(--card);
-            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
-        }
-
-        .char-counter {
-            font-size: 0.75rem;
-            color: var(--muted);
-            margin-top: 0.5rem;
-            text-align: right;
-        }
-
-        .form-actions {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 1rem;
-            gap: 0.75rem;
-        }
-
+        /* Preview Section */
         .preview-section {
-            margin-top: 2rem;
-            padding-top: 2rem;
+            margin-top: 32px;
+            padding-top: 32px;
             border-top: 2px dashed var(--border);
         }
 
         .preview-title {
-            font-size: 0.75rem;
+            font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
             color: var(--muted);
-            margin-bottom: 1rem;
+            margin-bottom: 16px;
         }
 
         .preview-box {
             background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        }
-
-        .preview-header {
-            background: rgba(15, 118, 110, 0.05);
-            padding: 1rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin: -1.5rem -1.5rem 1rem;
-            border-radius: 0.75rem 0.75rem 0 0;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         .preview-content {
-            background: rgba(15, 118, 110, 0.05);
+            background: rgba(38, 165, 154, 0.05);
             border-left: 4px solid var(--primary);
-            padding: 1rem;
-            border-radius: 0.25rem;
+            padding: 16px;
+            border-radius: 4px;
             color: var(--fg);
             line-height: 1.8;
             white-space: pre-wrap;
             word-break: break-word;
         }
 
-        .alert {
-            background: #eff6ff;
-            border: 1px solid #bfdbfe;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            font-size: 0.875rem;
-            color: #1e40af;
-            display: flex;
-            gap: 0.75rem;
-            margin-top: 1rem;
+        /* Character Counter */
+        .char-counter {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 8px;
+            text-align: right;
         }
 
-        .alert-icon {
-            flex-shrink: 0;
-            font-size: 1.25rem;
-        }
-
-        /* Responsive */
-        @media (min-width: 768px) {
-            .main-content {
-                padding: 2rem 1rem;
-            }
-
-            .stats-grid {
-                gap: 1.5rem;
-                margin-bottom: 2.5rem;
-            }
-
-            .stat-card {
-                padding: 1.5rem;
-            }
-
-            .cards-grid {
-                gap: 2rem;
-            }
-
-            .feature-card {
-                padding: 2rem;
-            }
-
-            .info-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 2rem;
-            }
-
-            .date-display {
-                display: flex;
-            }
-
-            .header-subtitle {
-                display: block;
-            }
-        }
-
-        @media (max-width: 767px) {
-            .nav-toggle {
-                display: block;
-            }
-
-            .date-display {
-                display: none;
-            }
-
-            .header-title {
-                font-size: 1rem;
-            }
-
-            .header-right {
-                flex-direction: column-reverse;
-            }
-
-            .landing-title {
-                font-size: 2rem;
-            }
-
-            .landing-subtitle {
-                font-size: 1.5rem;
-            }
-
-            .cards-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-
-            textarea {
-                min-height: 150px;
-            }
-        }
-
-        .hidden {
-            display: none;
-        }
-
+        /* Toast */
         .toast {
             position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
+            bottom: 24px;
+            right: 24px;
             background: var(--primary);
             color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             animation: slideUp 0.3s ease;
             z-index: 1000;
         }
@@ -723,162 +601,268 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border-width: 0;
+        /* Mobile */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                max-height: auto;
+            }
+
+            .content {
+                padding: 16px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .cards-grid, .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .date-display {
+                width: 100%;
+            }
+
+            .form-control {
+                flex-direction: column;
+            }
+
+            .select-wrapper {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <div class="header-left">
-                <button class="nav-toggle" onclick="toggleMenu()">☰</button>
-                <h1 class="header-title" id="pageTitle">Sugeng Rawuh</h1>
-                <p class="header-subtitle" id="pageSubtitle">Selamat datang di Sistem Penjadwalan Ro'an Terpadu</p>
-            </div>
-            <div class="header-right">
-                <button class="btn btn-outline hidden" id="homeBtn" onclick="goHome()" style="gap: 0.5rem;">
-                    <span>🏠</span>
-                    <span>Home</span>
-                </button>
-                <div class="date-display" id="dateDisplay">
-                    <span>📅</span>
-                    <span id="todayDate"></span>
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <div class="logo-badge">R</div>
+                    <div>
+                        <div class="sidebar-title">Ro'an</div>
+                        <div class="sidebar-subtitle">Terpadu</div>
+                    </div>
                 </div>
+                <div class="sidebar-desc">Sistem Penjadwalan Profesional</div>
             </div>
-        </header>
 
-        <div class="main-content">
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-page="dashboard">
+                    <span class="nav-icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-page="kubro">
+                    <span class="nav-icon">📅</span>
+                    <span>Jumat Kubro</span>
+                </a>
+                <a href="#" class="nav-item" data-page="tps">
+                    <span class="nav-icon">📋</span>
+                    <span>Jadwal TPS</span>
+                </a>
+                <a href="#" class="nav-item" data-page="info">
+                    <span class="nav-icon">ℹ️</span>
+                    <span>Informasi</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn-logout">🚪 Keluar</button>
+                <div class="copyright">© 2025 Ro'an Terpadu</div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main">
             <div class="content">
-                <!-- Landing Page -->
-                <div id="landing" class="page active">
-                    <div class="landing-container">
-                        <div class="landing-bg"></div>
-                        <div class="landing-content">
-                            <div class="landing-logo">R</div>
-                            <h1 class="landing-title">SISTEM RO'AN</h1>
-                            <h2 class="landing-subtitle">TERPADU</h2>
-                            <p class="landing-desc">Pondok Pesantren Miftahul Huda Gading Malang</p>
-                            <button class="btn btn-primary landing-btn" onclick="goPage('dashboard')">MULAI</button>
-                            <p style="margin-top: 5rem; font-size: 0.75rem; color: var(--muted); font-style: italic;">est 2025</p>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Dashboard Page -->
-                <div id="dashboard" class="page">
-                    <div class="stats-grid" id="statsGrid"></div>
-                    <div class="cards-grid" id="cardsGrid"></div>
+                <div id="dashboard" class="page active">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">Sugeng Rawuh</h1>
+                            <p class="page-subtitle">Selamat datang di Sistem Penjadwalan Ro'an Terpadu</p>
+                        </div>
+                        <div class="date-display">
+                            <span>📅</span>
+                            <span id="todayDate"></span>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">📅</div>
+                            <div class="stat-label">Total Jadwal</div>
+                            <div class="stat-value">250+</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #047857);">👥</div>
+                            <div class="stat-label">Komplek Aktif</div>
+                            <div class="stat-value">10</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">⏰</div>
+                            <div class="stat-label">Bulan</div>
+                            <div class="stat-value">60</div>
+                        </div>
+                    </div>
+
+                    <div class="cards-grid">
+                        <div class="feature-card blue" onclick="switchPage('kubro')">
+                            <div class="card-icon">📅</div>
+                            <div class="card-title">Ro'an Jumat Kubro</div>
+                            <div class="card-desc">Jadwal lengkap ro'an besar setiap hari Jumat dengan pembagian lokasi dan komplek.</div>
+                            <div class="card-link">Lihat Jadwal →</div>
+                        </div>
+                        <div class="feature-card green" onclick="switchPage('tps')">
+                            <div class="card-icon">📋</div>
+                            <div class="card-title">Jadwal TPS</div>
+                            <div class="card-desc">Jadwal harian pembuangan sampah ke TPS untuk setiap komplek dengan sistem rotasi.</div>
+                            <div class="card-link">Cek Petugas →</div>
+                        </div>
+                        <div class="feature-card amber" onclick="switchPage('info')">
+                            <div class="card-icon">ℹ️</div>
+                            <div class="card-title">Informasi</div>
+                            <div class="card-desc">Papan pengumuman dan informasi penting terkait kegiatan ro'an dan peraturan.</div>
+                            <div class="card-link">Baca Info →</div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Roan Page -->
-                <div id="roan" class="page">
-                    <div class="filters">
-                        <div class="filter-group">
-                            <select id="kubroMonth" onchange="renderKubro()">
-                                <option value="0">Januari</option>
-                                <option value="1">Februari</option>
-                                <option value="2">Maret</option>
-                                <option value="3">April</option>
-                                <option value="4">Mei</option>
-                                <option value="5">Juni</option>
-                                <option value="6">Juli</option>
-                                <option value="7">Agustus</option>
-                                <option value="8">September</option>
-                                <option value="9">Oktober</option>
-                                <option value="10">November</option>
-                                <option value="11" selected>Desember</option>
-                            </select>
-                            <select id="kubroYear" onchange="renderKubro()">
-                                <option value="2025" selected>2025</option>
-                                <option value="2026">2026</option>
-                                <option value="2027">2027</option>
-                                <option value="2028">2028</option>
-                                <option value="2029">2029</option>
-                            </select>
+                <!-- Kubro Page -->
+                <div id="kubro" class="page">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">Ro'an Jumat Kubro</h1>
+                            <p class="page-subtitle">Jadwal pembagian lokasi ro'an besar setiap Jumat</p>
                         </div>
-                        <button class="btn btn-primary" onclick="exportKubroPDF()" style="margin-left: auto;">📥 Export PDF</button>
+                        <button class="btn-primary" onclick="exportKubroPDF()">📥 Export PDF</button>
                     </div>
-                    <div id="kubroTable"></div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="form-control">
+                                <div class="select-wrapper">
+                                    <label class="form-label">Bulan</label>
+                                    <select id="kubroMonth" onchange="renderKubro()">
+                                        <option value="0">Januari</option>
+                                        <option value="1">Februari</option>
+                                        <option value="2">Maret</option>
+                                        <option value="3">April</option>
+                                        <option value="4">Mei</option>
+                                        <option value="5">Juni</option>
+                                        <option value="6">Juli</option>
+                                        <option value="7">Agustus</option>
+                                        <option value="8">September</option>
+                                        <option value="9">Oktober</option>
+                                        <option value="10">November</option>
+                                        <option value="11" selected>Desember</option>
+                                    </select>
+                                </div>
+                                <div class="select-wrapper">
+                                    <label class="form-label">Tahun</label>
+                                    <select id="kubroYear" onchange="renderKubro()">
+                                        <option value="2025" selected>2025</option>
+                                        <option value="2026">2026</option>
+                                        <option value="2027">2027</option>
+                                        <option value="2028">2028</option>
+                                        <option value="2029">2029</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-content" id="kubroTable"></div>
+                    </div>
                 </div>
 
                 <!-- TPS Page -->
                 <div id="tps" class="page">
-                    <div class="filters">
-                        <div class="filter-group">
-                            <select id="tpsMonth" onchange="renderTPS()">
-                                <option value="0">Januari</option>
-                                <option value="1">Februari</option>
-                                <option value="2">Maret</option>
-                                <option value="3">April</option>
-                                <option value="4">Mei</option>
-                                <option value="5">Juni</option>
-                                <option value="6">Juli</option>
-                                <option value="7">Agustus</option>
-                                <option value="8">September</option>
-                                <option value="9">Oktober</option>
-                                <option value="10">November</option>
-                                <option value="11" selected>Desember</option>
-                            </select>
-                            <select id="tpsYear" onchange="renderTPS()">
-                                <option value="2025" selected>2025</option>
-                                <option value="2026">2026</option>
-                                <option value="2027">2027</option>
-                                <option value="2028">2028</option>
-                                <option value="2029">2029</option>
-                            </select>
-                            <input type="text" id="tpsSearch" placeholder="Cari Komplek..." onkeyup="renderTPS()">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">Jadwal TPS</h1>
+                            <p class="page-subtitle">Jadwal harian petugas kebersihan dengan sistem rotasi</p>
                         </div>
-                        <button class="btn btn-accent" onclick="exportTPSPDF()" style="margin-left: auto;">📥 Export PDF</button>
+                        <button class="btn-accent" onclick="exportTPSPDF()">📥 Export PDF</button>
                     </div>
-                    <div id="tpsTable"></div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="form-control">
+                                <div class="select-wrapper">
+                                    <label class="form-label">Bulan</label>
+                                    <select id="tpsMonth" onchange="renderTPS()">
+                                        <option value="0">Januari</option>
+                                        <option value="1">Februari</option>
+                                        <option value="2">Maret</option>
+                                        <option value="3">April</option>
+                                        <option value="4">Mei</option>
+                                        <option value="5">Juni</option>
+                                        <option value="6">Juli</option>
+                                        <option value="7">Agustus</option>
+                                        <option value="8">September</option>
+                                        <option value="9">Oktober</option>
+                                        <option value="10">November</option>
+                                        <option value="11" selected>Desember</option>
+                                    </select>
+                                </div>
+                                <div class="select-wrapper">
+                                    <label class="form-label">Tahun</label>
+                                    <select id="tpsYear" onchange="renderTPS()">
+                                        <option value="2025" selected>2025</option>
+                                        <option value="2026">2026</option>
+                                        <option value="2027">2027</option>
+                                        <option value="2028">2028</option>
+                                        <option value="2029">2029</option>
+                                    </select>
+                                </div>
+                                <div class="select-wrapper">
+                                    <label class="form-label">Cari</label>
+                                    <input type="text" id="tpsSearch" placeholder="Cari Komplek (Misal: A)..." onkeyup="renderTPS()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-content" id="tpsTable"></div>
+                    </div>
                 </div>
 
                 <!-- Info Page -->
                 <div id="info" class="page">
-                    <div class="info-grid">
-                        <div class="card">
-                            <div class="card-header" style="background: rgba(245, 158, 11, 0.1); padding: 1rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 1rem;">
-                                <div style="width: 48px; height: 48px; background: #fef3c7; color: #f59e0b; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">ℹ️</div>
+                    <div>
+                        <h1 class="page-title">Papan Informasi</h1>
+                        <p class="page-subtitle">Kelola pengumuman dan informasi penting untuk seluruh komunitas</p>
+                    </div>
+
+                    <div class="card" style="margin-top: 24px;">
+                        <div class="card-header">
+                            <div style="display: flex; align-items: center; gap: 16px;">
+                                <div style="width: 48px; height: 48px; background: rgba(38, 165, 154, 0.15); color: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px;">ℹ️</div>
                                 <div>
-                                    <h3 style="font-size: 1rem; margin: 0;">Isi Pengumuman</h3>
-                                    <p style="font-size: 0.75rem; color: var(--muted); margin: 0.25rem 0 0;">Tuliskan informasi penting untuk santri.</p>
-                                </div>
-                            </div>
-                            <div class="card-content" style="padding: 1.5rem;">
-                                <div class="textarea-wrapper">
-                                    <textarea id="infoText" placeholder="Contoh: Harap berkumpul di halaman masjid 15 menit sebelum ro'an dimulai..." onkeyup="updateInfoPreview()"></textarea>
-                                    <div class="char-counter"><span id="charCount">0</span> karakter</div>
-                                </div>
-                                <div class="form-actions">
-                                    <button class="btn btn-accent" onclick="saveInfo()">💾 Simpan</button>
+                                    <div class="card-title">Isi Pengumuman</div>
+                                    <p style="font-size: 12px; color: var(--muted);">Tuliskan informasi penting dan pengumuman untuk santri.</p>
                                 </div>
                             </div>
                         </div>
+                        <div class="card-content">
+                            <div class="form-group">
+                                <textarea id="infoText" placeholder="Contoh: Harap berkumpul di halaman masjid 15 menit sebelum ro'an dimulai..."></textarea>
+                                <div class="char-counter"><span id="charCount">0</span> karakter</div>
+                            </div>
+                            <div style="display: flex; justify-content: flex-end; margin-top: 16px;">
+                                <button class="btn-primary" onclick="saveInfo()">💾 Simpan Informasi</button>
+                            </div>
+                        </div>
+                    </div>
 
-                        <div>
-                            <div class="preview-title">Preview - Tampilan Pengguna</div>
-                            <div class="preview-box">
-                                <div class="preview-header">
-                                    <span>ℹ️</span>
-                                    <span style="font-weight: bold; color: var(--primary);">PENGUMUMAN PENTING</span>
-                                </div>
-                                <div id="previewContent" style="min-height: 200px; display: flex; align-items: center; justify-content: center; color: var(--muted); text-align: center;">
-                                    <p>Belum ada informasi ditampilkan</p>
-                                </div>
-                            </div>
-                            <div class="alert">
-                                <div class="alert-icon">ℹ️</div>
-                                <p>Pengumuman ini akan muncul di dashboard utama semua santri dan papan informasi digital komplek.</p>
-                            </div>
+                    <div id="previewSection" class="preview-section" style="display: none;">
+                        <h3 class="preview-title">Preview - Tampilan untuk Pengguna</h3>
+                        <div class="preview-box">
+                            <div class="preview-content" id="previewContent"></div>
                         </div>
                     </div>
                 </div>
@@ -887,8 +871,10 @@
     </div>
 
     <script>
+        // Constants
         const BULAN_NAMA = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         const HARI_NAMA = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+
         const LOKASI_NAMA = ["Lokasi 1", "Lokasi 2", "Lokasi 3", "Lokasi 4", "Lokasi 5", "Lokasi 6", "Lokasi 7", "Lokasi 8", "Lokasi 9", "Lokasi 10"];
         const KETERANGAN_LOKASI = [
             "Masjid Lt 1, 2 dan Depan perpustakaan",
@@ -906,18 +892,17 @@
         const KOMPLEK_TPS_HARIAN = ["A", "B", "C", "E", "F", "G", "H", "I", "J"];
         const KOMPLEK_TPS_JUMAT = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 
-        let kubroData = [];
-        let tpsData = [];
-
+        // Generate Data
         function generateKubroData() {
-            kubroData = [];
+            const data = [];
             let idx = 3;
             let d = new Date(2025, 11, 1);
-            const endDate = new Date(2030, 11, 31);
+            const endDate = new Date(2029, 11, 31);
+
             while (d <= endDate) {
                 if (d.getDay() === 5) {
                     for (let i = 0; i < 10; i++) {
-                        kubroData.push({
+                        data.push({
                             tgl: d.toLocaleDateString('id-ID'),
                             month: d.getMonth(),
                             year: d.getFullYear(),
@@ -930,125 +915,91 @@
                 }
                 d.setDate(d.getDate() + 1);
             }
+            return data;
         }
 
         function generateTPSData() {
-            tpsData = [];
+            const data = [];
             let dt = new Date(2025, 11, 1);
-            const endTPS = new Date(2030, 11, 31);
-            let di = 6, fi = 2;
+            const endTPS = new Date(2029, 11, 31);
+            let di = 6;
+            let fi = 2;
+
             while (dt <= endTPS) {
                 const day = dt.getDay();
                 let petugas = '';
-                if (day === 0) petugas = 'Pengurus kebersihan';
-                else if (day === 5) { petugas = KOMPLEK_TPS_JUMAT[fi % 10]; fi++; }
-                else { petugas = KOMPLEK_TPS_HARIAN[di % KOMPLEK_TPS_HARIAN.length]; di++; }
-                tpsData.push({
+
+                if (day === 0) {
+                    petugas = 'Pengurus kebersihan';
+                } else if (day === 5) {
+                    petugas = KOMPLEK_TPS_JUMAT[fi % 10];
+                    fi++;
+                } else {
+                    petugas = KOMPLEK_TPS_HARIAN[di % KOMPLEK_TPS_HARIAN.length];
+                    di++;
+                }
+
+                data.push({
                     tgl: dt.toLocaleDateString('id-ID', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '/'),
                     hari: HARI_NAMA[dt.getDay()],
                     petugas,
                     month: dt.getMonth(),
                     year: dt.getFullYear()
                 });
+
                 dt.setDate(dt.getDate() + 1);
             }
+            return data;
         }
 
-        function goPage(pageName) {
+        const kubroData = generateKubroData();
+        const tpsData = generateTPSData();
+
+        // UI Functions
+        function switchPage(pageName) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageName).classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.querySelector(`[data-page="${pageName}"]`).classList.add('active');
 
-            const homeBtn = document.getElementById('homeBtn');
-            if (pageName === 'dashboard' || pageName === 'landing') {
-                homeBtn.classList.add('hidden');
-                document.getElementById('pageTitle').textContent = pageName === 'dashboard' ? 'Sugeng Rawuh' : '';
-                document.getElementById('pageSubtitle').textContent = pageName === 'dashboard' ? 'Selamat datang di Sistem Penjadwalan Ro'an Terpadu' : '';
-            } else {
-                homeBtn.classList.remove('hidden');
-                const titles = {
-                    roan: 'Ro\'an Jumat Kubro',
-                    tps: 'Jadwal TPS',
-                    info: 'Papan Informasi'
-                };
-                const subtitles = {
-                    roan: 'Jadwal pembagian lokasi ro\'an besar setiap Jumat',
-                    tps: 'Jadwal harian petugas kebersihan dengan sistem rotasi',
-                    info: 'Kelola pengumuman dan informasi penting untuk seluruh komunitas'
-                };
-                document.getElementById('pageTitle').textContent = titles[pageName] || '';
-                document.getElementById('pageSubtitle').textContent = subtitles[pageName] || '';
-            }
-
-            if (pageName === 'dashboard') renderDashboard();
-            else if (pageName === 'roan') renderKubro();
-            else if (pageName === 'tps') renderTPS();
+            if (pageName === 'kubro') renderKubro();
+            if (pageName === 'tps') renderTPS();
+            if (pageName === 'info') loadInfo();
         }
 
-        function goHome() {
-            goPage('dashboard');
-        }
+        // Initialize
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchPage(item.dataset.page);
+            });
+        });
 
-        function toggleMenu() {
-            console.log('Menu toggled');
-        }
+        // Today's Date
+        window.addEventListener('load', () => {
+            const today = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('todayDate').textContent = today.toLocaleDateString('id-ID', options);
 
-        function renderDashboard() {
-            const stats = [
-                { label: 'Total Jadwal', value: '250+', icon: '📅', color: 'blue' },
-                { label: 'Komplek Aktif', value: '10', icon: '👥', color: 'green' },
-                { label: 'Bulan Ini', value: '60', icon: '⏰', color: 'amber' }
-            ];
-
-            document.getElementById('statsGrid').innerHTML = stats.map(stat => `
-                <div class="stat-card">
-                    <div class="stat-icon ${stat.color}">${stat.icon}</div>
-                    <div class="stat-content">
-                        <p>${stat.label}</p>
-                        <h3>${stat.value}</h3>
-                    </div>
-                </div>
-            `).join('');
-
-            const features = [
-                {
-                    title: "Ro'an Jumat Kubro",
-                    desc: "Jadwal lengkap ro'an besar setiap hari Jumat dengan pembagian lokasi dan komplek.",
-                    icon: "📅",
-                    link: "Lihat Jadwal",
-                    page: "roan",
-                    class: "blue"
-                },
-                {
-                    title: "Jadwal TPS",
-                    desc: "Jadwal harian pembuangan sampah ke TPS untuk setiap komplek dengan sistem rotasi.",
-                    icon: "📋",
-                    link: "Cek Petugas",
-                    page: "tps",
-                    class: "green"
-                },
-                {
-                    title: "Informasi",
-                    desc: "Papan pengumuman dan informasi penting terkait kegiatan ro'an dan peraturan.",
-                    icon: "ℹ️",
-                    link: "Baca Info",
-                    page: "info",
-                    class: "amber"
+            // Info page listeners
+            const infoText = document.getElementById('infoText');
+            infoText.addEventListener('keyup', (e) => {
+                document.getElementById('charCount').textContent = e.target.value.length;
+                if (e.target.value.trim()) {
+                    document.getElementById('previewSection').style.display = 'block';
+                    document.getElementById('previewContent').textContent = e.target.value;
+                } else {
+                    document.getElementById('previewSection').style.display = 'none';
                 }
-            ];
+            });
+        });
 
-            document.getElementById('cardsGrid').innerHTML = features.map(feature => `
-                <div class="feature-card ${feature.class}" onclick="goPage('${feature.page}')">
-                    <div class="feature-icon">${feature.icon}</div>
-                    <h3>${feature.title}</h3>
-                    <p>${feature.desc}</p>
-                    <div class="feature-link">${feature.link} →</div>
-                </div>
-            `).join('');
-        }
-
+        // Kubro Functions
         function renderKubro() {
             const month = parseInt(document.getElementById('kubroMonth').value);
             const year = parseInt(document.getElementById('kubroYear').value);
+
             const filtered = kubroData.filter(item => item.month === month && item.year === year);
             const grouped = {};
             filtered.forEach(item => {
@@ -1062,31 +1013,29 @@
             } else {
                 for (const date in grouped) {
                     html += `
-                        <div class="card">
-                            <div class="card-header" style="display: flex; align-items: center; gap: 0.75rem;">
-                                <div class="date-icon">📅</div>
-                                <h3 class="date-group-title">${date}</h3>
+                        <div class="date-group">
+                            <div class="date-group-header">
+                                <div class="date-icon">📍</div>
+                                <div class="date-group-title">${date}</div>
                             </div>
-                            <div class="card-content">
-                                <table>
-                                    <thead>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th style="width: 150px;">Lokasi</th>
+                                        <th>Keterangan</th>
+                                        <th style="width: 100px; text-align: center;">Komplek</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${grouped[date].map(item => `
                                         <tr>
-                                            <th>Lokasi</th>
-                                            <th>Keterangan</th>
-                                            <th style="text-align: center; width: 100px;">Komplek</th>
+                                            <td>${item.lokasi}</td>
+                                            <td>${item.keterangan}</td>
+                                            <td style="text-align: center;"><span class="komplek-badge">${item.komplek}</span></td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        ${grouped[date].map(item => `
-                                            <tr>
-                                                <td>${item.lokasi}</td>
-                                                <td>${item.keterangan}</td>
-                                                <td style="text-align: center;"><span class="komplek-badge">${item.komplek}</span></td>
-                                            </tr>
-                                        `).join('')}
-                                    </tbody>
-                                </table>
-                            </div>
+                                    `).join('')}
+                                </tbody>
+                            </table>
                         </div>
                     `;
                 }
@@ -1094,137 +1043,149 @@
             document.getElementById('kubroTable').innerHTML = html;
         }
 
+        function exportKubroPDF() {
+            const month = parseInt(document.getElementById('kubroMonth').value);
+            const year = parseInt(document.getElementById('kubroYear').value);
+
+            const filtered = kubroData.filter(item => item.month === month && item.year === year);
+            const grouped = {};
+            filtered.forEach(item => {
+                if (!grouped[item.tgl]) grouped[item.tgl] = [];
+                grouped[item.tgl].push(item);
+            });
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.setFontSize(18);
+            doc.setTextColor(38, 165, 154);
+            doc.text("JADWAL RO'AN JUMAT KUBRO", 105, 20, { align: 'center' });
+            doc.setFontSize(12);
+            doc.setTextColor(100, 100, 100);
+            doc.text(`${BULAN_NAMA[month]} ${year}`, 105, 28, { align: 'center' });
+
+            let startY = 35;
+            let pageCount = 0;
+
+            for (const date in grouped) {
+                if (pageCount > 0) {
+                    doc.addPage();
+                    startY = 20;
+                }
+                
+                doc.setFontSize(13);
+                doc.setTextColor(38, 165, 154);
+                doc.text(date, 14, startY);
+                doc.setTextColor(0, 0, 0);
+
+                doc.autoTable({
+                    startY: startY + 5,
+                    head: [["Lokasi", "Keterangan", "Komplek"]],
+                    body: grouped[date].map(d => [d.lokasi, d.keterangan, d.komplek]),
+                    theme: 'grid',
+                    headStyles: { fillColor: [38, 165, 154] },
+                });
+                pageCount++;
+            }
+
+            doc.save(`kubro_${BULAN_NAMA[month]}_${year}.pdf`);
+            showToast('PDF berhasil diunduh!');
+        }
+
+        // TPS Functions
         function renderTPS() {
             const month = parseInt(document.getElementById('tpsMonth').value);
             const year = parseInt(document.getElementById('tpsYear').value);
-            const search = document.getElementById('tpsSearch').value.toLowerCase();
-            const filtered = tpsData.filter(item =>
+            const search = document.getElementById('tpsSearch').value.toUpperCase();
+
+            let filtered = tpsData.filter(item => 
                 item.month === month && item.year === year &&
-                item.petugas.toLowerCase().includes(search)
+                (search === '' || item.petugas.toUpperCase().includes(search))
             );
 
-            const html = filtered.length === 0
-                ? '<div class="empty-state"><p>Tidak ada jadwal ditemukan.</p></div>'
-                : `
-                <div class="card">
-                    <div class="card-content">
-                        <table>
-                            <thead>
+            let html = '';
+            if (filtered.length === 0) {
+                html = '<div class="empty-state"><p>Tidak ada data ditemukan.</p></div>';
+            } else {
+                html = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 150px;">Tanggal</th>
+                                <th style="width: 120px;">Hari</th>
+                                <th>Petugas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${filtered.map(item => `
                                 <tr>
-                                    <th>Tanggal</th>
-                                    <th>Hari</th>
-                                    <th>Petugas / Komplek</th>
+                                    <td>📅 ${item.tgl}</td>
+                                    <td>${item.hari}</td>
+                                    <td><span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 24px; height: 24px; background: rgba(255, 140, 26, 0.15); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--accent);">👤</span>${item.petugas}</span></td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                ${filtered.map(item => `
-                                    <tr>
-                                        <td>${item.tgl}</td>
-                                        <td style="${item.hari === 'Jumat' ? 'color: var(--primary); font-weight: bold;' : ''}">${item.hari}</td>
-                                        <td>
-                                            ${item.petugas.length === 1
-                                                ? `<span class="komplek-badge" style="background: #d1fae5; color: #10b981; border: 1px solid #a7f3d0;">${item.petugas}</span>`
-                                                : `<span style="background: var(--muted-light); color: var(--muted); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500;">${item.petugas}</span>`
-                                            }
-                                        </td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            `;
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            }
             document.getElementById('tpsTable').innerHTML = html;
         }
 
-        function updateInfoPreview() {
-            const text = document.getElementById('infoText').value;
-            const previewContent = document.getElementById('previewContent');
-            const charCount = document.getElementById('charCount');
-            charCount.textContent = text.length;
-            if (text.trim()) {
-                previewContent.innerHTML = `<div class="preview-content">${text.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>`;
-            } else {
-                previewContent.innerHTML = '<p style="color: var(--muted); text-align: center;">Belum ada informasi ditampilkan</p>';
+        function exportTPSPDF() {
+            const month = parseInt(document.getElementById('tpsMonth').value);
+            const year = parseInt(document.getElementById('tpsYear').value);
+            const search = document.getElementById('tpsSearch').value.toUpperCase();
+
+            let filtered = tpsData.filter(item => 
+                item.month === month && item.year === year &&
+                (search === '' || item.petugas.toUpperCase().includes(search))
+            );
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.setFontSize(18);
+            doc.setTextColor(255, 140, 26);
+            doc.text("JADWAL RO'AN TPS", 105, 20, { align: 'center' });
+            doc.setFontSize(12);
+            doc.setTextColor(100, 100, 100);
+            doc.text(`${BULAN_NAMA[month]} ${year}`, 105, 28, { align: 'center' });
+
+            doc.autoTable({
+                startY: 35,
+                head: [["Tanggal", "Hari", "Petugas"]],
+                body: filtered.map(d => [d.tgl, d.hari, d.petugas]),
+                theme: 'grid',
+                headStyles: { fillColor: [255, 140, 26] },
+            });
+
+            doc.save(`tps_${BULAN_NAMA[month]}_${year}.pdf`);
+            showToast('PDF berhasil diunduh!');
+        }
+
+        // Info Functions
+        function saveInfo() {
+            const text = document.getElementById('infoText').value.trim();
+            localStorage.setItem('roanInfo', text);
+            showToast('Informasi berhasil disimpan!');
+        }
+
+        function loadInfo() {
+            const saved = localStorage.getItem('roanInfo');
+            if (saved) {
+                document.getElementById('infoText').value = saved;
+                document.getElementById('charCount').textContent = saved.length;
+                document.getElementById('previewSection').style.display = 'block';
+                document.getElementById('previewContent').textContent = saved;
             }
         }
 
-        function saveInfo() {
-            const text = document.getElementById('infoText').value;
-            if (!text.trim()) return;
-            showToast('Informasi Disimpan', 'Pengumuman telah berhasil diperbarui.');
-        }
-
-        function showToast(title, message) {
+        // Toast
+        function showToast(message) {
             const toast = document.createElement('div');
             toast.className = 'toast';
             toast.textContent = message;
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }
-
-        function exportKubroPDF() {
-            const month = document.getElementById('kubroMonth').value;
-            const year = document.getElementById('kubroYear').value;
-            const filtered = kubroData.filter(item => item.month === parseInt(month) && item.year === parseInt(year));
-
-            const doc = new window.jspdf.jsPDF();
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(20);
-            doc.text("Jadwal Ro'an Jumat Kubro", 105, 20, { align: "center" });
-
-            doc.setFontSize(12);
-            doc.setFont("helvetica", "normal");
-            doc.text(`Periode: ${BULAN_NAMA[parseInt(month)]} ${year}`, 105, 30, { align: "center" });
-
-            const tableData = filtered.map(item => [item.lokasi, item.keterangan, item.komplek]);
-            doc.autoTable({
-                startY: 40,
-                head: [["Lokasi", "Keterangan", "Komplek"]],
-                body: tableData,
-                theme: 'grid',
-                headStyles: { fillColor: [15, 118, 110] }
-            });
-
-            doc.save(`roan-kubro-${month}-${year}.pdf`);
-        }
-
-        function exportTPSPDF() {
-            const month = document.getElementById('tpsMonth').value;
-            const year = document.getElementById('tpsYear').value;
-            const filtered = tpsData.filter(item => item.month === parseInt(month) && item.year === parseInt(year));
-
-            const doc = new window.jspdf.jsPDF();
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(20);
-            doc.text("Jadwal Petugas TPS", 105, 20, { align: "center" });
-
-            doc.setFontSize(12);
-            doc.setFont("helvetica", "normal");
-            doc.text(`Periode: ${BULAN_NAMA[parseInt(month)]} ${year}`, 105, 30, { align: "center" });
-
-            const tableData = filtered.map(item => [item.tgl, item.hari, item.petugas]);
-            doc.autoTable({
-                startY: 40,
-                head: [["Tanggal", "Hari", "Petugas/Komplek"]],
-                body: tableData,
-                theme: 'grid',
-                headStyles: { fillColor: [16, 185, 129] }
-            });
-
-            doc.save(`jadwal-tps-${month}-${year}.pdf`);
-        }
-
-        // Initialize
-        window.addEventListener('load', () => {
-            const today = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('todayDate').textContent = today.toLocaleDateString('id-ID', options);
-
-            generateKubroData();
-            generateTPSData();
-            renderDashboard();
-        });
     </script>
 </body>
 </html>
