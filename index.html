@@ -4,158 +4,1227 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistem Ro'an Terpadu - PP Miftahul Huda Gading Malang</title>
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&family=Playfair+Display:wght@400..900&display=swap" rel="stylesheet">
-
-    <!-- jsPDF -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <!-- STYLE (UNCHANGED) -->
-    <!-- ⚠️ STYLE IS LONG BUT VALID — DO NOT MODIFY -->
-    <!-- (your original CSS is preserved fully) -->
-    <!-- ================================ -->
-    <!-- KEEP YOUR ORIGINAL <style> HERE -->
-    <!-- ================================ -->
+        :root {
+            --primary: #0f766e;
+            --primary-light: #e0f2f1;
+            --accent: #f59e0b;
+            --bg: #f2f7f6;
+            --card: #ffffff;
+            --border: #d1e7e5;
+            --fg: #164e48;
+            --muted: #7a8a87;
+            --muted-light: #f0f3f2;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: -0.5px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            height: 64px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            gap: 1rem;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--fg);
+        }
+
+        .header-title {
+            font-size: 1.125rem;
+            font-weight: bold;
+            font-family: 'Playfair Display', serif;
+            white-space: nowrap;
+        }
+
+        .header-subtitle {
+            font-size: 0.875rem;
+            color: var(--muted);
+            display: none;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap-reverse;
+        }
+
+        .date-display {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            border: 1px solid var(--border);
+            font-size: 0.875rem;
+        }
+
+        .btn {
+            padding: 0.625rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(15, 118, 110, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: #0d5f5a;
+            box-shadow: 0 8px 20px rgba(15, 118, 110, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        }
+
+        .btn-accent:hover {
+            background: #d97706;
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--fg);
+        }
+
+        .btn-outline:hover {
+            background: var(--muted-light);
+        }
+
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 0;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Landing Page */
+        .landing-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .landing-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(15, 118, 110, 0.05), transparent);
+            pointer-events: none;
+        }
+
+        .landing-content {
+            position: relative;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .landing-logo {
+            width: 96px;
+            height: 96px;
+            background: linear-gradient(135deg, var(--primary), #0d5f5a);
+            border-radius: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            font-family: 'Playfair Display', serif;
+            font-weight: bold;
+            margin: 0 auto 2rem;
+            box-shadow: 0 20px 40px rgba(15, 118, 110, 0.3);
+        }
+
+        .landing-title {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .landing-subtitle {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--fg);
+            margin-bottom: 1rem;
+        }
+
+        .landing-desc {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--muted);
+            font-weight: 500;
+            margin-bottom: 3rem;
+        }
+
+        .landing-btn {
+            width: 160px;
+            height: 48px;
+            font-size: 1rem;
+            border-radius: 9999px;
+            box-shadow: 0 10px 30px rgba(15, 118, 110, 0.3);
+            transition: all 0.3s;
+        }
+
+        .landing-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(15, 118, 110, 0.4);
+        }
+
+        /* Dashboard */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            border-left: 4px solid rgba(15, 118, 110, 0.2);
+        }
+
+        .stat-card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-icon.blue { background: #3b82f6; }
+        .stat-icon.green { background: #10b981; }
+        .stat-icon.amber { background: #f59e0b; }
+
+        .stat-content h3 {
+            font-size: 1.875rem;
+            font-weight: bold;
+            margin-top: 0.25rem;
+        }
+
+        .stat-content p {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .feature-card.blue { border-top-color: #3b82f6; }
+        .feature-card.green { border-top-color: #10b981; }
+        .feature-card.amber { border-top-color: #f59e0b; }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            transition: all 0.2s;
+        }
+
+        .feature-card.blue .feature-icon { background: #dbeafe; color: #3b82f6; }
+        .feature-card.green .feature-icon { background: #d1fae5; color: #10b981; }
+        .feature-card.amber .feature-icon { background: #fef3c7; color: #f59e0b; }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+        }
+
+        .feature-card h3 {
+            font-size: 1.125rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.875rem;
+            color: var(--muted);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .feature-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .feature-card.blue .feature-link { color: #3b82f6; }
+        .feature-card.green .feature-link { color: #10b981; }
+        .feature-card.amber .feature-link { color: #f59e0b; }
+
+        .feature-card:hover .feature-link {
+            transform: translateX(4px);
+        }
+
+        /* Tables */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        select, input[type="text"] {
+            padding: 0.625rem 0.75rem;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--fg);
+            border-radius: 0.5rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        select:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            background: var(--muted-light);
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-content {
+            padding: 0;
+        }
+
+        .date-group {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .date-group:last-child {
+            border-bottom: none;
+        }
+
+        .date-group-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .date-icon {
+            width: 40px;
+            height: 40px;
+            background: #dbeafe;
+            color: #3b82f6;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .date-group-title {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--muted-light);
+        }
+
+        th {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.75rem;
+            color: var(--muted);
+            border-bottom: 1px solid var(--border);
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.875rem;
+        }
+
+        tbody tr:hover {
+            background: rgba(15, 118, 110, 0.03);
+        }
+
+        .komplek-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(15, 118, 110, 0.1);
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 0.875rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--muted);
+        }
+
+        /* Info Page */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .textarea-wrapper {
+            position: relative;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.02);
+            color: var(--fg);
+            border-radius: 0.5rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.875rem;
+            resize: vertical;
+            transition: all 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--card);
+            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+        }
+
+        .char-counter {
+            font-size: 0.75rem;
+            color: var(--muted);
+            margin-top: 0.5rem;
+            text-align: right;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 1rem;
+            gap: 0.75rem;
+        }
+
+        .preview-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px dashed var(--border);
+        }
+
+        .preview-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+
+        .preview-box {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .preview-header {
+            background: rgba(15, 118, 110, 0.05);
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin: -1.5rem -1.5rem 1rem;
+            border-radius: 0.75rem 0.75rem 0 0;
+        }
+
+        .preview-content {
+            background: rgba(15, 118, 110, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 0.25rem;
+            color: var(--fg);
+            line-height: 1.8;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .alert {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-size: 0.875rem;
+            color: #1e40af;
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .alert-icon {
+            flex-shrink: 0;
+            font-size: 1.25rem;
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .main-content {
+                padding: 2rem 1rem;
+            }
+
+            .stats-grid {
+                gap: 1.5rem;
+                margin-bottom: 2.5rem;
+            }
+
+            .stat-card {
+                padding: 1.5rem;
+            }
+
+            .cards-grid {
+                gap: 2rem;
+            }
+
+            .feature-card {
+                padding: 2rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+
+            .date-display {
+                display: flex;
+            }
+
+            .header-subtitle {
+                display: block;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .nav-toggle {
+                display: block;
+            }
+
+            .date-display {
+                display: none;
+            }
+
+            .header-title {
+                font-size: 1rem;
+            }
+
+            .header-right {
+                flex-direction: column-reverse;
+            }
+
+            .landing-title {
+                font-size: 2rem;
+            }
+
+            .landing-subtitle {
+                font-size: 1.5rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            textarea {
+                min-height: 150px;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            background: var(--primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.3s ease;
+            z-index: 1000;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
 </head>
-
 <body>
-<div class="container">
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <button class="nav-toggle" onclick="toggleMenu()">☰</button>
+                <h1 class="header-title" id="pageTitle">Sugeng Rawuh</h1>
+                <p class="header-subtitle" id="pageSubtitle">Selamat datang di Sistem Penjadwalan Ro'an Terpadu</p>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-outline hidden" id="homeBtn" onclick="goHome()" style="gap: 0.5rem;">
+                    <span>🏠</span>
+                    <span>Home</span>
+                </button>
+                <div class="date-display" id="dateDisplay">
+                    <span>📅</span>
+                    <span id="todayDate"></span>
+                </div>
+            </div>
+        </header>
 
-<header>
-    <div class="header-left">
-        <button class="nav-toggle">☰</button>
-        <h1 class="header-title" id="pageTitle">Sistem Ro'an Terpadu</h1>
-        <p class="header-subtitle" id="pageSubtitle">
-            Sistem Penjadwalan Ro'an Terpadu
-        </p>
-    </div>
-    <div class="header-right">
-        <button class="btn btn-outline hidden" id="homeBtn" onclick="goHome()">🏠 Home</button>
-        <div class="date-display">
-            📅 <span id="todayDate"></span>
+        <div class="main-content">
+            <div class="content">
+                <!-- Landing Page -->
+                <div id="landing" class="page active">
+                    <div class="landing-container">
+                        <div class="landing-bg"></div>
+                        <div class="landing-content">
+                            <div class="landing-logo">R</div>
+                            <h1 class="landing-title">SISTEM RO'AN</h1>
+                            <h2 class="landing-subtitle">TERPADU</h2>
+                            <p class="landing-desc">Pondok Pesantren Miftahul Huda Gading Malang</p>
+                            <button class="btn btn-primary landing-btn" onclick="goPage('dashboard')">MULAI</button>
+                            <p style="margin-top: 5rem; font-size: 0.75rem; color: var(--muted); font-style: italic;">est 2025</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Page -->
+                <div id="dashboard" class="page">
+                    <div class="stats-grid" id="statsGrid"></div>
+                    <div class="cards-grid" id="cardsGrid"></div>
+                </div>
+
+                <!-- Roan Page -->
+                <div id="roan" class="page">
+                    <div class="filters">
+                        <div class="filter-group">
+                            <select id="kubroMonth" onchange="renderKubro()">
+                                <option value="0">Januari</option>
+                                <option value="1">Februari</option>
+                                <option value="2">Maret</option>
+                                <option value="3">April</option>
+                                <option value="4">Mei</option>
+                                <option value="5">Juni</option>
+                                <option value="6">Juli</option>
+                                <option value="7">Agustus</option>
+                                <option value="8">September</option>
+                                <option value="9">Oktober</option>
+                                <option value="10">November</option>
+                                <option value="11" selected>Desember</option>
+                            </select>
+                            <select id="kubroYear" onchange="renderKubro()">
+                                <option value="2025" selected>2025</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                                <option value="2028">2028</option>
+                                <option value="2029">2029</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" onclick="exportKubroPDF()" style="margin-left: auto;">📥 Export PDF</button>
+                    </div>
+                    <div id="kubroTable"></div>
+                </div>
+
+                <!-- TPS Page -->
+                <div id="tps" class="page">
+                    <div class="filters">
+                        <div class="filter-group">
+                            <select id="tpsMonth" onchange="renderTPS()">
+                                <option value="0">Januari</option>
+                                <option value="1">Februari</option>
+                                <option value="2">Maret</option>
+                                <option value="3">April</option>
+                                <option value="4">Mei</option>
+                                <option value="5">Juni</option>
+                                <option value="6">Juli</option>
+                                <option value="7">Agustus</option>
+                                <option value="8">September</option>
+                                <option value="9">Oktober</option>
+                                <option value="10">November</option>
+                                <option value="11" selected>Desember</option>
+                            </select>
+                            <select id="tpsYear" onchange="renderTPS()">
+                                <option value="2025" selected>2025</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                                <option value="2028">2028</option>
+                                <option value="2029">2029</option>
+                            </select>
+                            <input type="text" id="tpsSearch" placeholder="Cari Komplek..." onkeyup="renderTPS()">
+                        </div>
+                        <button class="btn btn-accent" onclick="exportTPSPDF()" style="margin-left: auto;">📥 Export PDF</button>
+                    </div>
+                    <div id="tpsTable"></div>
+                </div>
+
+                <!-- Info Page -->
+                <div id="info" class="page">
+                    <div class="info-grid">
+                        <div class="card">
+                            <div class="card-header" style="background: rgba(245, 158, 11, 0.1); padding: 1rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 1rem;">
+                                <div style="width: 48px; height: 48px; background: #fef3c7; color: #f59e0b; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">ℹ️</div>
+                                <div>
+                                    <h3 style="font-size: 1rem; margin: 0;">Isi Pengumuman</h3>
+                                    <p style="font-size: 0.75rem; color: var(--muted); margin: 0.25rem 0 0;">Tuliskan informasi penting untuk santri.</p>
+                                </div>
+                            </div>
+                            <div class="card-content" style="padding: 1.5rem;">
+                                <div class="textarea-wrapper">
+                                    <textarea id="infoText" placeholder="Contoh: Harap berkumpul di halaman masjid 15 menit sebelum ro'an dimulai..." onkeyup="updateInfoPreview()"></textarea>
+                                    <div class="char-counter"><span id="charCount">0</span> karakter</div>
+                                </div>
+                                <div class="form-actions">
+                                    <button class="btn btn-accent" onclick="saveInfo()">💾 Simpan</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="preview-title">Preview - Tampilan Pengguna</div>
+                            <div class="preview-box">
+                                <div class="preview-header">
+                                    <span>ℹ️</span>
+                                    <span style="font-weight: bold; color: var(--primary);">PENGUMUMAN PENTING</span>
+                                </div>
+                                <div id="previewContent" style="min-height: 200px; display: flex; align-items: center; justify-content: center; color: var(--muted); text-align: center;">
+                                    <p>Belum ada informasi ditampilkan</p>
+                                </div>
+                            </div>
+                            <div class="alert">
+                                <div class="alert-icon">ℹ️</div>
+                                <p>Pengumuman ini akan muncul di dashboard utama semua santri dan papan informasi digital komplek.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</header>
 
-<div class="main-content">
-<div class="content">
+    <script>
+        const BULAN_NAMA = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        const HARI_NAMA = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const LOKASI_NAMA = ["Lokasi 1", "Lokasi 2", "Lokasi 3", "Lokasi 4", "Lokasi 5", "Lokasi 6", "Lokasi 7", "Lokasi 8", "Lokasi 9", "Lokasi 10"];
+        const KETERANGAN_LOKASI = [
+            "Masjid Lt 1, 2 dan Depan perpustakaan",
+            "Jeding Masjid",
+            "Teras Ndalem Gus Minan sampai Halaqoh",
+            "Ziarah & Membersihkan Makam Klaseman",
+            "Depan Mifda + Komp. C",
+            "Madrasah Lt. 1-3, Parkiran Bawah dan Maqom",
+            "Jeding Santri dan Depan Laundry",
+            "Dapur & Jemuran",
+            "Parkiran depan dan samping DU, Teras DU & Jeding Tamu DU",
+            "Membuang sampah ke TPS & Mengepel belakang Komp. C"
+        ];
+        const KOMPLEK_KUBRO = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+        const KOMPLEK_TPS_HARIAN = ["A", "B", "C", "E", "F", "G", "H", "I", "J"];
+        const KOMPLEK_TPS_JUMAT = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 
-<!-- LANDING -->
-<div id="landing" class="page active">
-    <div class="landing-container">
-        <div class="landing-content">
-            <div class="landing-logo">R</div>
-            <h1 class="landing-title">SISTEM RO'AN</h1>
-            <h2 class="landing-subtitle">TERPADU</h2>
-            <p class="landing-desc">PP Miftahul Huda Gading Malang</p>
-            <button class="btn btn-primary landing-btn" onclick="goPage('dashboard')">MULAI</button>
-        </div>
-    </div>
-</div>
+        let kubroData = [];
+        let tpsData = [];
 
-<!-- DASHBOARD -->
-<div id="dashboard" class="page">
-    <div id="statsGrid"></div>
-    <div id="cardsGrid"></div>
-</div>
+        function generateKubroData() {
+            kubroData = [];
+            let idx = 3;
+            let d = new Date(2025, 11, 1);
+            const endDate = new Date(2030, 11, 31);
+            while (d <= endDate) {
+                if (d.getDay() === 5) {
+                    for (let i = 0; i < 10; i++) {
+                        kubroData.push({
+                            tgl: d.toLocaleDateString('id-ID'),
+                            month: d.getMonth(),
+                            year: d.getFullYear(),
+                            lokasi: LOKASI_NAMA[i],
+                            keterangan: KETERANGAN_LOKASI[i],
+                            komplek: KOMPLEK_KUBRO[(idx + i) % 10]
+                        });
+                    }
+                    idx++;
+                }
+                d.setDate(d.getDate() + 1);
+            }
+        }
 
-<!-- ROAN -->
-<div id="roan" class="page">
-    <button class="btn btn-primary" onclick="exportKubroPDF()">📥 Export PDF</button>
-    <div id="kubroTable"></div>
-</div>
+        function generateTPSData() {
+            tpsData = [];
+            let dt = new Date(2025, 11, 1);
+            const endTPS = new Date(2030, 11, 31);
+            let di = 6, fi = 2;
+            while (dt <= endTPS) {
+                const day = dt.getDay();
+                let petugas = '';
+                if (day === 0) petugas = 'Pengurus kebersihan';
+                else if (day === 5) { petugas = KOMPLEK_TPS_JUMAT[fi % 10]; fi++; }
+                else { petugas = KOMPLEK_TPS_HARIAN[di % KOMPLEK_TPS_HARIAN.length]; di++; }
+                tpsData.push({
+                    tgl: dt.toLocaleDateString('id-ID', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '/'),
+                    hari: HARI_NAMA[dt.getDay()],
+                    petugas,
+                    month: dt.getMonth(),
+                    year: dt.getFullYear()
+                });
+                dt.setDate(dt.getDate() + 1);
+            }
+        }
 
-<!-- TPS -->
-<div id="tps" class="page">
-    <button class="btn btn-accent" onclick="exportTPSPDF()">📥 Export PDF</button>
-    <div id="tpsTable"></div>
-</div>
+        function goPage(pageName) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageName).classList.add('active');
 
-<!-- INFO -->
-<div id="info" class="page">
-    <textarea id="infoText" onkeyup="updateInfoPreview()" placeholder="Tulis pengumuman..."></textarea>
-    <button class="btn btn-accent" onclick="saveInfo()">💾 Simpan</button>
-    <div id="previewContent">Belum ada informasi</div>
-</div>
+            const homeBtn = document.getElementById('homeBtn');
+            if (pageName === 'dashboard' || pageName === 'landing') {
+                homeBtn.classList.add('hidden');
+                document.getElementById('pageTitle').textContent = pageName === 'dashboard' ? 'Sugeng Rawuh' : '';
+                document.getElementById('pageSubtitle').textContent = pageName === 'dashboard' ? 'Selamat datang di Sistem Penjadwalan Ro'an Terpadu' : '';
+            } else {
+                homeBtn.classList.remove('hidden');
+                const titles = {
+                    roan: 'Ro\'an Jumat Kubro',
+                    tps: 'Jadwal TPS',
+                    info: 'Papan Informasi'
+                };
+                const subtitles = {
+                    roan: 'Jadwal pembagian lokasi ro\'an besar setiap Jumat',
+                    tps: 'Jadwal harian petugas kebersihan dengan sistem rotasi',
+                    info: 'Kelola pengumuman dan informasi penting untuk seluruh komunitas'
+                };
+                document.getElementById('pageTitle').textContent = titles[pageName] || '';
+                document.getElementById('pageSubtitle').textContent = subtitles[pageName] || '';
+            }
 
-</div>
-</div>
-</div>
+            if (pageName === 'dashboard') renderDashboard();
+            else if (pageName === 'roan') renderKubro();
+            else if (pageName === 'tps') renderTPS();
+        }
 
-<script>
-/* ======================
-   CONSTANTS
-====================== */
-const BULAN_NAMA = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-const HARI_NAMA = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+        function goHome() {
+            goPage('dashboard');
+        }
 
-let kubroData = [];
-let tpsData = [];
+        function toggleMenu() {
+            console.log('Menu toggled');
+        }
 
-/* ======================
-   NAVIGATION
-====================== */
-function goPage(page) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(page).classList.add('active');
+        function renderDashboard() {
+            const stats = [
+                { label: 'Total Jadwal', value: '250+', icon: '📅', color: 'blue' },
+                { label: 'Komplek Aktif', value: '10', icon: '👥', color: 'green' },
+                { label: 'Bulan Ini', value: '60', icon: '⏰', color: 'amber' }
+            ];
 
-    document.getElementById('homeBtn').classList.toggle('hidden', page === 'landing' || page === 'dashboard');
+            document.getElementById('statsGrid').innerHTML = stats.map(stat => `
+                <div class="stat-card">
+                    <div class="stat-icon ${stat.color}">${stat.icon}</div>
+                    <div class="stat-content">
+                        <p>${stat.label}</p>
+                        <h3>${stat.value}</h3>
+                    </div>
+                </div>
+            `).join('');
 
-    document.getElementById('pageTitle').textContent =
-        page === 'dashboard' ? 'Sugeng Rawuh' : "Sistem Ro'an Terpadu";
-}
+            const features = [
+                {
+                    title: "Ro'an Jumat Kubro",
+                    desc: "Jadwal lengkap ro'an besar setiap hari Jumat dengan pembagian lokasi dan komplek.",
+                    icon: "📅",
+                    link: "Lihat Jadwal",
+                    page: "roan",
+                    class: "blue"
+                },
+                {
+                    title: "Jadwal TPS",
+                    desc: "Jadwal harian pembuangan sampah ke TPS untuk setiap komplek dengan sistem rotasi.",
+                    icon: "📋",
+                    link: "Cek Petugas",
+                    page: "tps",
+                    class: "green"
+                },
+                {
+                    title: "Informasi",
+                    desc: "Papan pengumuman dan informasi penting terkait kegiatan ro'an dan peraturan.",
+                    icon: "ℹ️",
+                    link: "Baca Info",
+                    page: "info",
+                    class: "amber"
+                }
+            ];
 
-/* ======================
-   INFO BOARD (FIXED)
-====================== */
-function updateInfoPreview() {
-    const text = document.getElementById('infoText').value;
-    const safe = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    document.getElementById('previewContent').innerHTML =
-        safe ? `<div>${safe}</div>` : 'Belum ada informasi';
-}
+            document.getElementById('cardsGrid').innerHTML = features.map(feature => `
+                <div class="feature-card ${feature.class}" onclick="goPage('${feature.page}')">
+                    <div class="feature-icon">${feature.icon}</div>
+                    <h3>${feature.title}</h3>
+                    <p>${feature.desc}</p>
+                    <div class="feature-link">${feature.link} →</div>
+                </div>
+            `).join('');
+        }
 
-function saveInfo() {
-    const text = document.getElementById('infoText').value.trim();
-    if (!text) return;
-    localStorage.setItem('roanInfo', text);
-    updateInfoPreview();
-    alert("Informasi berhasil disimpan");
-}
+        function renderKubro() {
+            const month = parseInt(document.getElementById('kubroMonth').value);
+            const year = parseInt(document.getElementById('kubroYear').value);
+            const filtered = kubroData.filter(item => item.month === month && item.year === year);
+            const grouped = {};
+            filtered.forEach(item => {
+                if (!grouped[item.tgl]) grouped[item.tgl] = [];
+                grouped[item.tgl].push(item);
+            });
 
-/* ======================
-   PDF EXPORT (FIXED)
-====================== */
-function exportKubroPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    doc.text("Jadwal Ro'an Jumat Kubro", 105, 20, { align: "center" });
-    doc.save("roan-kubro.pdf");
-}
+            let html = '';
+            if (Object.keys(grouped).length === 0) {
+                html = '<div class="empty-state"><p>Tidak ada jadwal untuk periode ini.</p></div>';
+            } else {
+                for (const date in grouped) {
+                    html += `
+                        <div class="card">
+                            <div class="card-header" style="display: flex; align-items: center; gap: 0.75rem;">
+                                <div class="date-icon">📅</div>
+                                <h3 class="date-group-title">${date}</h3>
+                            </div>
+                            <div class="card-content">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Lokasi</th>
+                                            <th>Keterangan</th>
+                                            <th style="text-align: center; width: 100px;">Komplek</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${grouped[date].map(item => `
+                                            <tr>
+                                                <td>${item.lokasi}</td>
+                                                <td>${item.keterangan}</td>
+                                                <td style="text-align: center;"><span class="komplek-badge">${item.komplek}</span></td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            document.getElementById('kubroTable').innerHTML = html;
+        }
 
-function exportTPSPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    doc.text("Jadwal TPS", 105, 20, { align: "center" });
-    doc.save("jadwal-tps.pdf");
-}
+        function renderTPS() {
+            const month = parseInt(document.getElementById('tpsMonth').value);
+            const year = parseInt(document.getElementById('tpsYear').value);
+            const search = document.getElementById('tpsSearch').value.toLowerCase();
+            const filtered = tpsData.filter(item =>
+                item.month === month && item.year === year &&
+                item.petugas.toLowerCase().includes(search)
+            );
 
-/* ======================
-   INIT
-====================== */
-window.addEventListener('load', () => {
-    document.getElementById('todayDate').textContent =
-        new Date().toLocaleDateString('id-ID', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+            const html = filtered.length === 0
+                ? '<div class="empty-state"><p>Tidak ada jadwal ditemukan.</p></div>'
+                : `
+                <div class="card">
+                    <div class="card-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>Hari</th>
+                                    <th>Petugas / Komplek</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${filtered.map(item => `
+                                    <tr>
+                                        <td>${item.tgl}</td>
+                                        <td style="${item.hari === 'Jumat' ? 'color: var(--primary); font-weight: bold;' : ''}">${item.hari}</td>
+                                        <td>
+                                            ${item.petugas.length === 1
+                                                ? `<span class="komplek-badge" style="background: #d1fae5; color: #10b981; border: 1px solid #a7f3d0;">${item.petugas}</span>`
+                                                : `<span style="background: var(--muted-light); color: var(--muted); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500;">${item.petugas}</span>`
+                                            }
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+            document.getElementById('tpsTable').innerHTML = html;
+        }
 
-    const saved = localStorage.getItem('roanInfo');
-    if (saved) {
-        document.getElementById('infoText').value = saved;
-        updateInfoPreview();
-    }
-});
-</script>
+        function updateInfoPreview() {
+            const text = document.getElementById('infoText').value;
+            const previewContent = document.getElementById('previewContent');
+            const charCount = document.getElementById('charCount');
+            charCount.textContent = text.length;
+            if (text.trim()) {
+                previewContent.innerHTML = `<div class="preview-content">${text.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>`;
+            } else {
+                previewContent.innerHTML = '<p style="color: var(--muted); text-align: center;">Belum ada informasi ditampilkan</p>';
+            }
+        }
 
+        function saveInfo() {
+            const text = document.getElementById('infoText').value;
+            if (!text.trim()) return;
+            showToast('Informasi Disimpan', 'Pengumuman telah berhasil diperbarui.');
+        }
+
+        function showToast(title, message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        function exportKubroPDF() {
+            const month = document.getElementById('kubroMonth').value;
+            const year = document.getElementById('kubroYear').value;
+            const filtered = kubroData.filter(item => item.month === parseInt(month) && item.year === parseInt(year));
+
+            const doc = new window.jspdf.jsPDF();
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(20);
+            doc.text("Jadwal Ro'an Jumat Kubro", 105, 20, { align: "center" });
+
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "normal");
+            doc.text(`Periode: ${BULAN_NAMA[parseInt(month)]} ${year}`, 105, 30, { align: "center" });
+
+            const tableData = filtered.map(item => [item.lokasi, item.keterangan, item.komplek]);
+            doc.autoTable({
+                startY: 40,
+                head: [["Lokasi", "Keterangan", "Komplek"]],
+                body: tableData,
+                theme: 'grid',
+                headStyles: { fillColor: [15, 118, 110] }
+            });
+
+            doc.save(`roan-kubro-${month}-${year}.pdf`);
+        }
+
+        function exportTPSPDF() {
+            const month = document.getElementById('tpsMonth').value;
+            const year = document.getElementById('tpsYear').value;
+            const filtered = tpsData.filter(item => item.month === parseInt(month) && item.year === parseInt(year));
+
+            const doc = new window.jspdf.jsPDF();
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(20);
+            doc.text("Jadwal Petugas TPS", 105, 20, { align: "center" });
+
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "normal");
+            doc.text(`Periode: ${BULAN_NAMA[parseInt(month)]} ${year}`, 105, 30, { align: "center" });
+
+            const tableData = filtered.map(item => [item.tgl, item.hari, item.petugas]);
+            doc.autoTable({
+                startY: 40,
+                head: [["Tanggal", "Hari", "Petugas/Komplek"]],
+                body: tableData,
+                theme: 'grid',
+                headStyles: { fillColor: [16, 185, 129] }
+            });
+
+            doc.save(`jadwal-tps-${month}-${year}.pdf`);
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            const today = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('todayDate').textContent = today.toLocaleDateString('id-ID', options);
+
+            generateKubroData();
+            generateTPSData();
+            renderDashboard();
+        });
+    </script>
 </body>
 </html>
