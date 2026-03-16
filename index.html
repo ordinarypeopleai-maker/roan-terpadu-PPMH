@@ -2,39 +2,39 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Ro'an Terpadu</title>
+<title>Ro'an Terpadu PPMH</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-<meta name="theme-color" content="#1a1a2e">
-<meta name="description" content="Sistem Penjadwalan Ro'an PPMH">
+<meta name="theme-color" content="#1b4d3e">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <style>
 :root{
-  /* Minimalist Banking Color Palette */
-  --bg:#f5f6fa;
+  --primary:#1b4d3e;
+  --primary-dark:#0f2e25;
+  --primary-light:#2d6a56;
+  --gold:#FFD700;
+  --gold-light:#FFF176;
+  --gold-dark:#FBC02D;
+  --bg:#f5f7f6;
   --surface:#ffffff;
-  --surface-variant:#f8f9fa;
-  --primary:#1a1a2e;
-  --primary-light:#16213e;
-  --accent:#0f3460;
-  --highlight:#e94560;
-  --text-primary:#1a1a2e;
-  --text-secondary:#6c757d;
-  --text-muted:#adb5bd;
-  --border:#e9ecef;
+  --surface-variant:#f0f4f2;
+  --text-primary:#1a1a1a;
+  --text-secondary:#5a6b65;
+  --text-muted:#8a9a94;
+  --border:#e0e8e4;
   --success:#00b894;
-  --warning:#fdcb6e;
+  --danger:#e74c3c;
   --shadow-sm:0 1px 3px rgba(0,0,0,0.04);
-  --shadow:0 4px 12px rgba(0,0,0,0.05);
-  --shadow-lg:0 10px 30px rgba(0,0,0,0.08);
-  --radius-sm:8px;
-  --radius:12px;
-  --radius-lg:16px;
-  --radius-xl:24px;
+  --shadow:0 4px 12px rgba(0,0,0,0.06);
+  --shadow-lg:0 10px 30px rgba(0,0,0,0.1);
+  --radius-sm:6px;
+  --radius:10px;
+  --radius-lg:14px;
+  --radius-xl:20px;
 }
 
 *{
@@ -45,12 +45,12 @@
 }
 
 html{
-  font-size:16px;
+  font-size:15px;
   scroll-behavior:smooth;
 }
 
 body{
-  font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family:'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   background:var(--bg);
   color:var(--text-primary);
   line-height:1.5;
@@ -58,7 +58,6 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 
-/* App Container - Mobile First */
 .app-container{
   max-width:480px;
   margin:0 auto;
@@ -68,21 +67,106 @@ body{
   overflow-x:hidden;
 }
 
-/* Header - Clean & Minimal */
+/* Splash Screen */
+.splash-screen{
+  position:fixed;
+  inset:0;
+  background:var(--surface);
+  z-index:1000;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:40px 24px;
+  transition:opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.splash-screen.hidden{
+  opacity:0;
+  visibility:hidden;
+}
+
+.splash-logo-container{
+  width:280px;
+  height:280px;
+  max-width:70vw;
+  max-height:70vw;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:40px;
+  position:relative;
+}
+
+.splash-logo{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  border-radius:50%;
+  box-shadow:0 10px 40px rgba(0,0,0,0.1);
+}
+
+.splash-title{
+  color:var(--primary);
+  font-size:1.75rem;
+  font-weight:800;
+  margin-bottom:6px;
+  letter-spacing:-0.5px;
+  text-align:center;
+}
+
+.splash-subtitle{
+  color:var(--text-secondary);
+  font-size:0.9375rem;
+  font-weight:500;
+  margin-bottom:48px;
+  text-align:center;
+}
+
+.btn-masuk{
+  width:100%;
+  max-width:280px;
+  padding:16px 32px;
+  background:linear-gradient(135deg, var(--primary), var(--primary-light));
+  color:#fff;
+  border:none;
+  border-radius:var(--radius);
+  font-family:inherit;
+  font-size:1rem;
+  font-weight:700;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  box-shadow:0 4px 20px rgba(27,77,62,0.3);
+  transition:all 0.3s ease;
+}
+
+.btn-masuk:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 25px rgba(27,77,62,0.4);
+}
+
+.btn-masuk:active{
+  transform:scale(0.98);
+}
+
+/* App Header */
 .app-header{
   background:linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   color:#fff;
-  padding:24px 20px 32px;
+  padding:16px;
   position:relative;
   border-radius:0 0 var(--radius-xl) var(--radius-xl);
-  margin-bottom:20px;
+  margin-bottom:16px;
 }
 
 .header-top{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:24px;
+  margin-bottom:16px;
 }
 
 .logo{
@@ -91,21 +175,18 @@ body{
   gap:12px;
 }
 
-.logo-icon{
-  width:40px;
-  height:40px;
-  background:rgba(255,255,255,0.15);
-  border-radius:var(--radius);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:1.25rem;
-  backdrop-filter:blur(10px);
+.logo-img{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid var(--gold);
+  box-shadow:0 2px 8px rgba(0,0,0,0.2);
 }
 
 .logo-text{
-  font-size:1.25rem;
-  font-weight:700;
+  font-size:1.125rem;
+  font-weight:800;
   letter-spacing:-0.5px;
 }
 
@@ -125,19 +206,20 @@ body{
 
 .header-action:hover{
   background:rgba(255,255,255,0.2);
+  transform:rotate(15deg);
 }
 
 .greeting{
-  font-size:0.875rem;
+  font-size:0.8125rem;
   opacity:0.9;
-  margin-bottom:4px;
+  margin-bottom:2px;
   font-weight:400;
 }
 
 .user-name{
-  font-size:1.5rem;
+  font-size:1.25rem;
   font-weight:700;
-  letter-spacing:-0.5px;
+  letter-spacing:-0.3px;
 }
 
 /* Main Content */
@@ -145,109 +227,177 @@ body{
   padding:0 16px 100px;
 }
 
-/* Section Title */
-.section-title{
-  font-size:0.8125rem;
-  font-weight:600;
-  color:var(--text-secondary);
-  text-transform:uppercase;
-  letter-spacing:0.5px;
-  margin:24px 0 12px;
-  padding-left:4px;
-}
-
-/* Quick Actions - Grid */
-.quick-actions{
-  display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  gap:12px;
-  margin-bottom:8px;
-}
-
-.action-btn{
-  background:var(--surface);
-  border:none;
-  border-radius:var(--radius);
-  padding:16px 8px;
+/* Dashboard Grid */
+.dashboard-grid{
   display:flex;
   flex-direction:column;
-  align-items:center;
-  gap:8px;
-  cursor:pointer;
-  transition:all 0.2s;
-  box-shadow:var(--shadow-sm);
-  position:relative;
-  overflow:hidden;
+  gap:12px;
 }
 
-.action-btn::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  background:linear-gradient(135deg, var(--primary), var(--accent));
-  opacity:0;
-  transition:opacity 0.3s;
-}
-
-.action-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:var(--shadow);
-}
-
-.action-btn:hover::before{
-  opacity:1;
-}
-
-.action-btn:hover .action-icon,
-.action-btn:hover .action-label{
-  color:#fff;
-  position:relative;
-  z-index:1;
-}
-
-.action-icon{
-  width:44px;
-  height:44px;
-  background:var(--bg);
-  border-radius:var(--radius);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:1.25rem;
-  color:var(--primary);
-  transition:all 0.3s;
-  position:relative;
-  z-index:1;
-}
-
-.action-label{
-  font-size:0.75rem;
-  font-weight:600;
-  color:var(--text-primary);
-  transition:all 0.3s;
-  position:relative;
-  z-index:1;
-}
-
-/* Cards - Clean Design */
+/* Compact Card */
 .card{
   background:var(--surface);
   border-radius:var(--radius-lg);
-  padding:20px;
-  margin-bottom:16px;
+  padding:16px;
   box-shadow:var(--shadow-sm);
   border:1px solid var(--border);
 }
 
-.card-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:16px;
+/* Countdown Section */
+.countdown-wrap{
+  background:linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+  border-radius:var(--radius-lg);
+  padding:16px;
+  color:var(--primary-dark);
 }
 
-.card-title{
+.countdown-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+.countdown-icon{
+  width:36px;
+  height:36px;
+  background:rgba(255,255,255,0.25);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   font-size:1rem;
+}
+
+.countdown-title{
+  font-size:0.9375rem;
+  font-weight:700;
+}
+
+.countdown-subtitle{
+  font-size:0.75rem;
+  opacity:0.9;
+  margin-top:1px;
+}
+
+.countdown-timer{
+  display:flex;
+  gap:8px;
+  margin-bottom:12px;
+}
+
+.countdown-item{
+  flex:1;
+  background:rgba(255,255,255,0.2);
+  border-radius:var(--radius-sm);
+  padding:10px 4px;
+  text-align:center;
+}
+
+.countdown-number{
+  font-size:1.5rem;
+  font-weight:800;
+  display:block;
+  line-height:1;
+}
+
+.countdown-label{
+  font-size:0.625rem;
+  font-weight:600;
+  opacity:0.9;
+  margin-top:2px;
+  text-transform:uppercase;
+}
+
+.countdown-date{
+  font-size:0.8125rem;
+  font-weight:600;
+  text-align:center;
+  background:rgba(255,255,255,0.15);
+  padding:8px;
+  border-radius:var(--radius-sm);
+}
+
+/* Info Row */
+.info-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.info-card{
+  background:var(--surface);
+  border-radius:var(--radius);
+  padding:14px;
+  border:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.info-icon{
+  width:36px;
+  height:36px;
+  background:linear-gradient(135deg, var(--primary), var(--primary-light));
+  border-radius:var(--radius-sm);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--gold);
+  font-size:1rem;
+}
+
+.info-icon.gold{
+  background:linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color:var(--primary-dark);
+}
+
+.info-label{
+  font-size:0.6875rem;
+  font-weight:700;
+  color:var(--text-secondary);
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+}
+
+.info-value{
+  font-size:0.9375rem;
+  font-weight:700;
+  color:var(--text-primary);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.info-badge{
+  font-size:0.625rem;
+  font-weight:700;
+  padding:4px 10px;
+  border-radius:20px;
+  background:rgba(27,77,62,0.1);
+  color:var(--primary);
+  width:fit-content;
+}
+
+/* Jadwal Section */
+.jadwal-section{
+  background:var(--surface);
+  border-radius:var(--radius-lg);
+  padding:16px;
+  border:1px solid var(--border);
+}
+
+.section-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:14px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--border);
+}
+
+.section-title{
+  font-size:0.875rem;
   font-weight:700;
   color:var(--text-primary);
   display:flex;
@@ -255,75 +405,142 @@ body{
   gap:8px;
 }
 
-.card-icon{
-  width:32px;
-  height:32px;
-  background:var(--bg);
-  border-radius:var(--radius-sm);
+.section-title i{
+  color:var(--gold);
+  font-size:1rem;
+}
+
+.section-date{
+  font-size:0.75rem;
+  font-weight:600;
+  color:var(--text-secondary);
+  background:var(--surface-variant);
+  padding:6px 12px;
+  border-radius:20px;
+}
+
+/* Jadwal List */
+.jadwal-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.jadwal-item{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  padding:12px;
+  background:var(--surface-variant);
+  border-radius:var(--radius);
+  border-left:3px solid var(--primary);
+}
+
+.jadwal-item:nth-child(1){
+  border-left-color:var(--gold);
+  background:linear-gradient(135deg, rgba(255,215,0,0.08), var(--surface-variant));
+}
+
+.jadwal-num{
+  width:28px;
+  height:28px;
+  background:var(--surface);
+  border-radius:50%;
   display:flex;
   align-items:center;
   justify-content:center;
+  font-size:0.75rem;
+  font-weight:700;
   color:var(--primary);
-  font-size:0.875rem;
+  flex-shrink:0;
+  border:1px solid var(--border);
+  margin-top:2px;
 }
 
-.card-action{
-  font-size:0.8125rem;
-  color:var(--highlight);
-  font-weight:600;
-  background:none;
+.jadwal-item:nth-child(1) .jadwal-num{
+  background:linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color:var(--primary-dark);
   border:none;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  gap:4px;
 }
 
-/* Form Controls - Minimal */
-.form-group{
+.jadwal-content{
+  flex:1;
+  min-width:0;
+}
+
+.jadwal-lokasi{
+  font-size:0.875rem;
+  font-weight:700;
+  color:var(--text-primary);
+  margin-bottom:3px;
+}
+
+.jadwal-detail{
+  font-size:0.8125rem;
+  color:var(--text-secondary);
+  line-height:1.4;
+}
+
+.jadwal-komplek{
+  padding:6px 12px;
+  background:var(--primary);
+  color:#fff;
+  border-radius:20px;
+  font-size:0.75rem;
+  font-weight:700;
+  flex-shrink:0;
+  margin-top:2px;
+}
+
+.jadwal-item:nth-child(1) .jadwal-komplek{
+  background:linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color:var(--primary-dark);
+}
+
+/* Page Header */
+.page-header{
   margin-bottom:16px;
 }
 
-.form-label{
-  display:block;
+.page-title{
+  font-size:1.125rem;
+  font-weight:800;
+  color:var(--primary);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:4px;
+}
+
+.page-title i{
+  color:var(--gold);
+  font-size:1.25rem;
+}
+
+.page-period{
   font-size:0.8125rem;
-  font-weight:600;
   color:var(--text-secondary);
-  margin-bottom:6px;
-  text-transform:uppercase;
-  letter-spacing:0.3px;
+  font-weight:500;
+  display:flex;
+  align-items:center;
+  gap:6px;
 }
 
-select, input{
-  width:100%;
-  padding:14px 16px;
-  border:1.5px solid var(--border);
-  border-radius:var(--radius);
-  font-family:inherit;
-  font-size:0.9375rem;
-  background:var(--surface);
-  color:var(--text-primary);
-  transition:all 0.2s;
-  appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236c757d' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;
-  background-position:right 16px center;
-  padding-right:40px;
+.page-period::before{
+  content:'';
+  width:8px;
+  height:8px;
+  background:var(--success);
+  border-radius:50%;
 }
 
-select:focus, input:focus{
-  outline:none;
-  border-color:var(--primary);
-  box-shadow:0 0 0 3px rgba(26,26,46,0.08);
-}
-
-/* Buttons - Pill Style */
+/* Buttons */
 .btn{
   width:100%;
-  padding:14px 24px;
+  padding:12px 20px;
   border-radius:var(--radius);
   font-family:inherit;
-  font-size:0.9375rem;
+  font-size:0.875rem;
   font-weight:600;
   cursor:pointer;
   border:none;
@@ -339,159 +556,276 @@ select:focus, input:focus{
 }
 
 .btn-primary{
-  background:var(--primary);
+  background:linear-gradient(135deg, var(--primary), var(--primary-light));
   color:#fff;
-}
-
-.btn-primary:hover{
-  background:var(--primary-light);
-  box-shadow:0 4px 12px rgba(26,26,46,0.25);
 }
 
 .btn-secondary{
   background:var(--surface);
   color:var(--primary);
-  border:1.5px solid var(--border);
+  border:1.5px solid var(--primary);
 }
 
 .btn-secondary:hover{
-  border-color:var(--primary);
-  background:var(--bg);
+  background:var(--primary);
+  color:#fff;
+}
+
+.btn-gold{
+  background:linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color:var(--primary-dark);
+  font-weight:700;
 }
 
 .btn-text{
   background:none;
   color:var(--text-secondary);
-  font-size:0.875rem;
+  font-size:0.8125rem;
   padding:8px;
   width:auto;
-  margin-bottom:16px;
+  margin-bottom:12px;
+  justify-content:flex-start;
 }
 
-.btn-text:hover{
-  color:var(--text-primary);
-}
-
-/* Schedule List - Clean */
-.schedule-list{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-
-.schedule-item{
-  background:var(--surface-variant);
-  border-radius:var(--radius);
-  padding:16px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  transition:all 0.2s;
-  border:1px solid transparent;
-}
-
-.schedule-item:hover{
-  border-color:var(--border);
-  transform:translateX(4px);
-}
-
-.schedule-date{
-  min-width:60px;
-  text-align:center;
-}
-
-.schedule-day{
-  font-size:0.75rem;
-  font-weight:600;
-  color:var(--text-secondary);
-  text-transform:uppercase;
-}
-
-.schedule-num{
-  font-size:1.5rem;
-  font-weight:700;
-  color:var(--primary);
-  line-height:1;
-}
-
-.schedule-content{
-  flex:1;
-}
-
-.schedule-title{
-  font-size:0.9375rem;
-  font-weight:600;
-  color:var(--text-primary);
-  margin-bottom:2px;
-}
-
-.schedule-subtitle{
-  font-size:0.8125rem;
-  color:var(--text-secondary);
-}
-
-.schedule-badge{
-  padding:6px 12px;
-  border-radius:20px;
-  font-size:0.75rem;
-  font-weight:700;
-  background:var(--primary);
+.btn-add{
+  background:linear-gradient(135deg, var(--success), #00a383);
   color:#fff;
 }
 
-.schedule-badge.gold{
-  background:linear-gradient(135deg, #ffd700, #ffb700);
-  color:#1a1a2e;
+.btn-danger{
+  background:linear-gradient(135deg, var(--danger), #c0392b);
+  color:#fff;
 }
 
-/* Table - Minimal */
-.table-container{
-  overflow-x:auto;
-  margin:0 -20px;
-  padding:0 20px;
+.btn-sm{
+  padding:8px 16px;
+  font-size:0.8125rem;
+}
+
+/* Table */
+.table-wrap{
+  background:var(--surface);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  border:1px solid var(--border);
 }
 
 table{
   width:100%;
-  border-collapse:separate;
-  border-spacing:0;
-  font-size:0.875rem;
+  border-collapse:collapse;
+  font-size:0.8125rem;
 }
 
 th{
   text-align:left;
-  padding:12px 8px;
+  padding:12px;
   font-weight:600;
   color:var(--text-secondary);
-  font-size:0.75rem;
+  font-size:0.6875rem;
   text-transform:uppercase;
   letter-spacing:0.5px;
-  border-bottom:2px solid var(--border);
-  white-space:nowrap;
+  background:var(--surface-variant);
+  border-bottom:1px solid var(--border);
 }
 
 td{
-  padding:16px 8px;
+  padding:12px;
   border-bottom:1px solid var(--border);
   color:var(--text-primary);
   font-weight:500;
 }
 
 tr:hover td{
-  background:var(--surface-variant);
+  background:rgba(27,77,62,0.02);
 }
 
-.date-header{
+tr:last-child td{
+  border-bottom:none;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:4px 10px;
+  border-radius:20px;
+  font-size:0.6875rem;
+  font-weight:700;
+}
+
+.badge-primary{
   background:var(--primary);
   color:#fff;
+}
+
+.badge-gold{
+  background:linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color:var(--primary-dark);
+}
+
+.badge-light{
+  background:var(--surface-variant);
+  color:var(--text-secondary);
+  border:1px solid var(--border);
+}
+
+/* Date Header */
+.date-header{
+  background:linear-gradient(135deg, var(--primary), var(--primary-light));
+  color:#fff;
   font-weight:700;
-  padding:12px 16px;
+  padding:10px 14px;
   border-radius:var(--radius);
-  margin:16px 0 8px;
-  font-size:0.9375rem;
+  margin:12px 0 8px;
+  font-size:0.8125rem;
   display:flex;
   align-items:center;
   gap:8px;
+}
+
+/* Notes */
+.notes-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.note-item{
+  background:var(--surface);
+  border-radius:var(--radius);
+  padding:14px;
+  border-left:3px solid var(--gold);
+  box-shadow:var(--shadow-sm);
+}
+
+.note-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:6px;
+  gap:8px;
+}
+
+.note-title{
+  font-size:0.9375rem;
+  font-weight:700;
+  color:var(--text-primary);
+  flex:1;
+}
+
+.note-date{
+  font-size:0.6875rem;
+  color:var(--text-muted);
+  font-weight:600;
+  flex-shrink:0;
+}
+
+.note-content{
+  font-size:0.8125rem;
+  color:var(--text-secondary);
+  line-height:1.5;
+  margin-bottom:8px;
+}
+
+.note-file{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 12px;
+  background:var(--surface-variant);
+  border-radius:var(--radius-sm);
+  font-size:0.75rem;
+  color:var(--primary);
+  font-weight:600;
+  text-decoration:none;
+  border:1px solid var(--border);
+}
+
+/* File Upload */
+.file-upload{
+  position:relative;
+  margin-bottom:12px;
+}
+
+.file-input{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  cursor:pointer;
+  z-index:2;
+}
+
+.file-label{
+  padding:20px;
+  border:2px dashed var(--border);
+  border-radius:var(--radius);
+  text-align:center;
+  color:var(--text-secondary);
+  transition:all 0.2s;
+  background:var(--surface-variant);
+}
+
+.file-label i{
+  font-size:1.5rem;
+  margin-bottom:8px;
+  display:block;
+  color:var(--primary);
+}
+
+.file-name{
+  font-size:0.8125rem;
+  color:var(--text-primary);
+  font-weight:600;
+  margin-top:8px;
+  padding:8px 12px;
+  background:var(--surface);
+  border-radius:var(--radius-sm);
+  display:none;
+  align-items:center;
+  gap:8px;
+  border:1px solid var(--border);
+}
+
+.file-name.show{
+  display:flex;
+}
+
+/* Form */
+.form-group{
+  margin-bottom:14px;
+}
+
+.form-label{
+  display:block;
+  font-size:0.6875rem;
+  font-weight:700;
+  color:var(--text-secondary);
+  margin-bottom:5px;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+}
+
+input, textarea{
+  width:100%;
+  padding:12px 14px;
+  border:1.5px solid var(--border);
+  border-radius:var(--radius);
+  font-family:inherit;
+  font-size:0.875rem;
+  background:var(--surface);
+  color:var(--text-primary);
+  transition:all 0.2s;
+}
+
+input:focus, textarea:focus{
+  outline:none;
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(27,77,62,0.08);
+}
+
+textarea{
+  resize:vertical;
+  min-height:100px;
 }
 
 /* Bottom Navigation */
@@ -504,7 +838,7 @@ tr:hover td{
   max-width:480px;
   background:var(--surface);
   border-top:1px solid var(--border);
-  padding:12px 24px calc(12px + env(safe-area-inset-bottom));
+  padding:10px 20px calc(10px + env(safe-area-inset-bottom));
   display:flex;
   justify-content:space-around;
   align-items:center;
@@ -516,29 +850,35 @@ tr:hover td{
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:4px;
+  gap:3px;
   background:none;
   border:none;
   color:var(--text-muted);
   font-size:0.625rem;
   font-weight:600;
   cursor:pointer;
-  transition:all 0.2s;
-  padding:4px 12px;
+  transition:all 0.3s ease;
+  padding:6px 16px;
+  border-radius:var(--radius);
+}
+
+.nav-item:hover{
+  color:var(--primary);
 }
 
 .nav-item.active{
   color:var(--primary);
+  background:rgba(27,77,62,0.08);
 }
 
 .nav-item i{
-  font-size:1.25rem;
+  font-size:1.125rem;
 }
 
 /* Page Transitions */
 .page{
   display:none;
-  animation:fadeIn 0.3s ease;
+  animation:fadeIn 0.4s ease;
 }
 
 .page.active{
@@ -546,130 +886,115 @@ tr:hover td{
 }
 
 @keyframes fadeIn{
-  from{opacity:0;transform:translateY(10px);}
+  from{opacity:0;transform:translateY(15px);}
   to{opacity:1;transform:translateY(0);}
 }
 
-/* Empty State */
-.empty-state{
-  text-align:center;
-  padding:40px 20px;
-  color:var(--text-muted);
-}
-
-.empty-state i{
-  font-size:3rem;
-  margin-bottom:16px;
-  opacity:0.3;
-}
-
-.empty-state p{
-  font-size:0.9375rem;
-}
-
-/* Modal/Sheet */
-.sheet{
+/* Modal */
+.modal-overlay{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.5);
-  z-index:200;
+  background:rgba(0,0,0,0.6);
+  z-index:500;
   display:none;
-  align-items:flex-end;
+  align-items:center;
   justify-content:center;
+  padding:20px;
   opacity:0;
   transition:opacity 0.3s;
+  backdrop-filter:blur(4px);
 }
 
-.sheet.active{
+.modal-overlay.show{
   display:flex;
   opacity:1;
 }
 
-.sheet-content{
+.modal{
   background:var(--surface);
-  width:100%;
-  max-width:480px;
-  border-radius:var(--radius-xl) var(--radius-xl) 0 0;
+  border-radius:var(--radius-lg);
   padding:24px;
-  transform:translateY(100%);
-  transition:transform 0.3s;
-  max-height:90vh;
-  overflow-y:auto;
+  width:100%;
+  max-width:360px;
+  transform:scale(0.9) translateY(20px);
+  transition:all 0.3s ease;
+  box-shadow:var(--shadow-lg);
 }
 
-.sheet.active .sheet-content{
-  transform:translateY(0);
+.modal-overlay.show .modal{
+  transform:scale(1) translateY(0);
 }
 
-.sheet-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:24px;
-}
-
-.sheet-title{
-  font-size:1.125rem;
-  font-weight:700;
-}
-
-.sheet-close{
-  width:32px;
-  height:32px;
+.modal-icon{
+  width:56px;
+  height:56px;
   border-radius:50%;
-  background:var(--bg);
-  border:none;
   display:flex;
   align-items:center;
   justify-content:center;
-  cursor:pointer;
-  color:var(--text-secondary);
+  font-size:1.75rem;
+  margin:0 auto 16px;
 }
 
-/* Info Card */
-.info-card{
-  background:linear-gradient(135deg, #fff9e6, #fff3cd);
-  border-radius:var(--radius);
-  padding:16px;
-  margin-bottom:20px;
-  border-left:4px solid var(--warning);
+.modal-icon.success{
+  background:rgba(0,184,148,0.1);
+  color:var(--success);
 }
 
-.info-card-title{
-  font-size:0.875rem;
+.modal-icon.error{
+  background:rgba(231,76,60,0.1);
+  color:var(--danger);
+}
+
+.modal-icon.warning{
+  background:rgba(253,203,110,0.2);
+  color:#e67e22;
+}
+
+.modal-title{
+  font-size:1.125rem;
   font-weight:700;
-  color:#856404;
-  margin-bottom:4px;
-  display:flex;
-  align-items:center;
-  gap:6px;
+  text-align:center;
+  margin-bottom:8px;
+  color:var(--text-primary);
 }
 
-.info-card-text{
-  font-size:0.8125rem;
-  color:#856404;
+.modal-text{
+  font-size:0.875rem;
+  color:var(--text-secondary);
+  text-align:center;
+  margin-bottom:20px;
   line-height:1.5;
 }
 
-/* Toast Notification */
+.modal-actions{
+  display:flex;
+  gap:12px;
+}
+
+.modal-actions .btn{
+  flex:1;
+}
+
+/* Toast */
 .toast{
   position:fixed;
-  bottom:100px;
+  top:20px;
   left:50%;
-  transform:translateX(-50%) translateY(100px);
-  background:var(--primary);
-  color:#fff;
-  padding:12px 24px;
+  transform:translateX(-50%) translateY(-100px);
+  padding:14px 24px;
   border-radius:var(--radius);
   font-size:0.875rem;
-  font-weight:500;
+  font-weight:600;
   box-shadow:var(--shadow-lg);
   opacity:0;
-  transition:all 0.3s;
-  z-index:300;
+  transition:all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  z-index:600;
   display:flex;
   align-items:center;
-  gap:8px;
+  gap:10px;
+  min-width:280px;
+  max-width:90%;
 }
 
 .toast.show{
@@ -677,11 +1002,38 @@ tr:hover td{
   transform:translateX(-50%) translateY(0);
 }
 
+.toast.success{
+  background:var(--success);
+  color:#fff;
+}
+
+.toast.error{
+  background:var(--danger);
+  color:#fff;
+}
+
+/* Empty State */
+.empty-state{
+  text-align:center;
+  padding:32px 20px;
+  color:var(--text-muted);
+}
+
+.empty-state i{
+  font-size:2.5rem;
+  margin-bottom:12px;
+  opacity:0.4;
+}
+
+.empty-state p{
+  font-size:0.875rem;
+}
+
 /* Loading */
 .loading{
   display:inline-block;
-  width:20px;
-  height:20px;
+  width:18px;
+  height:18px;
   border:2px solid rgba(255,255,255,0.3);
   border-top-color:#fff;
   border-radius:50%;
@@ -692,337 +1044,473 @@ tr:hover td{
   to{transform:rotate(360deg);}
 }
 
-/* Desktop Optimization */
+/* Info Banner */
+.info-banner{
+  background:linear-gradient(135deg, rgba(27,77,62,0.05), rgba(255,215,0,0.05));
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:12px;
+  margin-bottom:14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:0.8125rem;
+  color:var(--text-secondary);
+}
+
+.info-banner i{
+  color:var(--gold);
+  font-size:1rem;
+}
+
+/* Desktop */
 @media(min-width:768px){
   .app-container{
-    max-width:600px;
-    box-shadow:0 0 40px rgba(0,0,0,0.1);
+    max-width:480px;
+    box-shadow:0 0 40px rgba(0,0,0,0.08);
   }
   
-  .main-content{
-    padding:0 24px 100px;
+  .splash-logo-container{
+    width:320px;
+    height:320px;
   }
 }
 
 /* Print */
 @media print{
-  .bottom-nav, .app-header, .btn{display:none;}
+  .bottom-nav, .app-header, .btn, .splash-screen, .modal-overlay{display:none;}
   .page{display:block !important;}
   .card{box-shadow:none; border:1px solid #ddd;}
+  body{background:#fff;}
 }
 </style>
 </head>
 <body>
 <div class="app-container">
-  <!-- Header -->
-  <header class="app-header">
-    <div class="header-top">
-      <div class="logo">
-        <div class="logo-icon">
-          <i class="fas fa-mosque"></i>
-        </div>
-        <span class="logo-text">Ro'an</span>
-      </div>
-      <button class="header-action" onclick="showInfo()" title="Informasi">
-        <i class="fas fa-info"></i>
-      </button>
+  <!-- Splash Screen -->
+  <div id="splash" class="splash-screen">
+    <div class="splash-logo-container">
+      <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b50293fdba0b58d437ab54/1fa3763b8_ChatGPTImage12Mar2026141730.png" alt="Logo Kebersihan PPMH" class="splash-logo" id="splashLogoImg" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'font-size:5rem;\'>🕌</div>';">
     </div>
-    <div class="greeting">Selamat Datang,</div>
-    <div class="user-name">Sistem Ro'an PPMH</div>
-  </header>
+    <h1 class="splash-title">Ro'an Terpadu</h1>
+    <p class="splash-subtitle">Sistem Manajemen Kebersihan PPMH</p>
+    <button class="btn-masuk" onclick="enterApp()">
+      <span>Masuk</span>
+      <i class="fas fa-arrow-right"></i>
+    </button>
+  </div>
 
-  <!-- Main Content -->
-  <main class="main-content">
-    <!-- Home Page -->
-    <div id="home" class="page active">
-      <div class="section-title">Menu Utama</div>
-      <div class="quick-actions">
-        <button class="action-btn" onclick="showPage('kubro')">
-          <div class="action-icon">
+  <!-- App Content -->
+  <div id="appContent" style="display:none;">
+    <!-- Header dengan Logo -->
+    <header class="app-header">
+      <div class="header-top">
+        <div class="logo">
+          <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b50293fdba0b58d437ab54/1fa3763b8_ChatGPTImage12Mar2026141730.png" alt="Logo" class="logo-img" id="headerLogoImg" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'logo-icon\' style=\'width:44px;height:44px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.5rem;border:2px solid var(--gold);box-shadow:0 2px 8px rgba(0,0,0,0.2);\'>🕌</div><span class=\'logo-text\'>Ro\'an</span>';">
+          <span class="logo-text">Ro'an</span>
+        </div>
+        <button class="header-action" onclick="showPage('catatan')">
+          <i class="fas fa-sticky-note"></i>
+        </button>
+      </div>
+      <div class="greeting">Selamat Datang,</div>
+      <div class="user-name">Sistem Ro'an PPMH</div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Home Page -->
+      <div id="home" class="page active">
+        <div class="dashboard-grid">
+          <!-- Countdown -->
+          <div class="countdown-wrap">
+            <div class="countdown-header">
+              <div class="countdown-icon">
+                <i class="fas fa-mosque"></i>
+              </div>
+              <div>
+                <div class="countdown-title">Jumat Kubro Terdekat</div>
+                <div class="countdown-subtitle">Menuju jadwal kebersihan masjid</div>
+              </div>
+            </div>
+            <div class="countdown-timer">
+              <div class="countdown-item">
+                <span class="countdown-number" id="cdDays">0</span>
+                <span class="countdown-label">Hari</span>
+              </div>
+              <div class="countdown-item">
+                <span class="countdown-number" id="cdHours">0</span>
+                <span class="countdown-label">Jam</span>
+              </div>
+              <div class="countdown-item">
+                <span class="countdown-number" id="cdMinutes">0</span>
+                <span class="countdown-label">Menit</span>
+              </div>
+              <div class="countdown-item">
+                <span class="countdown-number" id="cdSeconds">0</span>
+                <span class="countdown-label">Detik</span>
+              </div>
+            </div>
+            <div class="countdown-date" id="nextJumatDate">Memuat...</div>
+          </div>
+
+          <!-- Info Row -->
+          <div class="info-row">
+            <div class="info-card">
+              <div class="info-icon">
+                <i class="fas fa-trash-alt"></i>
+              </div>
+              <div class="info-label">Ro'an TPS Hari Ini</div>
+              <div class="info-value" id="tpsToday">Memuat...</div>
+              <span class="info-badge" id="tpsBadge">Hari Ini</span>
+            </div>
+            <div class="info-card">
+              <div class="info-icon gold">
+                <i class="fas fa-calendar-alt"></i>
+              </div>
+              <div class="info-label">Periode Aktif</div>
+              <div class="info-value" id="currentPeriod">-</div>
+              <span class="info-badge" style="background:rgba(255,215,0,0.15); color:var(--gold-dark);">Aktif</span>
+            </div>
+          </div>
+
+          <!-- Jadwal Jumat Kubro -->
+          <div class="jadwal-section">
+            <div class="section-header">
+              <div class="section-title">
+                <i class="fas fa-list"></i>
+                Jadwal Jumat Kubro Mendatang
+              </div>
+              <span class="section-date" id="jumatDate">-</span>
+            </div>
+            <div class="jadwal-list" id="nextJumatSchedule"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kubro Page -->
+      <div id="kubro" class="page">
+        <button class="btn btn-text" onclick="showPage('home')">
+          <i class="fas fa-arrow-left"></i> Kembali
+        </button>
+        
+        <div class="page-header">
+          <div class="page-title">
             <i class="fas fa-calendar-week"></i>
+            Jadwal Jumat Kubro
           </div>
-          <span class="action-label">Jumat Kubro</span>
+          <div class="page-period" id="kubroPeriod">Periode -</div>
+        </div>
+
+        <div class="card" style="padding:12px; margin-bottom:14px;">
+          <button class="btn btn-secondary btn-sm" onclick="exportKubroPDF()" style="width:auto; margin:0 auto;">
+            <i class="fas fa-file-pdf"></i> Export PDF
+          </button>
+        </div>
+
+        <div id="kubroList"></div>
+      </div>
+
+      <!-- TPS Page -->
+      <div id="tps" class="page">
+        <button class="btn btn-text" onclick="showPage('home')">
+          <i class="fas fa-arrow-left"></i> Kembali
         </button>
-        <button class="action-btn" onclick="showPage('tps')">
-          <div class="action-icon">
+        
+        <div class="page-header">
+          <div class="page-title">
             <i class="fas fa-trash-alt"></i>
+            Jadwal Ro'an TPS
           </div>
-          <span class="action-label">Ro'an TPS</span>
-        </button>
-        <button class="action-btn" onclick="showPage('settings')">
-          <div class="action-icon">
-            <i class="fas fa-cog"></i>
+          <div class="page-period" id="tpsPeriod">Periode -</div>
+        </div>
+
+        <div class="card" style="padding:12px; margin-bottom:14px;">
+          <button class="btn btn-secondary btn-sm" onclick="exportTPSPDF()" style="width:auto; margin:0 auto;">
+            <i class="fas fa-file-pdf"></i> Export PDF
+          </button>
+        </div>
+
+        <div class="table-wrap" id="tpsTable">
+          <div class="card">
+            <div class="empty-state">
+              <i class="fas fa-spinner fa-spin"></i>
+              <p>Memuat jadwal...</p>
+            </div>
           </div>
-          <span class="action-label">Pengaturan</span>
+        </div>
+      </div>
+
+      <!-- Catatan Page -->
+      <div id="catatan" class="page">
+        <button class="btn btn-text" onclick="showPage('home')">
+          <i class="fas fa-arrow-left"></i> Kembali
         </button>
-      </div>
+        
+        <div class="page-header">
+          <div class="page-title">
+            <i class="fas fa-sticky-note"></i>
+            Catatan & Dokumen
+          </div>
+          <div class="page-period">Kelola informasi penting</div>
+        </div>
 
-      <div class="section-title">Jadwal Hari Ini</div>
-      <div class="card" id="todaySchedule">
-        <div class="empty-state">
-          <i class="fas fa-calendar-check"></i>
-          <p>Memuat jadwal...</p>
+        <div class="card">
+          <div class="info-banner">
+            <i class="fas fa-info-circle"></i>
+            <span>Tambahkan catatan dan upload dokumen (PDF, Word, Excel, Gambar)</span>
+          </div>
+
+          <div id="addNoteForm" style="display:none; margin-bottom:16px;">
+            <div class="form-group">
+              <label class="form-label">Judul</label>
+              <input type="text" id="noteTitle" placeholder="Masukkan judul catatan...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Isi Catatan</label>
+              <textarea id="noteContent" placeholder="Tulis detail catatan..."></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Lampiran</label>
+              <div class="file-upload">
+                <input type="file" id="noteFile" class="file-input" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png">
+                <div class="file-label">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                  <span>Tap untuk upload file</span>
+                </div>
+                <div class="file-name" id="fileNameDisplay">
+                  <i class="fas fa-check-circle" style="color:var(--success);"></i>
+                  <span id="selectedFileName"></span>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex; gap:10px;">
+              <button class="btn btn-secondary" onclick="toggleAddForm()" style="flex:1;">Batal</button>
+              <button class="btn btn-add" onclick="saveNote()" style="flex:1;">
+                <i class="fas fa-save"></i> Simpan
+              </button>
+            </div>
+          </div>
+
+          <button class="btn btn-add" id="btnShowAdd" onclick="toggleAddForm()" style="margin-bottom:10px;">
+            <i class="fas fa-plus"></i> Tambah Catatan
+          </button>
+          <button class="btn btn-danger" onclick="confirmReset()">
+            <i class="fas fa-trash-alt"></i> Reset Semua
+          </button>
+        </div>
+
+        <div class="section-header" style="margin-top:20px; padding:0 16px;">
+          <div class="section-title">
+            <i class="fas fa-folder-open"></i>
+            Daftar Catatan
+          </div>
+        </div>
+        <div id="notesList" style="padding:0 16px;">
+          <div class="card">
+            <div class="empty-state">
+              <i class="fas fa-inbox"></i>
+              <p>Belum ada catatan</p>
+            </div>
+          </div>
         </div>
       </div>
+    </main>
 
-      <div class="section-title">Periode Aktif</div>
-      <div class="card">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-          <span style="font-size:0.875rem; color:var(--text-secondary);">Bulan</span>
-          <span style="font-weight:700;" id="currentMonth">-</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <span style="font-size:0.875rem; color:var(--text-secondary);">Tahun</span>
-          <span style="font-weight:700;" id="currentYear">-</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Kubro Page -->
-    <div id="kubro" class="page">
-      <button class="btn btn-text" onclick="showPage('home')">
-        <i class="fas fa-arrow-left"></i> Kembali
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" onclick="showPage('home')" data-page="home">
+        <i class="fas fa-home"></i>
+        <span>Beranda</span>
       </button>
-      
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">
-            <div class="card-icon">
-              <i class="fas fa-calendar-week"></i>
-            </div>
-            Jumat Kubro
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Pilih Periode</label>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-            <select id="bulanKubro"></select>
-            <select id="tahunKubro"></select>
-          </div>
-        </div>
-
-        <button class="btn btn-primary" onclick="renderKubro()" style="margin-bottom:12px;">
-          <i class="fas fa-eye"></i> Lihat Jadwal
-        </button>
-        <button class="btn btn-secondary" onclick="exportKubroPDF()">
-          <i class="fas fa-download"></i> Export PDF
-        </button>
-      </div>
-
-      <div id="kubroList"></div>
-    </div>
-
-    <!-- TPS Page -->
-    <div id="tps" class="page">
-      <button class="btn btn-text" onclick="showPage('home')">
-        <i class="fas fa-arrow-left"></i> Kembali
+      <button class="nav-item" onclick="showPage('kubro')" data-page="kubro">
+        <i class="fas fa-calendar-week"></i>
+        <span>Kubro</span>
       </button>
-      
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">
-            <div class="card-icon">
-              <i class="fas fa-trash-alt"></i>
-            </div>
-            Ro'an TPS
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Pilih Periode</label>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-            <select id="bulanTPS"></select>
-            <select id="tahunTPS"></select>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Filter Komplek (Opsional)</label>
-          <input type="text" id="filterKomplek" placeholder="Cari komplek...">
-        </div>
-
-        <button class="btn btn-primary" onclick="renderTPS()" style="margin-bottom:12px;">
-          <i class="fas fa-eye"></i> Lihat Jadwal
-        </button>
-        <button class="btn btn-secondary" onclick="exportTPSPDF()">
-          <i class="fas fa-download"></i> Export PDF
-        </button>
-      </div>
-
-      <div id="tpsList"></div>
-    </div>
-
-    <!-- Settings Page -->
-    <div id="settings" class="page">
-      <button class="btn btn-text" onclick="showPage('home')">
-        <i class="fas fa-arrow-left"></i> Kembali
+      <button class="nav-item" onclick="showPage('tps')" data-page="tps">
+        <i class="fas fa-trash-alt"></i>
+        <span>TPS</span>
       </button>
-      
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">
-            <div class="card-icon">
-              <i class="fas fa-info-circle"></i>
-            </div>
-            Informasi
-          </div>
-        </div>
-
-        <div class="info-card">
-          <div class="info-card-title">
-            <i class="fas fa-lightbulb"></i>
-            Catatan Penting
-          </div>
-          <div class="info-card-text">
-            Jadwal ro'an mengikuti pola rotasi yang berlaku selamanya. Setiap perubahan akan otomatis tersimpan.
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Catatan Tambahan</label>
-          <textarea id="catatan" style="width:100%; min-height:120px; padding:14px; border:1.5px solid var(--border); border-radius:var(--radius); font-family:inherit; font-size:0.937rem; resize:vertical;" placeholder="Tulis catatan di sini..."></textarea>
-        </div>
-
-        <button class="btn btn-primary" onclick="simpanCatatan()">
-          <i class="fas fa-save"></i> Simpan
-        </button>
-      </div>
-
-      <div class="card" style="margin-top:16px;">
-        <div class="card-header">
-          <div class="card-title">
-            <div class="card-icon">
-              <i class="fas fa-info"></i>
-            </div>
-            Tentang Aplikasi
-          </div>
-        </div>
-        <div style="font-size:0.875rem; color:var(--text-secondary); line-height:1.6;">
-          <p style="margin-bottom:8px;"><strong>Ro'an Terpadu PPMH</strong></p>
-          <p>Versi 2.0 - Sistem Penjadwalan Otomatis</p>
-          <p style="margin-top:8px;">&copy; 2025 - Selamanya</p>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- Bottom Navigation -->
-  <nav class="bottom-nav">
-    <button class="nav-item active" onclick="showPage('home')" data-page="home">
-      <i class="fas fa-home"></i>
-      <span>Beranda</span>
-    </button>
-    <button class="nav-item" onclick="showPage('kubro')" data-page="kubro">
-      <i class="fas fa-calendar-week"></i>
-      <span>Kubro</span>
-    </button>
-    <button class="nav-item" onclick="showPage('tps')" data-page="tps">
-      <i class="fas fa-trash-alt"></i>
-      <span>TPS</span>
-    </button>
-    <button class="nav-item" onclick="showPage('settings')" data-page="settings">
-      <i class="fas fa-cog"></i>
-      <span>Setelan</span>
-    </button>
-  </nav>
+      <button class="nav-item" onclick="showPage('catatan')" data-page="catatan">
+        <i class="fas fa-sticky-note"></i>
+        <span>Catatan</span>
+      </button>
+    </nav>
+  </div>
 
   <!-- Toast -->
   <div id="toast" class="toast">
     <i class="fas fa-check-circle"></i>
     <span id="toastMsg">Berhasil!</span>
   </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-icon" id="modalIcon">
+        <i class="fas fa-check"></i>
+      </div>
+      <div class="modal-title" id="modalTitle">Berhasil</div>
+      <div class="modal-text" id="modalText">Operasi berhasil dilakukan.</div>
+      <div class="modal-actions" id="modalActions">
+        <button class="btn btn-primary" onclick="closeModal()">OK</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-// Constants
+// ─── LOGO URL (Sesuai Versi React) ───────────────────────────
+const LOGO_URL = 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b50293fdba0b58d437ab54/1fa3763b8_ChatGPTImage12Mar2026141730.png';
+
+// Set logo on load
+document.addEventListener('DOMContentLoaded', function(){
+  const splashImg = document.getElementById('splashLogoImg');
+  const headerImg = document.getElementById('headerLogoImg');
+  
+  if(splashImg) {
+    splashImg.src = LOGO_URL;
+    splashImg.onerror = function() {
+      this.style.display = 'none';
+      this.parentElement.innerHTML = '<div style="font-size:5rem;">🕌</div>';
+    };
+  }
+  
+  if(headerImg) {
+    headerImg.src = LOGO_URL;
+    headerImg.onerror = function() {
+      this.style.display = 'none';
+      this.parentElement.innerHTML = '<div class="logo-icon" style="width:44px;height:44px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.5rem;border:2px solid var(--gold);box-shadow:0 2px 8px rgba(0,0,0,0.2);">🕌</div><span class="logo-text">Ro\'an</span>';
+    };
+  }
+});
+
+// Constants - LOKASI sudah diupdate sesuai gambar
 const BULAN_NAMA = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 const KOMPLEK = ['A','B','C','D','E','F','G','H','I','J'];
+
+// LOKASI diupdate sesuai redaksi pada gambar
 const LOKASI = [
-  {nama: 'Masjid Utama', detail: 'Lt 1, 2 & Perpustakaan'},
-  {nama: 'Jeding Masjid', detail: 'Area jeding utama'},
-  {nama: 'Teras Ndalem', detail: 'Gus Minan - Halaqoh'},
-  {nama: 'Makam Klaseman', detail: 'Ziarah & Pembersihan'},
-  {nama: 'Area Mifda', detail: 'Depan Mifda & Komp. C'},
-  {nama: 'Madrasah', detail: 'Lt 1-3, Parkiran, Maqom'},
-  {nama: 'Jeding Santri', detail: 'Jeding & Laundry'},
-  {nama: 'Dapur', detail: 'Dapur & Jemuran'},
-  {nama: 'Parkiran DU', detail: 'Parkiran, Teras, Jeding'},
-  {nama: 'TPS', detail: 'Pembuangan & Belakang C'}
+  {nama: 'Lokasi 1', detail: 'Masjid Lt 1, 2 dan Depan perpustakaan'},
+  {nama: 'Lokasi 2', detail: 'Jeding Masjid'},
+  {nama: 'Lokasi 3', detail: 'Teras Ndalem Gus Minan sampai Halaqoh'},
+  {nama: 'Lokasi 4', detail: 'Ziarah & Membersihkan Makam Klaseman'},
+  {nama: 'Lokasi 5', detail: 'Depan Mifda + Komp. C'},
+  {nama: 'Lokasi 6', detail: 'Madrasah Lt. 1-3, Parkiran Bawah dan Maqom'},
+  {nama: 'Lokasi 7', detail: 'Jeding Santri dan Depan Laundry'},
+  {nama: 'Lokasi 8', detail: 'Dapur & Jemuran'},
+  {nama: 'Lokasi 9', detail: 'Parkiran depan dan samping DU, Teras DU & Jeding Tamu DU'},
+  {nama: 'Lokasi 10', detail: 'Membuang sampah ke TPS & Mengepel belakang Komp. C'}
 ];
 
 const KOMPLEK_HARIAN = ['A','B','C','E','F','G','H','I','J'];
 const KOMPLEK_JUMAT = ['A','B','C','D','E','F','G','H','I','J'];
 
-// State
 let currentDate = new Date();
+let countdownInterval;
+let selectedFile = null;
 
-// Initialize
-document.addEventListener('DOMContentLoaded', function(){
-  initSelects();
-  updateTodayInfo();
-  loadCatatan();
+// Splash Screen
+function enterApp(){
+  const splash = document.getElementById('splash');
+  const appContent = document.getElementById('appContent');
   
-  // Set current date display
-  document.getElementById('currentMonth').textContent = BULAN_NAMA[currentDate.getMonth()];
-  document.getElementById('currentYear').textContent = currentDate.getFullYear();
-});
+  splash.classList.add('hidden');
+  setTimeout(() => {
+    splash.style.display = 'none';
+    appContent.style.display = 'block';
+    initApp();
+  }, 500);
+}
 
-function initSelects(){
-  const selects = ['bulanKubro', 'bulanTPS'];
-  const tahunSelects = ['tahunKubro', 'tahunTPS'];
+function initApp(){
+  updateCountdown();
+  updateTPSToday();
+  updatePeriod();
+  renderNextJumatSchedule(getNextFriday(currentDate));
+  loadNotes();
   
-  selects.forEach(id => {
-    const sel = document.getElementById(id);
-    BULAN_NAMA.forEach((b, i) => {
-      const opt = document.createElement('option');
-      opt.value = i;
-      opt.textContent = b;
-      sel.appendChild(opt);
-    });
-    sel.value = currentDate.getMonth();
-  });
+  setTimeout(() => {
+    autoRenderKubro();
+    autoRenderTPS();
+  }, 100);
   
-  tahunSelects.forEach(id => {
-    const sel = document.getElementById(id);
-    const currentYear = currentDate.getFullYear();
-    for(let y = currentYear - 2; y <= currentYear + 5; y++){
-      const opt = document.createElement('option');
-      opt.value = y;
-      opt.textContent = y;
-      sel.appendChild(opt);
+  countdownInterval = setInterval(updateCountdown, 1000);
+}
+
+// Countdown
+function updateCountdown(){
+  const now = new Date();
+  const nextFriday = getNextFriday(now);
+  const diff = nextFriday - now;
+  
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+  
+  document.getElementById('cdDays').textContent = days;
+  document.getElementById('cdHours').textContent = hours;
+  document.getElementById('cdMinutes').textContent = minutes;
+  document.getElementById('cdSeconds').textContent = seconds;
+  
+  const dateStr = nextFriday.toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
+  document.getElementById('nextJumatDate').textContent = `Jumat, ${dateStr}`;
+}
+
+function getNextFriday(date){
+  const result = new Date(date);
+  result.setDate(result.getDate() + (5 + 7 - result.getDay()) % 7);
+  result.setHours(0, 0, 0, 0);
+  if(result <= date){
+    result.setDate(result.getDate() + 7);
+  }
+  return result;
+}
+
+// TPS Today
+function updateTPSToday(){
+  const data = generateTPSData(currentDate.getMonth(), currentDate.getFullYear());
+  const todayData = data.find(d => d.tglStr === currentDate.toLocaleDateString('id-ID'));
+  
+  if(todayData){
+    document.getElementById('tpsToday').textContent = todayData.petugas;
+    const badge = document.getElementById('tpsBadge');
+    if(todayData.isJumat){
+      badge.textContent = 'Jumat';
+      badge.style.background = 'linear-gradient(135deg, var(--gold), var(--gold-dark))';
+      badge.style.color = 'var(--primary-dark)';
+    } else if(todayData.isMinggu){
+      badge.textContent = 'Minggu';
+      badge.style.background = 'rgba(231,76,60,0.1)';
+      badge.style.color = 'var(--danger)';
+    } else {
+      badge.textContent = 'Hari Ini';
+      badge.style.background = 'rgba(27,77,62,0.1)';
+      badge.style.color = 'var(--primary)';
     }
-    sel.value = currentYear;
-  });
+  } else {
+    document.getElementById('tpsToday').textContent = 'Tidak ada';
+  }
 }
 
-// Navigation
-function showPage(pageId){
-  // Hide all pages
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  
-  // Show target page
-  document.getElementById(pageId).classList.add('active');
-  document.querySelector(`[data-page="${pageId}"]`)?.classList.add('active');
-  
-  // Update header if needed
-  if(pageId === 'home') updateTodayInfo();
+function updatePeriod(){
+  const period = `${BULAN_NAMA[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+  document.getElementById('currentPeriod').textContent = period;
+  document.getElementById('kubroPeriod').textContent = `Periode ${period}`;
+  document.getElementById('tpsPeriod').textContent = `Periode ${period}`;
 }
 
-// Generate Schedule Data (Infinite Pattern)
+// Generate Data
 function generateKubroData(bulan, tahun){
   const data = [];
   const firstDay = new Date(tahun, bulan, 1);
   const lastDay = new Date(tahun, bulan + 1, 0);
   
-  // Calculate base index based on year and month for infinite rotation
-  // Pattern repeats every 10 weeks (10 Jumat)
-  const startDate = new Date(2025, 0, 1); // Base date
+  const baseDate = new Date(2025, 0, 1);
   let weekCount = 0;
+  let d = new Date(baseDate);
   
-  // Count weeks from base date to target month
-  let d = new Date(startDate);
   while(d < firstDay){
     if(d.getDay() === 5) weekCount++;
     d.setDate(d.getDate() + 1);
@@ -1032,7 +1520,7 @@ function generateKubroData(bulan, tahun){
   
   for(let day = 1; day <= lastDay.getDate(); day++){
     const date = new Date(tahun, bulan, day);
-    if(date.getDay() === 5){ // Friday
+    if(date.getDay() === 5){
       for(let i = 0; i < 10; i++){
         data.push({
           tanggal: date,
@@ -1044,7 +1532,6 @@ function generateKubroData(bulan, tahun){
       currentWeek = (currentWeek + 1) % 10;
     }
   }
-  
   return data;
 }
 
@@ -1053,22 +1540,15 @@ function generateTPSData(bulan, tahun){
   const firstDay = new Date(tahun, bulan, 1);
   const lastDay = new Date(tahun, bulan + 1, 0);
   
-  // Calculate indices for infinite pattern
-  const startDate = new Date(2025, 0, 1);
-  let dayCount = 0;
-  let jumatCount = 2; // Start index for Friday
-  let harianCount = 6; // Start index for regular days
+  const baseDate = new Date(2025, 0, 1);
+  let jumatCount = 2;
+  let harianCount = 6;
+  let d = new Date(baseDate);
   
-  let d = new Date(startDate);
   while(d < firstDay){
     const day = d.getDay();
-    if(day === 0) {
-      // Sunday - pengurus
-    } else if(day === 5) {
-      jumatCount = (jumatCount + 1) % 10;
-    } else {
-      harianCount = (harianCount + 1) % KOMPLEK_HARIAN.length;
-    }
+    if(day === 5) jumatCount++;
+    else if(day !== 0) harianCount++;
     d.setDate(d.getDate() + 1);
   }
   
@@ -1096,15 +1576,49 @@ function generateTPSData(bulan, tahun){
       isMinggu: dayOfWeek === 0
     });
   }
-  
   return data;
 }
 
-// Render Functions
-function renderKubro(){
-  const bulan = parseInt(document.getElementById('bulanKubro').value);
-  const tahun = parseInt(document.getElementById('tahunKubro').value);
-  const data = generateKubroData(bulan, tahun);
+// Render Jadwal Jumat Terdekat
+function renderNextJumatSchedule(fridayDate){
+  const data = generateKubroData(fridayDate.getMonth(), fridayDate.getFullYear());
+  const fridayData = data.filter(d => d.tglStr === fridayDate.toLocaleDateString('id-ID'));
+  
+  const container = document.getElementById('nextJumatSchedule');
+  document.getElementById('jumatDate').textContent = fridayDate.toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
+  
+  if(fridayData.length === 0){
+    container.innerHTML = `
+      <div class="empty-state" style="padding:20px;">
+        <i class="fas fa-calendar-times"></i>
+        <p>Tidak ada data jadwal</p>
+      </div>`;
+    return;
+  }
+  
+  let html = '';
+  fridayData.forEach((item, idx) => {
+    const isFirst = idx === 0;
+    html += `
+      <div class="jadwal-item" style="${isFirst ? 'background:linear-gradient(135deg, rgba(255,215,0,0.08), var(--surface-variant)); border-left-color:var(--gold);' : ''}">
+        <div class="jadwal-num" style="${isFirst ? 'background:linear-gradient(135deg, var(--gold), var(--gold-dark)); color:var(--primary-dark); border:none;' : ''}">
+          ${isFirst ? '<i class="fas fa-star" style="font-size:0.625rem;"></i>' : idx + 1}
+        </div>
+        <div class="jadwal-content">
+          <div class="jadwal-lokasi">${item.lokasi.nama}</div>
+          <div class="jadwal-detail">${item.lokasi.detail}</div>
+        </div>
+        <div class="jadwal-komplek" style="${isFirst ? 'background:linear-gradient(135deg, var(--gold), var(--gold-dark)); color:var(--primary-dark);' : ''}">
+          ${item.komplek}
+        </div>
+      </div>`;
+  });
+  
+  container.innerHTML = html;
+}
+
+function autoRenderKubro(){
+  const data = generateKubroData(currentDate.getMonth(), currentDate.getFullYear());
   const container = document.getElementById('kubroList');
   
   if(data.length === 0){
@@ -1121,7 +1635,7 @@ function renderKubro(){
   let html = '';
   let currentTgl = '';
   
-  data.forEach((item, idx) => {
+  data.forEach((item) => {
     if(item.tglStr !== currentTgl){
       if(currentTgl !== '') html += '</div>';
       html += `
@@ -1129,37 +1643,27 @@ function renderKubro(){
           <i class="fas fa-mosque"></i>
           ${item.tglStr}
         </div>
-        <div class="schedule-list" style="margin-bottom:16px;">`;
+        <div class="jadwal-list" style="margin-bottom:12px;">`;
       currentTgl = item.tglStr;
     }
     
     html += `
-      <div class="schedule-item" style="animation:fadeIn 0.3s ease ${idx * 0.05}s both;">
-        <div class="schedule-content">
-          <div class="schedule-title">${item.lokasi.nama}</div>
-          <div class="schedule-subtitle">${item.lokasi.detail}</div>
+      <div class="jadwal-item">
+        <div class="jadwal-num">${item.komplek}</div>
+        <div class="jadwal-content">
+          <div class="jadwal-lokasi">${item.lokasi.nama}</div>
+          <div class="jadwal-detail">${item.lokasi.detail}</div>
         </div>
-        <span class="schedule-badge gold">Komplek ${item.komplek}</span>
       </div>`;
   });
   
   html += '</div>';
   container.innerHTML = html;
-  showToast('Jadwal berhasil dimuat');
 }
 
-function renderTPS(){
-  const bulan = parseInt(document.getElementById('bulanTPS').value);
-  const tahun = parseInt(document.getElementById('tahunTPS').value);
-  const filter = document.getElementById('filterKomplek').value.toUpperCase();
-  
-  let data = generateTPSData(bulan, tahun);
-  
-  if(filter){
-    data = data.filter(d => d.petugas.toUpperCase().includes(filter));
-  }
-  
-  const container = document.getElementById('tpsList');
+function autoRenderTPS(){
+  const data = generateTPSData(currentDate.getMonth(), currentDate.getFullYear());
+  const container = document.getElementById('tpsTable');
   
   if(data.length === 0){
     container.innerHTML = `
@@ -1172,102 +1676,103 @@ function renderTPS(){
     return;
   }
   
-  let html = '<div class="card" style="padding:0; overflow:hidden;"><table style="margin:-20px; width:calc(100% + 40px);">';
+  let html = '<div class="table-wrap"><table>';
   html += '<thead><tr><th>Tanggal</th><th>Hari</th><th>Petugas</th></tr></thead><tbody>';
   
-  data.forEach((item, idx) => {
-    let badgeClass = 'schedule-badge';
-    let style = '';
+  data.forEach((item) => {
+    let badgeClass = 'badge badge-light';
     
     if(item.isMinggu){
-      style = 'color:var(--accent);';
+      badgeClass = 'badge" style="background:rgba(231,76,60,0.1); color:var(--danger);';
     } else if(item.isJumat){
-      badgeClass += ' gold';
-    } else {
-      badgeClass = 'schedule-badge" style="background:var(--surface-variant); color:var(--text-primary); border:1px solid var(--border);';
+      badgeClass = 'badge badge-gold';
     }
     
     html += `
-      <tr style="animation:fadeIn 0.3s ease ${idx * 0.02}s both;">
+      <tr>
         <td style="font-weight:600;">${item.tglStr}</td>
-        <td style="${style}">${item.hari}</td>
+        <td>${item.hari}</td>
         <td><span class="${badgeClass}">${item.petugas}</span></td>
       </tr>`;
   });
   
   html += '</tbody></table></div>';
   container.innerHTML = html;
-  showToast('Jadwal berhasil dimuat');
 }
 
 // Export PDF
 function exportKubroPDF(){
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF('p', 'mm', 'a4');
-  const bulan = parseInt(document.getElementById('bulanKubro').value);
-  const tahun = parseInt(document.getElementById('tahunKubro').value);
+  const bulan = currentDate.getMonth();
+  const tahun = currentDate.getFullYear();
   const data = generateKubroData(bulan, tahun);
   
   if(data.length === 0){
-    showToast('Tidak ada data untuk diexport');
+    showToast('Tidak ada data untuk diexport', 'error');
     return;
   }
   
-  doc.setFontSize(18);
+  doc.setFontSize(14);
   doc.text("JADWAL RO'AN JUMAT KUBRO", 105, 15, {align: 'center'});
-  doc.setFontSize(12);
+  doc.setFontSize(11);
   doc.text(`${BULAN_NAMA[bulan]} ${tahun}`, 105, 22, {align: 'center'});
   
-  let y = 30;
-  let currentTgl = '';
-  
-  data.forEach(item => {
-    if(item.tglStr !== currentTgl){
-      if(y > 250) {
-        doc.addPage();
-        y = 20;
-      }
-      doc.setFontSize(11);
-      doc.setFont(undefined, 'bold');
-      doc.text(item.tglStr, 14, y);
-      y += 8;
-      currentTgl = item.tglStr;
-    }
-    
-    doc.setFontSize(10);
-    doc.setFont(undefined, 'normal');
-    doc.text(`${item.lokasi.nama} - Komplek ${item.komplek}`, 20, y);
-    doc.setFontSize(9);
-    doc.setTextColor(100);
-    doc.text(item.lokasi.detail, 20, y + 5);
-    doc.setTextColor(0);
-    y += 12;
-    
-    if(y > 280){
-      doc.addPage();
-      y = 20;
-    }
+  let groups = {};
+  data.forEach(x => {
+    if(!groups[x.tglStr]) groups[x.tglStr] = [];
+    groups[x.tglStr].push([x.lokasi.nama, x.lokasi.detail, x.komplek]);
   });
   
-  doc.save(`roan-kubro-${BULAN_NAMA[bulan]}-${tahun}.pdf`);
-  showToast('PDF berhasil diunduh');
+  const dates = Object.keys(groups);
+  
+  dates.forEach((tgl, i) => {
+    if(i > 0) doc.addPage();
+    doc.setFontSize(12);
+    doc.text(tgl, 105, 32, {align: 'center'});
+    
+    doc.autoTable({
+      startY: 38,
+      head: [['Lokasi', 'Keterangan', 'Komplek']],
+      body: groups[tgl],
+      theme: 'grid',
+      headStyles: {
+        fillColor: [27, 77, 62],
+        textColor: 255,
+        fontStyle: 'bold'
+      },
+      styles: {
+        fontSize: 10,
+        cellPadding: 3,
+        overflow: 'linebreak'
+      },
+      columnStyles: {
+        0: {cellWidth: 50},
+        1: {cellWidth: 'auto'},
+        2: {cellWidth: 30, halign: 'center'}
+      }
+    });
+  });
+  
+  doc.save(`roan_jumat_kubro_${BULAN_NAMA[bulan]}_${tahun}.pdf`);
+  showToast('PDF berhasil diunduh', 'success');
 }
 
 function exportTPSPDF(){
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF('p', 'mm', 'a4');
-  const bulan = parseInt(document.getElementById('bulanTPS').value);
-  const tahun = parseInt(document.getElementById('tahunTPS').value);
+  const bulan = currentDate.getMonth();
+  const tahun = currentDate.getFullYear();
   const data = generateTPSData(bulan, tahun);
   
   if(data.length === 0){
-    showToast('Tidak ada data untuk diexport');
+    showToast('Tidak ada data untuk diexport', 'error');
     return;
   }
   
-  doc.setFontSize(18);
+  doc.setFontSize(14);
   doc.text("JADWAL RO'AN TPS", 105, 15, {align: 'center'});
-  doc.setFontSize(12);
+  doc.setFontSize(11);
   doc.text(`${BULAN_NAMA[bulan]} ${tahun}`, 105, 22, {align: 'center'});
   
   const tableData = data.map(d => [d.tglStr, d.hari, d.petugas]);
@@ -1276,113 +1781,234 @@ function exportTPSPDF(){
     startY: 30,
     head: [['Tanggal', 'Hari', 'Petugas']],
     body: tableData,
-    theme: 'striped',
-    headStyles: {fillColor: [26,26,46]},
-    alternateRowStyles: {fillColor: [248,249,250]},
-    styles: {fontSize: 10, cellPadding: 2}
+    theme: 'grid',
+    headStyles: {
+      fillColor: [27, 77, 62],
+      textColor: 255,
+      fontStyle: 'bold'
+    },
+    styles: {
+      fontSize: 10,
+      cellPadding: 3
+    },
+    columnStyles: {
+      0: {cellWidth: 40},
+      1: {cellWidth: 40},
+      2: {cellWidth: 'auto'}
+    }
   });
   
-  doc.save(`roan-tps-${BULAN_NAMA[bulan]}-${tahun}.pdf`);
-  showToast('PDF berhasil diunduh');
+  doc.save(`roan_tps_${BULAN_NAMA[bulan]}_${tahun}.pdf`);
+  showToast('PDF berhasil diunduh', 'success');
 }
 
-// Today Info
-function updateTodayInfo(){
-  const container = document.getElementById('todaySchedule');
-  const today = new Date();
-  const dayOfWeek = today.getDay();
+// Navigation
+function showPage(pageId){
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   
-  let content = '';
+  document.getElementById(pageId).classList.add('active');
+  document.querySelector(`[data-page="${pageId}"]`)?.classList.add('active');
   
-  if(dayOfWeek === 5){
-    // Friday - Kubro
-    const data = generateKubroData(today.getMonth(), today.getFullYear());
-    const todayData = data.filter(d => d.tglStr === today.toLocaleDateString('id-ID'));
-    
-    if(todayData.length > 0){
-      content = '<div class="schedule-list">';
-      todayData.slice(0, 3).forEach(item => {
-        content += `
-          <div class="schedule-item">
-            <div class="schedule-date">
-              <div class="schedule-day">Jumat</div>
-              <div class="schedule-num">${today.getDate()}</div>
-            </div>
-            <div class="schedule-content">
-              <div class="schedule-title">${item.lokasi.nama}</div>
-              <div class="schedule-subtitle">Komplek ${item.komplek}</div>
-            </div>
-          </div>`;
-      });
-      if(todayData.length > 3){
-        content += `<div style="text-align:center; padding:12px; color:var(--text-secondary); font-size:0.875rem;">+${todayData.length - 3} lokasi lainnya</div>`;
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// Catatan Functions
+document.addEventListener('DOMContentLoaded', function(){
+  const fileInput = document.getElementById('noteFile');
+  if(fileInput){
+    fileInput.addEventListener('change', function(e){
+      if(e.target.files.length > 0){
+        selectedFile = e.target.files[0];
+        document.getElementById('selectedFileName').textContent = selectedFile.name;
+        document.getElementById('fileNameDisplay').classList.add('show');
       }
-      content += '</div>';
-    }
+    });
+  }
+});
+
+function toggleAddForm(){
+  const form = document.getElementById('addNoteForm');
+  const btn = document.getElementById('btnShowAdd');
+  
+  if(form.style.display === 'none'){
+    form.style.display = 'block';
+    btn.style.display = 'none';
+    document.getElementById('noteTitle').focus();
   } else {
-    // TPS
-    const data = generateTPSData(today.getMonth(), today.getFullYear());
-    const todayData = data.find(d => d.tglStr === today.toLocaleDateString('id-ID'));
-    
-    if(todayData){
-      content = `
-        <div class="schedule-list">
-          <div class="schedule-item">
-            <div class="schedule-date">
-              <div class="schedule-day">${todayData.hari}</div>
-              <div class="schedule-num">${today.getDate()}</div>
-            </div>
-            <div class="schedule-content">
-              <div class="schedule-title">Ro'an TPS</div>
-              <div class="schedule-subtitle">Petugas: ${todayData.petugas}</div>
-            </div>
-          </div>
-        </div>`;
-    }
+    form.style.display = 'none';
+    btn.style.display = 'block';
+    clearForm();
+  }
+}
+
+function clearForm(){
+  document.getElementById('noteTitle').value = '';
+  document.getElementById('noteContent').value = '';
+  document.getElementById('noteFile').value = '';
+  document.getElementById('fileNameDisplay').classList.remove('show');
+  selectedFile = null;
+}
+
+function saveNote(){
+  const title = document.getElementById('noteTitle').value.trim();
+  const content = document.getElementById('noteContent').value.trim();
+  
+  if(!title){
+    showModal('error', 'Gagal Menyimpan', 'Judul catatan tidak boleh kosong.');
+    return;
   }
   
-  if(!content){
-    content = `
-      <div class="empty-state" style="padding:24px;">
-        <i class="fas fa-check-circle" style="color:var(--success);"></i>
-        <p>Tidak ada jadwal khusus hari ini</p>
+  const notes = JSON.parse(localStorage.getItem('roanNotes') || '[]');
+  
+  const note = {
+    id: Date.now(),
+    title: title,
+    content: content,
+    file: null,
+    date: new Date().toISOString()
+  };
+  
+  if(selectedFile){
+    const reader = new FileReader();
+    reader.onload = function(e){
+      note.file = {
+        name: selectedFile.name,
+        type: selectedFile.type,
+        data: e.target.result
+      };
+      notes.unshift(note);
+      localStorage.setItem('roanNotes', JSON.stringify(notes));
+      loadNotes();
+      toggleAddForm();
+      showModal('success', 'Berhasil', 'Catatan dan dokumen berhasil ditambahkan.');
+    };
+    reader.onerror = function(){
+      showModal('error', 'Gagal', 'Gagal membaca file.');
+    };
+    reader.readAsDataURL(selectedFile);
+  } else {
+    notes.unshift(note);
+    localStorage.setItem('roanNotes', JSON.stringify(notes));
+    loadNotes();
+    toggleAddForm();
+    showModal('success', 'Berhasil', 'Catatan berhasil ditambahkan.');
+  }
+}
+
+function loadNotes(){
+  const notes = JSON.parse(localStorage.getItem('roanNotes') || '[]');
+  const container = document.getElementById('notesList');
+  
+  if(notes.length === 0){
+    container.innerHTML = `
+      <div class="card">
+        <div class="empty-state">
+          <i class="fas fa-inbox"></i>
+          <p>Belum ada catatan</p>
+        </div>
       </div>`;
+    return;
   }
   
-  container.innerHTML = content;
-}
-
-// Settings
-function loadCatatan(){
-  const catatan = localStorage.getItem('roanCatatan');
-  if(catatan) document.getElementById('catatan').value = catatan;
-}
-
-function simpanCatatan(){
-  const btn = event.target;
-  const originalHTML = btn.innerHTML;
+  let html = '<div class="notes-list">';
+  notes.forEach((note) => {
+    const date = new Date(note.date).toLocaleDateString('id-ID', {
+      day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+    });
+    
+    html += `
+      <div class="note-item">
+        <div class="note-header">
+          <div class="note-title">${escapeHtml(note.title)}</div>
+          <div class="note-date">${date}</div>
+        </div>
+        <div class="note-content">${escapeHtml(note.content) || '<em>Tidak ada deskripsi</em>'}</div>
+        ${note.file ? `
+          <a href="${note.file.data}" class="note-file" download="${note.file.name}">
+            <i class="fas fa-file-download"></i>
+            <span>${note.file.name}</span>
+          </a>
+        ` : ''}
+      </div>`;
+  });
+  html += '</div>';
   
-  btn.innerHTML = '<div class="loading"></div> Menyimpan...';
-  btn.disabled = true;
-  
-  setTimeout(() => {
-    localStorage.setItem('roanCatatan', document.getElementById('catatan').value);
-    btn.innerHTML = originalHTML;
-    btn.disabled = false;
-    showToast('Catatan berhasil disimpan');
-  }, 600);
+  container.innerHTML = html;
 }
 
-function showInfo(){
-  showPage('settings');
+function escapeHtml(text){
+  if(!text) return '';
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function confirmReset(){
+  showModal('warning', 'Konfirmasi Reset', 
+    'Hapus semua catatan dan dokumen? Tindakan ini tidak dapat dibatalkan.',
+    [
+      {text: 'Batal', class: 'btn-secondary', action: closeModal},
+      {text: 'Hapus', class: 'btn-danger', action: doReset}
+    ]
+  );
+}
+
+function doReset(){
+  localStorage.removeItem('roanNotes');
+  loadNotes();
+  closeModal();
+  showModal('success', 'Berhasil', 'Semua catatan telah dihapus.');
+}
+
+// Modal
+function showModal(type, title, text, actions = null){
+  const modal = document.getElementById('modal');
+  const icon = document.getElementById('modalIcon');
+  const titleEl = document.getElementById('modalTitle');
+  const textEl = document.getElementById('modalText');
+  const actionsEl = document.getElementById('modalActions');
+  
+  icon.className = 'modal-icon ' + type;
+  icon.innerHTML = type === 'success' ? '<i class="fas fa-check"></i>' : 
+                   type === 'error' ? '<i class="fas fa-times"></i>' : 
+                   '<i class="fas fa-exclamation-triangle"></i>';
+  
+  titleEl.textContent = title;
+  textEl.textContent = text;
+  
+  if(actions){
+    actionsEl.innerHTML = '';
+    actions.forEach(btn => {
+      const button = document.createElement('button');
+      button.className = 'btn ' + btn.class;
+      button.innerHTML = btn.text;
+      button.onclick = btn.action;
+      actionsEl.appendChild(button);
+    });
+  } else {
+    actionsEl.innerHTML = '<button class="btn btn-primary" onclick="closeModal()">OK</button>';
+  }
+  
+  modal.classList.add('show');
+}
+
+function closeModal(){
+  document.getElementById('modal').classList.remove('show');
 }
 
 // Toast
-function showToast(msg){
+function showToast(message, type = 'success'){
   const toast = document.getElementById('toast');
-  document.getElementById('toastMsg').textContent = msg;
+  const msgEl = document.getElementById('toastMsg');
+  const icon = toast.querySelector('i');
+  
+  toast.className = 'toast ' + type;
+  msgEl.textContent = message;
+  icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-times-circle';
+  
   toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2500);
+  setTimeout(() => toast.classList.remove('show'), 3000);
 }
 </script>
 </body>
