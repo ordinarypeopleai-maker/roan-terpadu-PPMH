@@ -1,1171 +1,2152 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
-<meta name="theme-color" content="#ffffff">
-<title>Ro'an Terpadu PPMH</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js" defer></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-/* =============================================
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5"
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Ro'an Terpadu PPMH</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"
+      defer
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* =============================================
    ROOT & RESET
    ============================================= */
-*, *::before, *::after {
-  box-sizing: border-box; margin: 0; padding: 0;
-  -webkit-tap-highlight-color: transparent;
-}
-:root {
-  --p:        #1a5c42;
-  --p-mid:    #236e50;
-  --p-soft:   #e8f4ee;
-  --p-muted:  #c8dfd4;
-  --gold:     #c49a1a;
-  --gold-bg:  #fdf6e3;
-  --gold-muted: #e8d48a;
-  --white:    #ffffff;
-  --bg:       #f7f9f8;
-  --card:     #ffffff;
-  --line:     #eaefec;
-  --t1:       #111a16;
-  --t2:       #4a5e56;
-  --t3:       #8a9d96;
-  --red:      #d94040;
-  --red-bg:   #fff0f0;
-  --green:    #1aab7a;
-  --r-xs:     6px;
-  --r-s:      10px;
-  --r-m:      14px;
-  --r-l:      20px;
-  --r-xl:     28px;
-  --sh-xs:    0 1px 4px rgba(0,0,0,0.05);
-  --sh-s:     0 2px 10px rgba(0,0,0,0.07);
-  --sh-m:     0 6px 24px rgba(0,0,0,0.09);
-  --sh-l:     0 16px 48px rgba(0,0,0,0.12);
-  --tr:       0.22s cubic-bezier(.4,0,.2,1);
-}
-html { font-size: 16px; scroll-behavior: smooth; }
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--bg);
-  color: var(--t1);
-  line-height: 1.55;
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+      }
+      :root {
+        --p: #1a5c42;
+        --p-mid: #236e50;
+        --p-soft: #e8f4ee;
+        --p-muted: #c8dfd4;
+        --gold: #c49a1a;
+        --gold-bg: #fdf6e3;
+        --gold-muted: #e8d48a;
+        --white: #ffffff;
+        --bg: #f7f9f8;
+        --card: #ffffff;
+        --line: #eaefec;
+        --t1: #111a16;
+        --t2: #4a5e56;
+        --t3: #8a9d96;
+        --red: #d94040;
+        --red-bg: #fff0f0;
+        --green: #1aab7a;
+        --r-xs: 6px;
+        --r-s: 10px;
+        --r-m: 14px;
+        --r-l: 20px;
+        --r-xl: 28px;
+        --sh-xs: 0 1px 4px rgba(0, 0, 0, 0.05);
+        --sh-s: 0 2px 10px rgba(0, 0, 0, 0.07);
+        --sh-m: 0 6px 24px rgba(0, 0, 0, 0.09);
+        --sh-l: 0 16px 48px rgba(0, 0, 0, 0.12);
+        --tr: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      html {
+        font-size: 16px;
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        background: var(--bg);
+        color: var(--t1);
+        line-height: 1.55;
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
 
-/* =============================================
+      /* =============================================
    WRAPPER
    ============================================= */
-.wrap {
-  max-width: 480px; margin: 0 auto;
-  min-height: 100vh;
-  position: relative; overflow-x: hidden;
-  background: var(--bg);
-}
-@media (min-width: 768px) {
-  .wrap { box-shadow: var(--sh-l); }
-}
+      .wrap {
+        max-width: 480px;
+        margin: 0 auto;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+        background: var(--bg);
+      }
+      @media (min-width: 768px) {
+        .wrap {
+          box-shadow: var(--sh-l);
+        }
+      }
 
-/* =============================================
+      /* =============================================
    HALAMAN 0 — SPLASH
    ============================================= */
-#splash {
-  position: fixed; inset: 0; z-index: 9000;
-  background: var(--white);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  padding: 32px 28px 40px;
-  transition: opacity .5s ease, visibility .5s ease;
-}
-#splash.out { opacity: 0; visibility: hidden; pointer-events: none; }
+      #splash {
+        position: fixed;
+        inset: 0;
+        z-index: 9000;
+        background: var(--white);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 32px 28px 40px;
+        transition:
+          opacity 0.5s ease,
+          visibility 0.5s ease;
+      }
+      #splash.out {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
 
-.sp-logo {
-  position: relative; margin-bottom: 36px;
-  width: 160px; height: 160px;
-}
-.sp-logo-ring {
-  position: absolute; inset: -14px; border-radius: 50%;
-  border: 2px solid var(--p-muted);
-  animation: spin 12s linear infinite;
-  opacity: .6;
-}
-.sp-logo-ring::before {
-  content: '';
-  position: absolute; top: -5px; left: 50%;
-  width: 10px; height: 10px; border-radius: 50%;
-  background: var(--gold);
-  transform: translateX(-50%);
-}
-.sp-logo-ring2 {
-  position: absolute; inset: -6px; border-radius: 50%;
-  border: 1.5px dashed var(--p-muted);
-  animation: spin 8s linear infinite reverse;
-  opacity: .4;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-.sp-logo-img {
-  width: 160px; height: 160px;
-  border-radius: 50%; object-fit: cover;
-  border: 3px solid var(--white);
-  box-shadow: 0 0 0 4px var(--p-muted), var(--sh-m);
-  position: relative; z-index: 1;
-}
-.sp-logo-fallback {
-  width: 160px; height: 160px; border-radius: 50%;
-  background: var(--p-soft);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 4rem;
-  border: 3px solid var(--white);
-  box-shadow: 0 0 0 4px var(--p-muted), var(--sh-m);
-  position: relative; z-index: 1;
-}
+      .sp-logo {
+        position: relative;
+        margin-bottom: 36px;
+        width: 160px;
+        height: 160px;
+      }
+      .sp-logo-ring {
+        position: absolute;
+        inset: -14px;
+        border-radius: 50%;
+        border: 2px solid var(--p-muted);
+        animation: spin 12s linear infinite;
+        opacity: 0.6;
+      }
+      .sp-logo-ring::before {
+        content: "";
+        position: absolute;
+        top: -5px;
+        left: 50%;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--gold);
+        transform: translateX(-50%);
+      }
+      .sp-logo-ring2 {
+        position: absolute;
+        inset: -6px;
+        border-radius: 50%;
+        border: 1.5px dashed var(--p-muted);
+        animation: spin 8s linear infinite reverse;
+        opacity: 0.4;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .sp-logo-img {
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--white);
+        box-shadow:
+          0 0 0 4px var(--p-muted),
+          var(--sh-m);
+        position: relative;
+        z-index: 1;
+      }
+      .sp-logo-fallback {
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        background: var(--p-soft);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        border: 3px solid var(--white);
+        box-shadow:
+          0 0 0 4px var(--p-muted),
+          var(--sh-m);
+        position: relative;
+        z-index: 1;
+      }
 
-.sp-chip {
-  display: inline-flex; align-items: center; gap: 7px;
-  background: var(--p-soft); border: 1px solid var(--p-muted);
-  border-radius: 99px; padding: 5px 14px;
-  margin-bottom: 18px;
-  font-size: .75rem; font-weight: 700;
-  color: var(--p); letter-spacing: .4px; text-transform: uppercase;
-}
-.sp-chip-dot {
-  width: 6px; height: 6px; border-radius: 50%; background: var(--p);
-  animation: blink 1.6s ease infinite;
-}
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+      .sp-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: var(--p-soft);
+        border: 1px solid var(--p-muted);
+        border-radius: 99px;
+        padding: 5px 14px;
+        margin-bottom: 18px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--p);
+        letter-spacing: 0.4px;
+        text-transform: uppercase;
+      }
+      .sp-chip-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--p);
+        animation: blink 1.6s ease infinite;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.2;
+        }
+      }
 
-.sp-title {
-  font-size: 1.875rem; font-weight: 800;
-  color: var(--t1); letter-spacing: -.5px;
-  text-align: center; margin-bottom: 8px; line-height: 1.2;
-}
-.sp-sub {
-  font-size: .9375rem; color: var(--t2); font-weight: 400;
-  text-align: center; margin-bottom: 36px; line-height: 1.6;
-}
+      .sp-title {
+        font-size: 1.875rem;
+        font-weight: 800;
+        color: var(--t1);
+        letter-spacing: -0.5px;
+        text-align: center;
+        margin-bottom: 8px;
+        line-height: 1.2;
+      }
+      .sp-sub {
+        font-size: 0.9375rem;
+        color: var(--t2);
+        font-weight: 400;
+        text-align: center;
+        margin-bottom: 36px;
+        line-height: 1.6;
+      }
 
-.sp-features {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 10px; margin-bottom: 40px; width: 100%;
-}
-.sp-feat {
-  display: flex; flex-direction: column; align-items: center; gap: 7px;
-  background: var(--bg); border: 1px solid var(--line);
-  border-radius: var(--r-m); padding: 14px 6px;
-  transition: transform var(--tr), box-shadow var(--tr);
-}
-.sp-feat:hover { transform: translateY(-2px); box-shadow: var(--sh-s); }
-.sp-feat-icon {
-  width: 40px; height: 40px;
-  background: var(--white); border-radius: var(--r-s);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.25rem;
-  box-shadow: var(--sh-xs);
-}
-.sp-feat span { font-size: .6875rem; font-weight: 600; color: var(--t2); text-align: center; line-height: 1.3; }
+      .sp-features {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 40px;
+        width: 100%;
+      }
+      .sp-feat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 7px;
+        background: var(--bg);
+        border: 1px solid var(--line);
+        border-radius: var(--r-m);
+        padding: 14px 6px;
+        transition:
+          transform var(--tr),
+          box-shadow var(--tr);
+      }
+      .sp-feat:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--sh-s);
+      }
+      .sp-feat-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--white);
+        border-radius: var(--r-s);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        box-shadow: var(--sh-xs);
+      }
+      .sp-feat span {
+        font-size: 0.6875rem;
+        font-weight: 600;
+        color: var(--t2);
+        text-align: center;
+        line-height: 1.3;
+      }
 
-.sp-btn {
-  width: 100%; max-width: 300px;
-  padding: 16px 28px;
-  background: var(--p);
-  color: #fff; border: none;
-  border-radius: var(--r-l); font-family: inherit;
-  font-size: 1rem; font-weight: 700; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; gap: 12px;
-  box-shadow: 0 8px 28px rgba(26,92,66,.32);
-  transition: transform var(--tr), box-shadow var(--tr), background var(--tr);
-  letter-spacing: .1px;
-}
-.sp-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(26,92,66,.4); background: var(--p-mid); }
-.sp-btn:active { transform: scale(.97); }
-.sp-btn-arr {
-  width: 30px; height: 30px; border-radius: 50%;
-  background: rgba(255,255,255,.18);
-  display: flex; align-items: center; justify-content: center;
-  transition: transform var(--tr);
-}
-.sp-btn:hover .sp-btn-arr { transform: translateX(4px); }
-.sp-foot { margin-top: 24px; font-size: .75rem; color: var(--t3); }
+      .sp-btn {
+        width: 100%;
+        max-width: 300px;
+        padding: 16px 28px;
+        background: var(--p);
+        color: #fff;
+        border: none;
+        border-radius: var(--r-l);
+        font-family: inherit;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        box-shadow: 0 8px 28px rgba(26, 92, 66, 0.32);
+        transition:
+          transform var(--tr),
+          box-shadow var(--tr),
+          background var(--tr);
+        letter-spacing: 0.1px;
+      }
+      .sp-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 36px rgba(26, 92, 66, 0.4);
+        background: var(--p-mid);
+      }
+      .sp-btn:active {
+        transform: scale(0.97);
+      }
+      .sp-btn-arr {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.18);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform var(--tr);
+      }
+      .sp-btn:hover .sp-btn-arr {
+        transform: translateX(4px);
+      }
+      .sp-foot {
+        margin-top: 24px;
+        font-size: 0.75rem;
+        color: var(--t3);
+      }
 
-/* =============================================
+      /* =============================================
    APP CONTENT
    ============================================= */
-#app { display: none; }
+      #app {
+        display: none;
+      }
 
-/* ── HEADER ── */
-.hdr {
-  background: var(--white);
-  border-bottom: 1px solid var(--line);
-  padding: 14px 20px;
-  display: flex; align-items: center; justify-content: space-between;
-  position: sticky; top: 0; z-index: 200;
-  box-shadow: var(--sh-xs);
-}
-.hdr-logo { display: flex; align-items: center; gap: 10px; }
-.hdr-img {
-  width: 38px; height: 38px; border-radius: 50%;
-  object-fit: cover; border: 2px solid var(--p-muted);
-}
-.hdr-wordmark { display: flex; flex-direction: column; }
-.hdr-name { font-size: .9375rem; font-weight: 800; color: var(--p); letter-spacing: -.3px; }
-.hdr-org { font-size: .6875rem; color: var(--t3); font-weight: 500; }
-.hdr-btn {
-  width: 40px; height: 40px;
-  background: var(--bg); border: 1px solid var(--line);
-  border-radius: var(--r-s);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; font-size: 1rem;
-  transition: background var(--tr), box-shadow var(--tr);
-}
-.hdr-btn:hover { background: var(--p-soft); box-shadow: var(--sh-xs); }
+      /* ── HEADER ── */
+      .hdr {
+        background: var(--white);
+        border-bottom: 1px solid var(--line);
+        padding: 14px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 200;
+        box-shadow: var(--sh-xs);
+      }
+      .hdr-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .hdr-img {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--p-muted);
+      }
+      .hdr-wordmark {
+        display: flex;
+        flex-direction: column;
+      }
+      .hdr-name {
+        font-size: 0.9375rem;
+        font-weight: 800;
+        color: var(--p);
+        letter-spacing: -0.3px;
+      }
+      .hdr-org {
+        font-size: 0.6875rem;
+        color: var(--t3);
+        font-weight: 500;
+      }
+      .hdr-btn {
+        width: 40px;
+        height: 40px;
+        background: var(--bg);
+        border: 1px solid var(--line);
+        border-radius: var(--r-s);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 1rem;
+        transition:
+          background var(--tr),
+          box-shadow var(--tr);
+      }
+      .hdr-btn:hover {
+        background: var(--p-soft);
+        box-shadow: var(--sh-xs);
+      }
 
-/* ── HERO BANNER ── */
-.hero {
-  background: linear-gradient(135deg, var(--p) 0%, #2e7a55 55%, #3b8f62 100%);
-  color: #fff; padding: 20px 20px 24px;
-  position: relative; overflow: hidden;
-}
-.hero::before {
-  content: '';
-  position: absolute; right: -40px; top: -40px;
-  width: 160px; height: 160px;
-  border-radius: 50%;
-  background: rgba(255,255,255,.05);
-}
-.hero::after {
-  content: '';
-  position: absolute; right: 30px; bottom: -60px;
-  width: 120px; height: 120px;
-  border-radius: 50%;
-  background: rgba(255,255,255,.04);
-}
-.hero-label {
-  font-size: .6875rem; font-weight: 700; opacity: .75;
-  text-transform: uppercase; letter-spacing: 1px;
-  margin-bottom: 4px;
-}
-.hero-title {
-  font-size: 1.5rem; font-weight: 800; letter-spacing: -.4px;
-  margin-bottom: 16px; line-height: 1.2;
-}
-.hero-cd {
-  display: flex; gap: 8px; margin-bottom: 14px;
-}
-.hero-cd-item {
-  flex: 1; background: rgba(255,255,255,.15);
-  border-radius: var(--r-s); padding: 10px 4px;
-  text-align: center; backdrop-filter: blur(4px);
-  border: 1px solid rgba(255,255,255,.12);
-  transition: background var(--tr);
-}
-.hero-cd-item:hover { background: rgba(255,255,255,.22); }
-.hero-cd-n {
-  display: block; font-size: 1.625rem; font-weight: 800;
-  line-height: 1; letter-spacing: -.5px;
-}
-.hero-cd-l {
-  display: block; font-size: .625rem; font-weight: 600;
-  opacity: .8; text-transform: uppercase; margin-top: 3px;
-}
-.hero-cd-date {
-  background: rgba(255,255,255,.12);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: var(--r-s); padding: 9px 14px;
-  font-size: .8125rem; font-weight: 600;
-  text-align: center;
-}
+      /* ── HERO BANNER ── */
+      .hero {
+        background: linear-gradient(
+          135deg,
+          var(--p) 0%,
+          #2e7a55 55%,
+          #3b8f62 100%
+        );
+        color: #fff;
+        padding: 20px 20px 24px;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        right: -40px;
+        top: -40px;
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .hero::after {
+        content: "";
+        position: absolute;
+        right: 30px;
+        bottom: -60px;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.04);
+      }
+      .hero-label {
+        font-size: 0.6875rem;
+        font-weight: 700;
+        opacity: 0.75;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 4px;
+      }
+      .hero-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        letter-spacing: -0.4px;
+        margin-bottom: 16px;
+        line-height: 1.2;
+      }
+      .hero-cd {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+      .hero-cd-item {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: var(--r-s);
+        padding: 10px 4px;
+        text-align: center;
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        transition: background var(--tr);
+      }
+      .hero-cd-item:hover {
+        background: rgba(255, 255, 255, 0.22);
+      }
+      .hero-cd-n {
+        display: block;
+        font-size: 1.625rem;
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -0.5px;
+      }
+      .hero-cd-l {
+        display: block;
+        font-size: 0.625rem;
+        font-weight: 600;
+        opacity: 0.8;
+        text-transform: uppercase;
+        margin-top: 3px;
+      }
+      .hero-cd-date {
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: var(--r-s);
+        padding: 9px 14px;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        text-align: center;
+      }
 
-/* ── MAIN SCROLL AREA ── */
-.main { padding: 16px 16px 100px; display: flex; flex-direction: column; gap: 12px; }
+      /* ── MAIN SCROLL AREA ── */
+      .main {
+        padding: 16px 16px 100px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
 
-/* ── CARD ── */
-.card {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--r-m);
-  box-shadow: var(--sh-xs);
-  overflow: hidden;
-  transition: box-shadow var(--tr);
-}
-.card:hover { box-shadow: var(--sh-s); }
-.card-pad { padding: 16px; }
-.card-hdr {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 16px 0;
-}
-.card-hdr + * { padding-top: 12px; }
+      /* ── CARD ── */
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--r-m);
+        box-shadow: var(--sh-xs);
+        overflow: hidden;
+        transition: box-shadow var(--tr);
+      }
+      .card:hover {
+        box-shadow: var(--sh-s);
+      }
+      .card-pad {
+        padding: 16px;
+      }
+      .card-hdr {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 16px 0;
+      }
+      .card-hdr + * {
+        padding-top: 12px;
+      }
 
-/* ── SECTION TITLE ── */
-.sec-title {
-  font-size: .8125rem; font-weight: 700; color: var(--t1);
-  display: flex; align-items: center; gap: 8px;
-}
-.sec-title-icon {
-  width: 28px; height: 28px; border-radius: var(--r-xs);
-  display: flex; align-items: center; justify-content: center;
-  font-size: .875rem;
-}
-.sec-title-icon.green { background: var(--p-soft); }
-.sec-title-icon.gold  { background: var(--gold-bg); }
-.sec-badge {
-  font-size: .6875rem; font-weight: 600; color: var(--t3);
-  background: var(--bg); border: 1px solid var(--line);
-  padding: 4px 10px; border-radius: 99px;
-}
+      /* ── SECTION TITLE ── */
+      .sec-title {
+        font-size: 0.8125rem;
+        font-weight: 700;
+        color: var(--t1);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .sec-title-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: var(--r-xs);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.875rem;
+      }
+      .sec-title-icon.green {
+        background: var(--p-soft);
+      }
+      .sec-title-icon.gold {
+        background: var(--gold-bg);
+      }
+      .sec-badge {
+        font-size: 0.6875rem;
+        font-weight: 600;
+        color: var(--t3);
+        background: var(--bg);
+        border: 1px solid var(--line);
+        padding: 4px 10px;
+        border-radius: 99px;
+      }
 
-/* ── INFO GRID ── */
-.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.info-tile {
-  background: var(--card); border: 1px solid var(--line);
-  border-radius: var(--r-m); padding: 14px;
-  display: flex; flex-direction: column; gap: 8px;
-  box-shadow: var(--sh-xs);
-  transition: transform var(--tr), box-shadow var(--tr);
-}
-.info-tile:hover { transform: translateY(-1px); box-shadow: var(--sh-s); }
-.info-tile-ico {
-  width: 38px; height: 38px; border-radius: var(--r-s);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.125rem;
-}
-.info-tile-ico.green { background: var(--p-soft); }
-.info-tile-ico.gold  { background: var(--gold-bg); }
-.info-tile-lbl { font-size: .6875rem; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: .4px; }
-.info-tile-val { font-size: .9375rem; font-weight: 700; color: var(--t1); }
-.chip {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 4px 10px; border-radius: 99px;
-  font-size: .6875rem; font-weight: 700;
-}
-.chip-green { background: var(--p-soft); color: var(--p); }
-.chip-gold  { background: var(--gold-bg); color: #8a6a00; }
-.chip-red   { background: var(--red-bg); color: var(--red); }
-.chip-gray  { background: var(--bg); color: var(--t2); border: 1px solid var(--line); }
+      /* ── INFO GRID ── */
+      .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .info-tile {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--r-m);
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        box-shadow: var(--sh-xs);
+        transition:
+          transform var(--tr),
+          box-shadow var(--tr);
+      }
+      .info-tile:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--sh-s);
+      }
+      .info-tile-ico {
+        width: 38px;
+        height: 38px;
+        border-radius: var(--r-s);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.125rem;
+      }
+      .info-tile-ico.green {
+        background: var(--p-soft);
+      }
+      .info-tile-ico.gold {
+        background: var(--gold-bg);
+      }
+      .info-tile-lbl {
+        font-size: 0.6875rem;
+        font-weight: 700;
+        color: var(--t3);
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+      }
+      .info-tile-val {
+        font-size: 0.9375rem;
+        font-weight: 700;
+        color: var(--t1);
+      }
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px 10px;
+        border-radius: 99px;
+        font-size: 0.6875rem;
+        font-weight: 700;
+      }
+      .chip-green {
+        background: var(--p-soft);
+        color: var(--p);
+      }
+      .chip-gold {
+        background: var(--gold-bg);
+        color: #8a6a00;
+      }
+      .chip-red {
+        background: var(--red-bg);
+        color: var(--red);
+      }
+      .chip-gray {
+        background: var(--bg);
+        color: var(--t2);
+        border: 1px solid var(--line);
+      }
 
-/* ── JADWAL LIST ── */
-.jadwal-list { display: flex; flex-direction: column; gap: 8px; padding: 0 16px 14px; }
-.jadwal-row {
-  display: flex; align-items: flex-start; gap: 11px;
-  padding: 11px 12px;
-  border-radius: var(--r-s);
-  background: var(--bg); border: 1px solid var(--line);
-  transition: background var(--tr), box-shadow var(--tr), transform var(--tr);
-}
-.jadwal-row:hover { background: var(--p-soft); border-color: var(--p-muted); transform: translateX(2px); }
-.jadwal-row.featured { background: var(--gold-bg); border-color: var(--gold-muted); }
-.jadwal-row.featured:hover { background: #faefc6; border-color: var(--gold); }
-.jrow-num {
-  width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: .75rem; font-weight: 800;
-  background: var(--white); border: 1px solid var(--line);
-  color: var(--p);
-  box-shadow: var(--sh-xs);
-}
-.jadwal-row.featured .jrow-num { background: var(--gold); color: #fff; border-color: var(--gold); }
-.jrow-body { flex: 1; min-width: 0; }
-.jrow-name { font-size: .875rem; font-weight: 700; margin-bottom: 2px; }
-.jrow-desc { font-size: .8125rem; color: var(--t2); line-height: 1.4; }
-.jrow-komplek {
-  padding: 4px 10px; border-radius: 99px;
-  font-size: .75rem; font-weight: 800;
-  flex-shrink: 0; align-self: flex-start;
-  background: var(--p); color: #fff;
-}
-.jadwal-row.featured .jrow-komplek { background: var(--gold); }
+      /* ── JADWAL LIST ── */
+      .jadwal-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 0 16px 14px;
+      }
+      .jadwal-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 11px;
+        padding: 11px 12px;
+        border-radius: var(--r-s);
+        background: var(--bg);
+        border: 1px solid var(--line);
+        transition:
+          background var(--tr),
+          box-shadow var(--tr),
+          transform var(--tr);
+      }
+      .jadwal-row:hover {
+        background: var(--p-soft);
+        border-color: var(--p-muted);
+        transform: translateX(2px);
+      }
+      .jadwal-row.featured {
+        background: var(--gold-bg);
+        border-color: var(--gold-muted);
+      }
+      .jadwal-row.featured:hover {
+        background: #faefc6;
+        border-color: var(--gold);
+      }
+      .jrow-num {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 800;
+        background: var(--white);
+        border: 1px solid var(--line);
+        color: var(--p);
+        box-shadow: var(--sh-xs);
+      }
+      .jadwal-row.featured .jrow-num {
+        background: var(--gold);
+        color: #fff;
+        border-color: var(--gold);
+      }
+      .jrow-body {
+        flex: 1;
+        min-width: 0;
+      }
+      .jrow-name {
+        font-size: 0.875rem;
+        font-weight: 700;
+        margin-bottom: 2px;
+      }
+      .jrow-desc {
+        font-size: 0.8125rem;
+        color: var(--t2);
+        line-height: 1.4;
+      }
+      .jrow-komplek {
+        padding: 4px 10px;
+        border-radius: 99px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        flex-shrink: 0;
+        align-self: flex-start;
+        background: var(--p);
+        color: #fff;
+      }
+      .jadwal-row.featured .jrow-komplek {
+        background: var(--gold);
+      }
 
-/* ── DATE HEADER ── */
-.date-hdr {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 16px;
-  background: var(--p-soft);
-  border-top: 1px solid var(--p-muted);
-  border-bottom: 1px solid var(--p-muted);
-  font-size: .8125rem; font-weight: 700; color: var(--p);
-  margin: 4px 0;
-}
+      /* ── DATE HEADER ── */
+      .date-hdr {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 16px;
+        background: var(--p-soft);
+        border-top: 1px solid var(--p-muted);
+        border-bottom: 1px solid var(--p-muted);
+        font-size: 0.8125rem;
+        font-weight: 700;
+        color: var(--p);
+        margin: 4px 0;
+      }
 
-/* ── TABLE ── */
-.t-wrap { overflow: hidden; }
-table { width: 100%; border-collapse: collapse; font-size: .8125rem; }
-thead tr { background: var(--bg); }
-th {
-  padding: 11px 14px; text-align: left;
-  font-size: .6875rem; font-weight: 700; color: var(--t3);
-  text-transform: uppercase; letter-spacing: .4px;
-  border-bottom: 1px solid var(--line);
-}
-td { padding: 11px 14px; border-bottom: 1px solid var(--line); color: var(--t1); font-weight: 500; }
-tr:last-child td { border-bottom: none; }
-tr:hover td { background: rgba(26,92,66,.03); }
-tr.r-jumat td { background: var(--gold-bg); }
-tr.r-minggu td { background: var(--red-bg); }
-tr.r-today td { background: var(--p-soft); font-weight: 700; }
+      /* ── TABLE ── */
+      .t-wrap {
+        overflow: hidden;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.8125rem;
+      }
+      thead tr {
+        background: var(--bg);
+      }
+      th {
+        padding: 11px 14px;
+        text-align: left;
+        font-size: 0.6875rem;
+        font-weight: 700;
+        color: var(--t3);
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        border-bottom: 1px solid var(--line);
+      }
+      td {
+        padding: 11px 14px;
+        border-bottom: 1px solid var(--line);
+        color: var(--t1);
+        font-weight: 500;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      tr:hover td {
+        background: rgba(26, 92, 66, 0.03);
+      }
+      tr.r-jumat td {
+        background: var(--gold-bg);
+      }
+      tr.r-minggu td {
+        background: var(--red-bg);
+      }
+      tr.r-today td {
+        background: var(--p-soft);
+        font-weight: 700;
+      }
 
-/* ── BOTTOM NAV ── */
-.bnav {
-  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-  width: 100%; max-width: 480px;
-  background: rgba(255,255,255,.96);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-top: 1px solid var(--line);
-  display: flex; justify-content: space-around; align-items: center;
-  padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
-  z-index: 300;
-  box-shadow: 0 -4px 24px rgba(0,0,0,.06);
-}
-.bni {
-  display: flex; flex-direction: column; align-items: center; gap: 3px;
-  background: none; border: none; font-family: inherit;
-  color: var(--t3); font-size: .6875rem; font-weight: 600;
-  cursor: pointer; padding: 6px 14px; border-radius: var(--r-s);
-  transition: color var(--tr), background var(--tr), transform var(--tr);
-  min-width: 64px;
-}
-.bni:hover { color: var(--p); background: var(--p-soft); }
-.bni.on { color: var(--p); background: var(--p-soft); }
-.bni svg { width: 22px; height: 22px; stroke-width: 1.75; }
-.bni.on svg { stroke-width: 2.25; }
+      /* ── BOTTOM NAV ── */
+      .bnav {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 480px;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-top: 1px solid var(--line);
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+        z-index: 300;
+        box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.06);
+      }
+      .bni {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        background: none;
+        border: none;
+        font-family: inherit;
+        color: var(--t3);
+        font-size: 0.6875rem;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 6px 14px;
+        border-radius: var(--r-s);
+        transition:
+          color var(--tr),
+          background var(--tr),
+          transform var(--tr);
+        min-width: 64px;
+      }
+      .bni:hover {
+        color: var(--p);
+        background: var(--p-soft);
+      }
+      .bni.on {
+        color: var(--p);
+        background: var(--p-soft);
+      }
+      .bni svg {
+        width: 22px;
+        height: 22px;
+        stroke-width: 1.75;
+      }
+      .bni.on svg {
+        stroke-width: 2.25;
+      }
 
-/* ── PAGES ── */
-.pg { display: none; animation: fadeUp .3s ease; }
-.pg.on { display: block; }
-@keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+      /* ── PAGES ── */
+      .pg {
+        display: none;
+        animation: fadeUp 0.3s ease;
+      }
+      .pg.on {
+        display: block;
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
 
-/* ── PAGE HEADER ── */
-.ph {
-  display: flex; align-items: center; gap: 10px;
-  padding: 14px 20px;
-  background: var(--white);
-  border-bottom: 1px solid var(--line);
-  position: sticky; top: 65px; z-index: 100;
-}
-.ph-back {
-  width: 36px; height: 36px; border-radius: var(--r-s);
-  background: var(--bg); border: 1px solid var(--line);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; flex-shrink: 0; font-size: 1rem;
-  transition: background var(--tr), box-shadow var(--tr);
-}
-.ph-back:hover { background: var(--p-soft); box-shadow: var(--sh-xs); }
-.ph-info { flex: 1; }
-.ph-title { font-size: 1rem; font-weight: 800; color: var(--t1); letter-spacing: -.3px; }
-.ph-sub { font-size: .75rem; color: var(--t3); margin-top: 1px; font-weight: 500; }
-.ph-action {
-  padding: 8px 14px; border-radius: var(--r-s);
-  background: var(--bg); border: 1px solid var(--line);
-  font-family: inherit; font-size: .8125rem; font-weight: 600;
-  color: var(--p); cursor: pointer; display: flex; align-items: center; gap: 6px;
-  transition: background var(--tr), box-shadow var(--tr);
-}
-.ph-action:hover { background: var(--p-soft); box-shadow: var(--sh-xs); }
-.ph-action svg { width: 15px; height: 15px; }
+      /* ── PAGE HEADER ── */
+      .ph {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 20px;
+        background: var(--white);
+        border-bottom: 1px solid var(--line);
+        position: sticky;
+        top: 65px;
+        z-index: 100;
+      }
+      .ph-back {
+        width: 36px;
+        height: 36px;
+        border-radius: var(--r-s);
+        background: var(--bg);
+        border: 1px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        font-size: 1rem;
+        transition:
+          background var(--tr),
+          box-shadow var(--tr);
+      }
+      .ph-back:hover {
+        background: var(--p-soft);
+        box-shadow: var(--sh-xs);
+      }
+      .ph-info {
+        flex: 1;
+      }
+      .ph-title {
+        font-size: 1rem;
+        font-weight: 800;
+        color: var(--t1);
+        letter-spacing: -0.3px;
+      }
+      .ph-sub {
+        font-size: 0.75rem;
+        color: var(--t3);
+        margin-top: 1px;
+        font-weight: 500;
+      }
+      .ph-action {
+        padding: 8px 14px;
+        border-radius: var(--r-s);
+        background: var(--bg);
+        border: 1px solid var(--line);
+        font-family: inherit;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: var(--p);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition:
+          background var(--tr),
+          box-shadow var(--tr);
+      }
+      .ph-action:hover {
+        background: var(--p-soft);
+        box-shadow: var(--sh-xs);
+      }
+      .ph-action svg {
+        width: 15px;
+        height: 15px;
+      }
 
-/* ── BUTTONS ── */
-.btn {
-  width: 100%; padding: 13px 18px;
-  border-radius: var(--r-s); border: none; font-family: inherit;
-  font-size: .9375rem; font-weight: 700; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  transition: transform var(--tr), box-shadow var(--tr), background var(--tr), opacity var(--tr);
-}
-.btn:active { transform: scale(.97); }
-.btn svg { width: 17px; height: 17px; }
-.btn-p { background: var(--p); color: #fff; box-shadow: 0 4px 16px rgba(26,92,66,.25); }
-.btn-p:hover { background: var(--p-mid); box-shadow: 0 6px 20px rgba(26,92,66,.35); }
-.btn-out { background: var(--white); border: 1.5px solid var(--p); color: var(--p); }
-.btn-out:hover { background: var(--p-soft); }
-.btn-green { background: var(--green); color: #fff; box-shadow: 0 4px 16px rgba(26,171,122,.25); }
-.btn-green:hover { box-shadow: 0 6px 20px rgba(26,171,122,.35); }
-.btn-red { background: var(--red); color: #fff; box-shadow: 0 4px 16px rgba(217,64,64,.2); }
-.btn-red:hover { box-shadow: 0 6px 20px rgba(217,64,64,.3); }
-.btn-ghost {
-  background: none; border: none; color: var(--t2);
-  font-family: inherit; font-size: .875rem; font-weight: 600;
-  width: auto; padding: 6px 4px; cursor: pointer;
-  display: flex; align-items: center; gap: 6px;
-  transition: color var(--tr);
-}
-.btn-ghost:hover { color: var(--p); }
-.btn-sm { padding: 9px 14px; font-size: .8125rem; width: auto; }
+      /* ── BUTTONS ── */
+      .btn {
+        width: 100%;
+        padding: 13px 18px;
+        border-radius: var(--r-s);
+        border: none;
+        font-family: inherit;
+        font-size: 0.9375rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition:
+          transform var(--tr),
+          box-shadow var(--tr),
+          background var(--tr),
+          opacity var(--tr);
+      }
+      .btn:active {
+        transform: scale(0.97);
+      }
+      .btn svg {
+        width: 17px;
+        height: 17px;
+      }
+      .btn-p {
+        background: var(--p);
+        color: #fff;
+        box-shadow: 0 4px 16px rgba(26, 92, 66, 0.25);
+      }
+      .btn-p:hover {
+        background: var(--p-mid);
+        box-shadow: 0 6px 20px rgba(26, 92, 66, 0.35);
+      }
+      .btn-out {
+        background: var(--white);
+        border: 1.5px solid var(--p);
+        color: var(--p);
+      }
+      .btn-out:hover {
+        background: var(--p-soft);
+      }
+      .btn-green {
+        background: var(--green);
+        color: #fff;
+        box-shadow: 0 4px 16px rgba(26, 171, 122, 0.25);
+      }
+      .btn-green:hover {
+        box-shadow: 0 6px 20px rgba(26, 171, 122, 0.35);
+      }
+      .btn-red {
+        background: var(--red);
+        color: #fff;
+        box-shadow: 0 4px 16px rgba(217, 64, 64, 0.2);
+      }
+      .btn-red:hover {
+        box-shadow: 0 6px 20px rgba(217, 64, 64, 0.3);
+      }
+      .btn-ghost {
+        background: none;
+        border: none;
+        color: var(--t2);
+        font-family: inherit;
+        font-size: 0.875rem;
+        font-weight: 600;
+        width: auto;
+        padding: 6px 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: color var(--tr);
+      }
+      .btn-ghost:hover {
+        color: var(--p);
+      }
+      .btn-sm {
+        padding: 9px 14px;
+        font-size: 0.8125rem;
+        width: auto;
+      }
 
-/* ── NOTE CARDS ── */
-.note-card {
-  background: var(--card); border: 1px solid var(--line);
-  border-left: 3px solid var(--gold);
-  border-radius: var(--r-s); padding: 14px;
-  box-shadow: var(--sh-xs);
-  transition: box-shadow var(--tr), transform var(--tr);
-}
-.note-card:hover { box-shadow: var(--sh-s); transform: translateY(-1px); }
-.note-hdr { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
-.note-title { font-size: .9375rem; font-weight: 700; }
-.note-date { font-size: .6875rem; color: var(--t3); font-weight: 600; flex-shrink: 0; }
-.note-body { font-size: .8125rem; color: var(--t2); line-height: 1.5; margin-bottom: 8px; }
-.note-file {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 6px 12px; background: var(--bg);
-  border: 1px solid var(--line); border-radius: var(--r-xs);
-  font-size: .75rem; color: var(--p); font-weight: 600;
-  text-decoration: none;
-  transition: background var(--tr);
-}
-.note-file:hover { background: var(--p-soft); }
+      /* ── NOTE CARDS ── */
+      .note-card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--gold);
+        border-radius: var(--r-s);
+        padding: 14px;
+        box-shadow: var(--sh-xs);
+        transition:
+          box-shadow var(--tr),
+          transform var(--tr);
+      }
+      .note-card:hover {
+        box-shadow: var(--sh-s);
+        transform: translateY(-1px);
+      }
+      .note-hdr {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 6px;
+      }
+      .note-title {
+        font-size: 0.9375rem;
+        font-weight: 700;
+      }
+      .note-date {
+        font-size: 0.6875rem;
+        color: var(--t3);
+        font-weight: 600;
+        flex-shrink: 0;
+      }
+      .note-body {
+        font-size: 0.8125rem;
+        color: var(--t2);
+        line-height: 1.5;
+        margin-bottom: 8px;
+      }
+      .note-file {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        background: var(--bg);
+        border: 1px solid var(--line);
+        border-radius: var(--r-xs);
+        font-size: 0.75rem;
+        color: var(--p);
+        font-weight: 600;
+        text-decoration: none;
+        transition: background var(--tr);
+      }
+      .note-file:hover {
+        background: var(--p-soft);
+      }
 
-/* ── FORM ── */
-.form-grp { margin-bottom: 14px; }
-.form-lbl {
-  display: block; font-size: .6875rem; font-weight: 700;
-  color: var(--t3); margin-bottom: 6px;
-  text-transform: uppercase; letter-spacing: .4px;
-}
-input[type=text], textarea {
-  width: 100%; padding: 11px 14px;
-  border: 1.5px solid var(--line); border-radius: var(--r-s);
-  font-family: inherit; font-size: .9375rem;
-  background: var(--white); color: var(--t1);
-  transition: border-color var(--tr), box-shadow var(--tr);
-  outline: none;
-}
-input[type=text]:focus, textarea:focus {
-  border-color: var(--p);
-  box-shadow: 0 0 0 3px rgba(26,92,66,.1);
-}
-textarea { resize: vertical; min-height: 96px; line-height: 1.5; }
-.upload-box {
-  position: relative; border: 2px dashed var(--line);
-  border-radius: var(--r-s); padding: 20px;
-  text-align: center; cursor: pointer; background: var(--bg);
-  transition: border-color var(--tr), background var(--tr);
-}
-.upload-box:hover { border-color: var(--p); background: var(--p-soft); }
-.upload-box input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; z-index: 2; }
-.upload-icon { font-size: 1.5rem; display: block; margin-bottom: 6px; }
-.upload-text { font-size: .8125rem; color: var(--t2); }
-.file-pill {
-  display: none; align-items: center; gap: 8px;
-  margin-top: 8px; padding: 8px 12px;
-  background: var(--white); border: 1px solid var(--line);
-  border-radius: var(--r-s); font-size: .8125rem; font-weight: 600; color: var(--t1);
-}
-.file-pill.show { display: flex; }
-.file-pill-check { color: var(--green); }
+      /* ── FORM ── */
+      .form-grp {
+        margin-bottom: 14px;
+      }
+      .form-lbl {
+        display: block;
+        font-size: 0.6875rem;
+        font-weight: 700;
+        color: var(--t3);
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+      }
+      input[type="text"],
+      textarea {
+        width: 100%;
+        padding: 11px 14px;
+        border: 1.5px solid var(--line);
+        border-radius: var(--r-s);
+        font-family: inherit;
+        font-size: 0.9375rem;
+        background: var(--white);
+        color: var(--t1);
+        transition:
+          border-color var(--tr),
+          box-shadow var(--tr);
+        outline: none;
+      }
+      input[type="text"]:focus,
+      textarea:focus {
+        border-color: var(--p);
+        box-shadow: 0 0 0 3px rgba(26, 92, 66, 0.1);
+      }
+      textarea {
+        resize: vertical;
+        min-height: 96px;
+        line-height: 1.5;
+      }
+      .upload-box {
+        position: relative;
+        border: 2px dashed var(--line);
+        border-radius: var(--r-s);
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        background: var(--bg);
+        transition:
+          border-color var(--tr),
+          background var(--tr);
+      }
+      .upload-box:hover {
+        border-color: var(--p);
+        background: var(--p-soft);
+      }
+      .upload-box input[type="file"] {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+        z-index: 2;
+      }
+      .upload-icon {
+        font-size: 1.5rem;
+        display: block;
+        margin-bottom: 6px;
+      }
+      .upload-text {
+        font-size: 0.8125rem;
+        color: var(--t2);
+      }
+      .file-pill {
+        display: none;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+        padding: 8px 12px;
+        background: var(--white);
+        border: 1px solid var(--line);
+        border-radius: var(--r-s);
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: var(--t1);
+      }
+      .file-pill.show {
+        display: flex;
+      }
+      .file-pill-check {
+        color: var(--green);
+      }
 
-/* ── MODAL ── */
-.modal-bg {
-  position: fixed; inset: 0; z-index: 8000;
-  background: rgba(0,0,0,.55);
-  backdrop-filter: blur(5px);
-  display: none; align-items: center; justify-content: center;
-  padding: 20px;
-  opacity: 0; transition: opacity .3s;
-}
-.modal-bg.on { display: flex; opacity: 1; }
-.modal-box {
-  background: var(--white); border-radius: var(--r-l);
-  padding: 28px 24px 24px; width: 100%; max-width: 340px;
-  box-shadow: var(--sh-l);
-  transform: scale(.92) translateY(16px);
-  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
-}
-.modal-bg.on .modal-box { transform: scale(1) translateY(0); }
-.modal-ico {
-  width: 58px; height: 58px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.625rem; margin: 0 auto 16px;
-}
-.modal-ico.ok  { background: rgba(26,171,122,.1); }
-.modal-ico.err { background: rgba(217,64,64,.1); }
-.modal-ico.warn{ background: rgba(196,154,26,.12); }
-.modal-ttl { font-size: 1.125rem; font-weight: 800; text-align: center; margin-bottom: 8px; color: var(--t1); }
-.modal-txt { font-size: .875rem; color: var(--t2); text-align: center; margin-bottom: 22px; line-height: 1.5; }
-.modal-acts { display: flex; gap: 10px; }
-.modal-acts .btn { flex: 1; }
+      /* ── MODAL ── */
+      .modal-bg {
+        position: fixed;
+        inset: 0;
+        z-index: 8000;
+        background: rgba(0, 0, 0, 0.55);
+        backdrop-filter: blur(5px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .modal-bg.on {
+        display: flex;
+        opacity: 1;
+      }
+      .modal-box {
+        background: var(--white);
+        border-radius: var(--r-l);
+        padding: 28px 24px 24px;
+        width: 100%;
+        max-width: 340px;
+        box-shadow: var(--sh-l);
+        transform: scale(0.92) translateY(16px);
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .modal-bg.on .modal-box {
+        transform: scale(1) translateY(0);
+      }
+      .modal-ico {
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.625rem;
+        margin: 0 auto 16px;
+      }
+      .modal-ico.ok {
+        background: rgba(26, 171, 122, 0.1);
+      }
+      .modal-ico.err {
+        background: rgba(217, 64, 64, 0.1);
+      }
+      .modal-ico.warn {
+        background: rgba(196, 154, 26, 0.12);
+      }
+      .modal-ttl {
+        font-size: 1.125rem;
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 8px;
+        color: var(--t1);
+      }
+      .modal-txt {
+        font-size: 0.875rem;
+        color: var(--t2);
+        text-align: center;
+        margin-bottom: 22px;
+        line-height: 1.5;
+      }
+      .modal-acts {
+        display: flex;
+        gap: 10px;
+      }
+      .modal-acts .btn {
+        flex: 1;
+      }
 
-/* ── TOAST ── */
-.toast {
-  position: fixed; top: 20px; left: 50%;
-  transform: translateX(-50%) translateY(-110px);
-  padding: 12px 20px; border-radius: var(--r-s);
-  font-size: .875rem; font-weight: 600;
-  box-shadow: var(--sh-l); opacity: 0;
-  transition: all .4s cubic-bezier(.68,-.55,.265,1.55);
-  z-index: 9500; display: flex; align-items: center; gap: 10px;
-  min-width: 260px; max-width: 90%;
-}
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.toast.ok  { background: var(--green); color: #fff; }
-.toast.err { background: var(--red); color: #fff; }
+      /* ── TOAST ── */
+      .toast {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-110px);
+        padding: 12px 20px;
+        border-radius: var(--r-s);
+        font-size: 0.875rem;
+        font-weight: 600;
+        box-shadow: var(--sh-l);
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        z-index: 9500;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 260px;
+        max-width: 90%;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+      .toast.ok {
+        background: var(--green);
+        color: #fff;
+      }
+      .toast.err {
+        background: var(--red);
+        color: #fff;
+      }
 
-/* ── EMPTY STATE ── */
-.empty {
-  display: flex; flex-direction: column; align-items: center;
-  padding: 36px 20px; color: var(--t3); text-align: center;
-}
-.empty-icon { font-size: 2.5rem; margin-bottom: 10px; opacity: .5; }
-.empty p { font-size: .875rem; font-weight: 500; }
+      /* ── EMPTY STATE ── */
+      .empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 36px 20px;
+        color: var(--t3);
+        text-align: center;
+      }
+      .empty-icon {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        opacity: 0.5;
+      }
+      .empty p {
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
 
-/* ── INFO BANNER ── */
-.info-bar {
-  display: flex; align-items: flex-start; gap: 10px;
-  background: var(--p-soft); border: 1px solid var(--p-muted);
-  border-radius: var(--r-s); padding: 11px 14px;
-  font-size: .8125rem; color: var(--p); margin-bottom: 14px;
-  line-height: 1.4;
-}
-.info-bar-icon { flex-shrink: 0; font-size: 1rem; margin-top: 1px; }
+      /* ── INFO BANNER ── */
+      .info-bar {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        background: var(--p-soft);
+        border: 1px solid var(--p-muted);
+        border-radius: var(--r-s);
+        padding: 11px 14px;
+        font-size: 0.8125rem;
+        color: var(--p);
+        margin-bottom: 14px;
+        line-height: 1.4;
+      }
+      .info-bar-icon {
+        flex-shrink: 0;
+        font-size: 1rem;
+        margin-top: 1px;
+      }
 
-/* ── DIVIDER ── */
-.div { height: 1px; background: var(--line); margin: 0; }
+      /* ── DIVIDER ── */
+      .div {
+        height: 1px;
+        background: var(--line);
+        margin: 0;
+      }
 
-/* ── SCROLL TOP ── */
-.scroll-up {
-  position: fixed; bottom: 90px; right: 20px;
-  width: 40px; height: 40px; border-radius: 50%;
-  background: var(--white); border: 1px solid var(--line);
-  box-shadow: var(--sh-s);
-  display: none; align-items: center; justify-content: center;
-  cursor: pointer; font-size: .875rem; z-index: 200;
-  transition: background var(--tr), box-shadow var(--tr), transform var(--tr);
-}
-.scroll-up:hover { background: var(--p-soft); transform: translateY(-2px); }
-.scroll-up.show { display: flex; }
+      /* ── SCROLL TOP ── */
+      .scroll-up {
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--white);
+        border: 1px solid var(--line);
+        box-shadow: var(--sh-s);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 0.875rem;
+        z-index: 200;
+        transition:
+          background var(--tr),
+          box-shadow var(--tr),
+          transform var(--tr);
+      }
+      .scroll-up:hover {
+        background: var(--p-soft);
+        transform: translateY(-2px);
+      }
+      .scroll-up.show {
+        display: flex;
+      }
 
-@media print {
-  #splash, .bnav, .hdr, .ph, .scroll-up { display: none !important; }
-  .pg { display: block !important; }
-  .card { box-shadow: none; border: 1px solid #ddd; }
-  body { background: #fff; }
-}
-</style>
-</head>
-<body>
-<div class="wrap">
-
-<!-- ═══════════════════════════════════════
+      @media print {
+        #splash,
+        .bnav,
+        .hdr,
+        .ph,
+        .scroll-up {
+          display: none !important;
+        }
+        .pg {
+          display: block !important;
+        }
+        .card {
+          box-shadow: none;
+          border: 1px solid #ddd;
+        }
+        body {
+          background: #fff;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <!-- ═══════════════════════════════════════
      HALAMAN 0 — SPLASH
      ═══════════════════════════════════════ -->
-<div id="splash">
-  <div class="sp-logo">
-    <div class="sp-logo-ring"></div>
-    <div class="sp-logo-ring2"></div>
-    <img
-      class="sp-logo-img"
-      src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b50293fdba0b58d437ab54/1fa3763b8_ChatGPTImage12Mar2026141730.png"
-      alt="Logo PPMH"
-      onerror="this.outerHTML='<div class=sp-logo-fallback>🕌</div>'"
-    >
-  </div>
+      <div id="splash">
+        <div class="sp-logo">
+          <div class="sp-logo-ring"></div>
+          <div class="sp-logo-ring2"></div>
+          <img
+            class="sp-logo-img"
+            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b50293fdba0b58d437ab54/1fa3763b8_ChatGPTImage12Mar2026141730.png"
+            alt="Logo PPMH"
+            onerror="this.outerHTML='<div class=sp-logo-fallback>🕌</div>'"
+          />
+        </div>
 
-  <div class="sp-chip"><div class="sp-chip-dot"></div> Sistem Aktif</div>
+        <div class="sp-chip">
+          <div class="sp-chip-dot"></div>
+          Sistem Aktif
+        </div>
 
-  <h1 class="sp-title">Ro'an Terpadu</h1>
-  <p class="sp-sub">Sistem Manajemen Kebersihan<br>Pondok Pesantren Miftahul Huda</p>
+        <h1 class="sp-title">Ro'an Terpadu</h1>
+        <p class="sp-sub">
+          Sistem Manajemen Kebersihan<br />Pondok Pesantren Miftahul Huda
+        </p>
 
-  <div class="sp-features">
-    <div class="sp-feat">
-      <div class="sp-feat-icon">🕌</div>
-      <span>Jumat Kubro</span>
-    </div>
-    <div class="sp-feat">
-      <div class="sp-feat-icon">🗑️</div>
-      <span>Jadwal TPS</span>
-    </div>
-    <div class="sp-feat">
-      <div class="sp-feat-icon">📋</div>
-      <span>Catatan</span>
-    </div>
-    <div class="sp-feat">
-      <div class="sp-feat-icon">📄</div>
-      <span>Export PDF</span>
-    </div>
-  </div>
+        <div class="sp-features">
+          <div class="sp-feat">
+            <div class="sp-feat-icon">🕌</div>
+            <span>Jumat Kubro</span>
+          </div>
+          <div class="sp-feat">
+            <div class="sp-feat-icon">🗑️</div>
+            <span>Jadwal TPS</span>
+          </div>
+          <div class="sp-feat">
+            <div class="sp-feat-icon">📋</div>
+            <span>Catatan</span>
+          </div>
+          <div class="sp-feat">
+            <div class="sp-feat-icon">📄</div>
+            <span>Export PDF</span>
+          </div>
+        </div>
 
-  <button class="sp-btn" onclick="enterApp()">
-    <span>Masuk ke Aplikasi</span>
-    <div class="sp-btn-arr">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="14" height="14">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
-      </svg>
-    </div>
-  </button>
-  <p class="sp-foot">Versi 2.0 &nbsp;·&nbsp; PPMH Digital</p>
-</div>
+        <button class="sp-btn" onclick="enterApp()">
+          <span>Masuk ke Aplikasi</span>
+          <div class="sp-btn-arr">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2.5"
+              stroke="currentColor"
+              width="14"
+              height="14"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8.25 4.5l7.5 7.5-7.5 7.5"
+              />
+            </svg>
+          </div>
+        </button>
+        <p class="sp-foot">Versi 2.0 &nbsp;·&nbsp; PPMH Digital</p>
+      </div>
 
-<!-- ═══════════════════════════════════════
+      <!-- ═══════════════════════════════════════
      APP CONTENT
      ═══════════════════════════════════════ -->
-<div id="app">
+      <div id="app">
+        <!-- HEADER -->
+        <header class="hdr">
+          <div class="hdr-logo">
+            <img
+              class="hdr-img"
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b50293fdba0b58d437ab54/1fa3763b8_ChatGPTImage12Mar2026141730.png"
+              alt="Logo"
+              onerror="this.style.display='none'"
+            />
+            <div class="hdr-wordmark">
+              <span class="hdr-name">Ro'an</span>
+              <span class="hdr-org">Sistem PPMH</span>
+            </div>
+          </div>
+          <button class="hdr-btn" onclick="navTo('catatan')" title="Catatan">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.75"
+              stroke="currentColor"
+              width="20"
+              height="20"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z"
+              />
+            </svg>
+          </button>
+        </header>
 
-  <!-- HEADER -->
-  <header class="hdr">
-    <div class="hdr-logo">
-      <img
-        class="hdr-img"
-        src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b50293fdba0b58d437ab54/1fa3763b8_ChatGPTImage12Mar2026141730.png"
-        alt="Logo"
-        onerror="this.style.display='none'"
-      >
-      <div class="hdr-wordmark">
-        <span class="hdr-name">Ro'an</span>
-        <span class="hdr-org">Sistem PPMH</span>
-      </div>
-    </div>
-    <button class="hdr-btn" onclick="navTo('catatan')" title="Catatan">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" width="20" height="20">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z"/>
-      </svg>
-    </button>
-  </header>
-
-  <!-- ────────────────────────────────────────
+        <!-- ────────────────────────────────────────
        HOME PAGE
        ──────────────────────────────────────── -->
-  <div id="pg-home" class="pg on">
-
-    <!-- HERO COUNTDOWN -->
-    <div class="hero">
-      <div class="hero-label">Jumat Kubro Terdekat</div>
-      <div class="hero-title" id="hNextDate">Memuat...</div>
-      <div class="hero-cd">
-        <div class="hero-cd-item">
-          <span class="hero-cd-n" id="cdD">0</span>
-          <span class="hero-cd-l">Hari</span>
-        </div>
-        <div class="hero-cd-item">
-          <span class="hero-cd-n" id="cdH">0</span>
-          <span class="hero-cd-l">Jam</span>
-        </div>
-        <div class="hero-cd-item">
-          <span class="hero-cd-n" id="cdM">0</span>
-          <span class="hero-cd-l">Menit</span>
-        </div>
-        <div class="hero-cd-item">
-          <span class="hero-cd-n" id="cdS">0</span>
-          <span class="hero-cd-l">Detik</span>
-        </div>
-      </div>
-      <div class="hero-cd-date" id="hDateStr">–</div>
-    </div>
-
-    <div class="main">
-      <!-- INFO GRID -->
-      <div class="info-grid">
-        <div class="info-tile">
-          <div class="info-tile-ico green">🗑️</div>
-          <div class="info-tile-lbl">TPS Hari Ini</div>
-          <div class="info-tile-val" id="tpsToday">–</div>
-          <span class="chip chip-green" id="tpsChip">Hari Ini</span>
-        </div>
-        <div class="info-tile">
-          <div class="info-tile-ico gold">📅</div>
-          <div class="info-tile-lbl">Periode Aktif</div>
-          <div class="info-tile-val" id="periodeNow">–</div>
-          <span class="chip chip-gold">Berjalan</span>
-        </div>
-      </div>
-
-      <!-- JADWAL JUMAT MENDATANG -->
-      <div class="card">
-        <div class="card-hdr">
-          <div class="sec-title">
-            <div class="sec-title-icon green">🕌</div>
-            Jadwal Kubro Mendatang
+        <div id="pg-home" class="pg on">
+          <!-- HERO COUNTDOWN -->
+          <div class="hero">
+            <div class="hero-label">Jumat Kubro Terdekat</div>
+            <div class="hero-title" id="hNextDate">Memuat...</div>
+            <div class="hero-cd">
+              <div class="hero-cd-item">
+                <span class="hero-cd-n" id="cdD">0</span>
+                <span class="hero-cd-l">Hari</span>
+              </div>
+              <div class="hero-cd-item">
+                <span class="hero-cd-n" id="cdH">0</span>
+                <span class="hero-cd-l">Jam</span>
+              </div>
+              <div class="hero-cd-item">
+                <span class="hero-cd-n" id="cdM">0</span>
+                <span class="hero-cd-l">Menit</span>
+              </div>
+              <div class="hero-cd-item">
+                <span class="hero-cd-n" id="cdS">0</span>
+                <span class="hero-cd-l">Detik</span>
+              </div>
+            </div>
+            <div class="hero-cd-date" id="hDateStr">–</div>
           </div>
-          <span class="sec-badge" id="nextJumatBadge">–</span>
-        </div>
-        <div id="homeJadwal" class="jadwal-list" style="padding-top:10px">
-          <div class="empty"><div class="empty-icon">⏳</div><p>Memuat...</p></div>
-        </div>
-      </div>
 
-      <!-- QUICK ACTIONS -->
-      <div class="card card-pad" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <button class="btn btn-out" onclick="navTo('kubro')">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg>
-          Jadwal Kubro
-        </button>
-        <button class="btn btn-out" onclick="navTo('tps')">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/></svg>
-          Jadwal TPS
-        </button>
-      </div>
-    </div>
-  </div>
+          <div class="main">
+            <!-- INFO GRID -->
+            <div class="info-grid">
+              <div class="info-tile">
+                <div class="info-tile-ico green">🗑️</div>
+                <div class="info-tile-lbl">TPS Hari Ini</div>
+                <div class="info-tile-val" id="tpsToday">–</div>
+                <span class="chip chip-green" id="tpsChip">Hari Ini</span>
+              </div>
+              <div class="info-tile">
+                <div class="info-tile-ico gold">📅</div>
+                <div class="info-tile-lbl">Periode Aktif</div>
+                <div class="info-tile-val" id="periodeNow">–</div>
+                <span class="chip chip-gold">Berjalan</span>
+              </div>
+            </div>
 
-  <!-- ────────────────────────────────────────
+            <!-- JADWAL JUMAT MENDATANG -->
+            <div class="card">
+              <div class="card-hdr">
+                <div class="sec-title">
+                  <div class="sec-title-icon green">🕌</div>
+                  Jadwal Kubro Mendatang
+                </div>
+                <span class="sec-badge" id="nextJumatBadge">–</span>
+              </div>
+              <div
+                id="homeJadwal"
+                class="jadwal-list"
+                style="padding-top: 10px"
+              >
+                <div class="empty">
+                  <div class="empty-icon">⏳</div>
+                  <p>Memuat...</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- QUICK ACTIONS -->
+            <div
+              class="card card-pad"
+              style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px"
+            >
+              <button class="btn btn-out" onclick="navTo('kubro')">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.75"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                  />
+                </svg>
+                Jadwal Kubro
+              </button>
+              <button class="btn btn-out" onclick="navTo('tps')">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.75"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                  />
+                </svg>
+                Jadwal TPS
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ────────────────────────────────────────
        KUBRO PAGE
        ──────────────────────────────────────── -->
-  <div id="pg-kubro" class="pg">
-    <div class="ph">
-      <button class="ph-back" onclick="navTo('home')">←</button>
-      <div class="ph-info">
-        <div class="ph-title">Jadwal Jumat Kubro</div>
-        <div class="ph-sub" id="kubroPeriode">–</div>
-      </div>
-      <button class="ph-action" onclick="exportKubroPDF()">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
-        PDF
-      </button>
-    </div>
-    <div class="main" style="padding-top:0">
-      <div class="card" style="overflow:hidden">
-        <div id="kubroList"></div>
-      </div>
-    </div>
-  </div>
+        <div id="pg-kubro" class="pg">
+          <div class="ph">
+            <button class="ph-back" onclick="navTo('home')">←</button>
+            <div class="ph-info">
+              <div class="ph-title">Jadwal Jumat Kubro</div>
+              <div class="ph-sub" id="kubroPeriode">–</div>
+            </div>
+            <button class="ph-action" onclick="exportKubroPDF()">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.75"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+                />
+              </svg>
+              PDF
+            </button>
+          </div>
+          <div class="main" style="padding-top: 0">
+            <div class="card" style="overflow: hidden">
+              <div id="kubroList"></div>
+            </div>
+          </div>
+        </div>
 
-  <!-- ────────────────────────────────────────
+        <!-- ────────────────────────────────────────
        TPS PAGE
        ──────────────────────────────────────── -->
-  <div id="pg-tps" class="pg">
-    <div class="ph">
-      <button class="ph-back" onclick="navTo('home')">←</button>
-      <div class="ph-info">
-        <div class="ph-title">Jadwal Ro'an TPS</div>
-        <div class="ph-sub" id="tpsPeriode">–</div>
-      </div>
-      <button class="ph-action" onclick="exportTPSPDF()">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
-        PDF
-      </button>
-    </div>
-    <div class="main" style="padding-top:0">
-      <div class="card t-wrap" id="tpsTable">
-        <div class="empty"><div class="empty-icon">⏳</div><p>Memuat jadwal...</p></div>
-      </div>
-    </div>
-  </div>
+        <div id="pg-tps" class="pg">
+          <div class="ph">
+            <button class="ph-back" onclick="navTo('home')">←</button>
+            <div class="ph-info">
+              <div class="ph-title">Jadwal Ro'an TPS</div>
+              <div class="ph-sub" id="tpsPeriode">–</div>
+            </div>
+            <button class="ph-action" onclick="exportTPSPDF()">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.75"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+                />
+              </svg>
+              PDF
+            </button>
+          </div>
+          <div class="main" style="padding-top: 0">
+            <div class="card t-wrap" id="tpsTable">
+              <div class="empty">
+                <div class="empty-icon">⏳</div>
+                <p>Memuat jadwal...</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-  <!-- ────────────────────────────────────────
+        <!-- ────────────────────────────────────────
        CATATAN PAGE
        ──────────────────────────────────────── -->
-  <div id="pg-catatan" class="pg">
-    <div class="ph">
-      <button class="ph-back" onclick="navTo('home')">←</button>
-      <div class="ph-info">
-        <div class="ph-title">Catatan &amp; Dokumen</div>
-        <div class="ph-sub">Kelola informasi penting</div>
-      </div>
-    </div>
-    <div class="main" style="padding-top:0">
-
-      <!-- ACTION CARD -->
-      <div class="card card-pad">
-        <div class="info-bar">
-          <span class="info-bar-icon">ℹ️</span>
-          <span>Tambahkan catatan dan lampiran (PDF, Word, Excel, Gambar)</span>
-        </div>
-
-        <!-- ADD FORM -->
-        <div id="addForm" style="display:none; margin-bottom:16px;">
-          <div class="form-grp">
-            <label class="form-lbl">Judul</label>
-            <input type="text" id="noteTitle" placeholder="Masukkan judul catatan...">
-          </div>
-          <div class="form-grp">
-            <label class="form-lbl">Isi Catatan</label>
-            <textarea id="noteContent" placeholder="Tulis detail catatan..."></textarea>
-          </div>
-          <div class="form-grp">
-            <label class="form-lbl">Lampiran <span style="color:var(--t3);font-weight:400;text-transform:none">(opsional)</span></label>
-            <div class="upload-box">
-              <input type="file" id="noteFile" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png">
-              <span class="upload-icon">☁️</span>
-              <div class="upload-text">Tap untuk pilih file</div>
-            </div>
-            <div class="file-pill" id="filePill">
-              <span class="file-pill-check">✓</span>
-              <span id="fileName"></span>
+        <div id="pg-catatan" class="pg">
+          <div class="ph">
+            <button class="ph-back" onclick="navTo('home')">←</button>
+            <div class="ph-info">
+              <div class="ph-title">Catatan &amp; Dokumen</div>
+              <div class="ph-sub">Kelola informasi penting</div>
             </div>
           </div>
-          <div style="display:flex;gap:10px;">
-            <button class="btn btn-out btn-sm" style="flex:1" onclick="toggleForm()">✕ Batal</button>
-            <button class="btn btn-green btn-sm" style="flex:1.5" onclick="saveNote()">💾 Simpan Catatan</button>
+          <div class="main" style="padding-top: 0">
+            <!-- ACTION CARD -->
+            <div class="card card-pad">
+              <div class="info-bar">
+                <span class="info-bar-icon">ℹ️</span>
+                <span
+                  >Tambahkan catatan dan lampiran (PDF, Word, Excel,
+                  Gambar)</span
+                >
+              </div>
+
+              <!-- ADD FORM -->
+              <div id="addForm" style="display: none; margin-bottom: 16px">
+                <div class="form-grp">
+                  <label class="form-lbl">Judul</label>
+                  <input
+                    type="text"
+                    id="noteTitle"
+                    placeholder="Masukkan judul catatan..."
+                  />
+                </div>
+                <div class="form-grp">
+                  <label class="form-lbl">Isi Catatan</label>
+                  <textarea
+                    id="noteContent"
+                    placeholder="Tulis detail catatan..."
+                  ></textarea>
+                </div>
+                <div class="form-grp">
+                  <label class="form-lbl"
+                    >Lampiran
+                    <span
+                      style="
+                        color: var(--t3);
+                        font-weight: 400;
+                        text-transform: none;
+                      "
+                      >(opsional)</span
+                    ></label
+                  >
+                  <div class="upload-box">
+                    <input
+                      type="file"
+                      id="noteFile"
+                      accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"
+                    />
+                    <span class="upload-icon">☁️</span>
+                    <div class="upload-text">Tap untuk pilih file</div>
+                  </div>
+                  <div class="file-pill" id="filePill">
+                    <span class="file-pill-check">✓</span>
+                    <span id="fileName"></span>
+                  </div>
+                </div>
+                <div style="display: flex; gap: 10px">
+                  <button
+                    class="btn btn-out btn-sm"
+                    style="flex: 1"
+                    onclick="toggleForm()"
+                  >
+                    ✕ Batal
+                  </button>
+                  <button
+                    class="btn btn-green btn-sm"
+                    style="flex: 1.5"
+                    onclick="saveNote()"
+                  >
+                    💾 Simpan Catatan
+                  </button>
+                </div>
+              </div>
+
+              <!-- BUTTONS -->
+              <div
+                id="formBtns"
+                style="display: flex; flex-direction: column; gap: 8px"
+              >
+                <button
+                  class="btn btn-green"
+                  id="btnAdd"
+                  onclick="toggleForm()"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2.5"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 4.5v15m7.5-7.5h-15"
+                    />
+                  </svg>
+                  Tambah Catatan Baru
+                </button>
+                <button
+                  class="btn btn-ghost"
+                  style="justify-content: center; color: var(--red)"
+                  onclick="confirmReset()"
+                >
+                  🗑 Hapus Semua Catatan
+                </button>
+              </div>
+            </div>
+
+            <!-- NOTES LIST -->
+            <div class="sec-title" style="padding: 4px 2px 10px">
+              <div class="sec-title-icon gold">📂</div>
+              Daftar Catatan
+            </div>
+            <div
+              id="notesList"
+              style="display: flex; flex-direction: column; gap: 10px"
+            >
+              <div class="card card-pad">
+                <div class="empty">
+                  <div class="empty-icon">📭</div>
+                  <p>Belum ada catatan</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- BUTTONS -->
-        <div id="formBtns" style="display:flex;flex-direction:column;gap:8px;">
-          <button class="btn btn-green" id="btnAdd" onclick="toggleForm()">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-            Tambah Catatan Baru
+        <!-- BOTTOM NAV -->
+        <nav class="bnav">
+          <button class="bni on" onclick="navTo('home')" data-p="home">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+              />
+            </svg>
+            Beranda
           </button>
-          <button class="btn btn-ghost" style="justify-content:center;color:var(--red)" onclick="confirmReset()">
-            🗑 Hapus Semua Catatan
+          <button class="bni" onclick="navTo('kubro')" data-p="kubro">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+              />
+            </svg>
+            Kubro
           </button>
-        </div>
+          <button class="bni" onclick="navTo('tps')" data-p="tps">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+              />
+            </svg>
+            TPS
+          </button>
+          <button class="bni" onclick="navTo('catatan')" data-p="catatan">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z"
+              />
+            </svg>
+            Catatan
+          </button>
+        </nav>
+      </div>
+      <!-- /#app -->
+
+      <!-- SCROLL TO TOP -->
+      <button class="scroll-up" id="scrollUp" onclick="scrollToTop()">↑</button>
+
+      <!-- TOAST -->
+      <div id="toast" class="toast ok">
+        <span id="toastIcon">✓</span>
+        <span id="toastMsg"></span>
       </div>
 
-      <!-- NOTES LIST -->
-      <div class="sec-title" style="padding:4px 2px 10px">
-        <div class="sec-title-icon gold">📂</div>
-        Daftar Catatan
-      </div>
-      <div id="notesList" style="display:flex;flex-direction:column;gap:10px">
-        <div class="card card-pad">
-          <div class="empty"><div class="empty-icon">📭</div><p>Belum ada catatan</p></div>
+      <!-- MODAL -->
+      <div id="modal" class="modal-bg">
+        <div class="modal-box">
+          <div id="mIco" class="modal-ico ok">✓</div>
+          <div id="mTitle" class="modal-ttl"></div>
+          <div id="mText" class="modal-txt"></div>
+          <div id="mActs" class="modal-acts"></div>
         </div>
       </div>
     </div>
-  </div>
+    <!-- /.wrap -->
 
-  <!-- BOTTOM NAV -->
-  <nav class="bnav">
-    <button class="bni on" onclick="navTo('home')" data-p="home">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg>
-      Beranda
-    </button>
-    <button class="bni" onclick="navTo('kubro')" data-p="kubro">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg>
-      Kubro
-    </button>
-    <button class="bni" onclick="navTo('tps')" data-p="tps">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/></svg>
-      TPS
-    </button>
-    <button class="bni" onclick="navTo('catatan')" data-p="catatan">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z"/></svg>
-      Catatan
-    </button>
-  </nav>
-
-</div><!-- /#app -->
-
-<!-- SCROLL TO TOP -->
-<button class="scroll-up" id="scrollUp" onclick="scrollToTop()">↑</button>
-
-<!-- TOAST -->
-<div id="toast" class="toast ok">
-  <span id="toastIcon">✓</span>
-  <span id="toastMsg"></span>
-</div>
-
-<!-- MODAL -->
-<div id="modal" class="modal-bg">
-  <div class="modal-box">
-    <div id="mIco" class="modal-ico ok">✓</div>
-    <div id="mTitle" class="modal-ttl"></div>
-    <div id="mText" class="modal-txt"></div>
-    <div id="mActs" class="modal-acts"></div>
-  </div>
-</div>
-
-</div><!-- /.wrap -->
-
-<script>
-/* =============================================
+    <script>
+      /* =============================================
    DATA CONSTANTS
    ============================================= */
-const BLN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-const HARI = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-const KOMPLEK     = ['A','B','C','D','E','F','G','H','I','J'];
-const KOMP_HARIAN = ['A','B','C','E','F','G','H','I','J'];
-const LOKASI = [
-  { nama:'Lokasi 1',  detail:'Masjid Lt 1, 2 dan Depan perpustakaan' },
-  { nama:'Lokasi 2',  detail:'Jeding Masjid' },
-  { nama:'Lokasi 3',  detail:'Teras Ndalem Gus Minan sampai Halaqoh' },
-  { nama:'Lokasi 4',  detail:'Ziarah & Membersihkan Makam Klaseman' },
-  { nama:'Lokasi 5',  detail:'Depan Mifda + Komp. C' },
-  { nama:'Lokasi 6',  detail:'Madrasah Lt. 1-3, Parkiran Bawah dan Maqom' },
-  { nama:'Lokasi 7',  detail:'Jeding Santri dan Depan Laundry' },
-  { nama:'Lokasi 8',  detail:'Dapur & Jemuran' },
-  { nama:'Lokasi 9',  detail:'Parkiran depan dan samping DU, Teras DU & Jeding Tamu DU' },
-  { nama:'Lokasi 10', detail:'Membuang sampah ke TPS & Mengepel belakang Komp. C' },
-];
+      const BLN = [
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember",
+      ];
+      const HARI = [
+        "Minggu",
+        "Senin",
+        "Selasa",
+        "Rabu",
+        "Kamis",
+        "Jumat",
+        "Sabtu",
+      ];
+      const KOMPLEK = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+      const KOMP_HARIAN = ["A", "B", "C", "E", "F", "G", "H", "I", "J"];
+      const LOKASI = [
+        { nama: "Lokasi 1", detail: "Masjid Lt 1, 2 dan Depan perpustakaan" },
+        { nama: "Lokasi 2", detail: "Jeding Masjid" },
+        { nama: "Lokasi 3", detail: "Teras Ndalem Gus Minan sampai Halaqoh" },
+        { nama: "Lokasi 4", detail: "Ziarah & Membersihkan Makam Klaseman" },
+        { nama: "Lokasi 5", detail: "Depan Mifda + Komp. C" },
+        {
+          nama: "Lokasi 6",
+          detail: "Madrasah Lt. 1-3, Parkiran Bawah dan Maqom",
+        },
+        { nama: "Lokasi 7", detail: "Jeding Santri dan Depan Laundry" },
+        { nama: "Lokasi 8", detail: "Dapur & Jemuran" },
+        {
+          nama: "Lokasi 9",
+          detail: "Parkiran depan dan samping DU, Teras DU & Jeding Tamu DU",
+        },
+        {
+          nama: "Lokasi 10",
+          detail: "Membuang sampah ke TPS & Mengepel belakang Komp. C",
+        },
+      ];
 
-/* =============================================
+      /* =============================================
    HELPERS
    ============================================= */
-function fmtTgl(d){ return `${d.getDate()} ${BLN[d.getMonth()]} ${d.getFullYear()}`; }
-function locStr(d){ return d.toLocaleDateString('id-ID'); }
-function nextFriday(ref){
-  const d = new Date(ref);
-  const off = (5 - d.getDay() + 7) % 7 || 7;
-  d.setDate(d.getDate() + off);
-  d.setHours(0,0,0,0);
-  return d;
-}
+      function fmtTgl(d) {
+        return `${d.getDate()} ${BLN[d.getMonth()]} ${d.getFullYear()}`;
+      }
+      function locStr(d) {
+        return d.toLocaleDateString("id-ID");
+      }
+      function nextFriday(ref) {
+        const d = new Date(ref);
+        const off = (5 - d.getDay() + 7) % 7 || 7;
+        d.setDate(d.getDate() + off);
+        d.setHours(0, 0, 0, 0);
+        return d;
+      }
 
-/* =============================================
+      /* =============================================
    SCHEDULING
    ============================================= */
-function genKubro(bulan, tahun){
-  const data = [];
-  const base = new Date(2025,0,1);
-  let wk = 5, d = new Date(base);
-  const first = new Date(tahun,bulan,1);
-  while(d < first){ if(d.getDay()===5) wk++; d.setDate(d.getDate()+1); }
-  let cur = wk % 10;
-  const last = new Date(tahun,bulan+1,0).getDate();
-  for(let day=1; day<=last; day++){
-    const date = new Date(tahun,bulan,day);
-    if(date.getDay()===5){
-      for(let i=0;i<10;i++){
-        data.push({ tanggal:date, tgl:locStr(date), lokasi:LOKASI[i], komplek:KOMPLEK[(cur+i)%10] });
+      function genKubro(bulan, tahun) {
+        const data = [];
+        const base = new Date(2025, 0, 1);
+        let wk = 5,
+          d = new Date(base);
+        const first = new Date(tahun, bulan, 1);
+        while (d < first) {
+          if (d.getDay() === 5) wk++;
+          d.setDate(d.getDate() + 1);
+        }
+        let cur = wk % 10;
+        const last = new Date(tahun, bulan + 1, 0).getDate();
+        for (let day = 1; day <= last; day++) {
+          const date = new Date(tahun, bulan, day);
+          if (date.getDay() === 5) {
+            for (let i = 0; i < 10; i++) {
+              data.push({
+                tanggal: date,
+                tgl: locStr(date),
+                lokasi: LOKASI[i],
+                komplek: KOMPLEK[(cur + i) % 10],
+              });
+            }
+            cur = (cur + 1) % 10;
+          }
+        }
+        return data;
       }
-      cur=(cur+1)%10;
-    }
-  }
-  return data;
-}
 
-function genTPS(bulan, tahun){
-  const data    = [];
-  const kubro   = genKubro(bulan, tahun); // sumber tunggal kebenaran untuk Jumat
-  const base    = new Date(2025,0,1);
-  let harian    = 2;
-  let d         = new Date(base);
-  const first   = new Date(tahun,bulan,1);
+      function genTPS(bulan, tahun) {
+        const data = [];
+        const kubro = genKubro(bulan, tahun); // sumber tunggal kebenaran untuk Jumat
+        const base = new Date(2025, 0, 1);
+        let harian = 2;
+        let d = new Date(base);
+        const first = new Date(tahun, bulan, 1);
 
-  // Hitung offset harian (Senin–Kamis–Sabtu) hingga awal bulan
-  // Jumat TIDAK ikut hitungan harian, karena diambil dari kubro
-  while(d < first){
-    const dw = d.getDay();
-    if(dw !== 0 && dw !== 5) harian++;
-    d.setDate(d.getDate()+1);
-  }
+        // Hitung offset harian (Senin–Kamis–Sabtu) hingga awal bulan
+        // Jumat TIDAK ikut hitungan harian, karena diambil dari kubro
+        while (d < first) {
+          const dw = d.getDay();
+          if (dw !== 0 && dw !== 5) harian++;
+          d.setDate(d.getDate() + 1);
+        }
 
-  const last  = new Date(tahun,bulan+1,0).getDate();
-  const today = new Date(); today.setHours(0,0,0,0);
+        const last = new Date(tahun, bulan + 1, 0).getDate();
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
 
-  for(let day=1; day<=last; day++){
-    const date = new Date(tahun,bulan,day);
-    const dw   = date.getDay();
-    let petugas = '';
+        for (let day = 1; day <= last; day++) {
+          const date = new Date(tahun, bulan, day);
+          const dw = date.getDay();
+          let petugas = "";
 
-    if(dw === 0){
-      // Minggu → pengurus kebersihan
-      petugas = 'Pengurus Kebersihan';
+          if (dw === 0) {
+            // Minggu → pengurus kebersihan
+            petugas = "Pengurus Kebersihan";
+          } else if (dw === 5) {
+            // Jumat → ambil Komplek dari Lokasi 10 di genKubro (Date comparison, bukan string)
+            const entry = kubro.find(
+              (k) =>
+                k.lokasi.nama === "Lokasi 10" &&
+                k.tanggal.getDate() === date.getDate() &&
+                k.tanggal.getMonth() === date.getMonth() &&
+                k.tanggal.getFullYear() === date.getFullYear(),
+            );
+            petugas = entry ? entry.komplek : "-";
+          } else {
+            // Senin–Kamis–Sabtu → rotasi harian
+            petugas = KOMP_HARIAN[harian % KOMP_HARIAN.length];
+            harian++;
+          }
 
-    } else if(dw === 5){
-      // Jumat → ambil Komplek dari Lokasi 10 di genKubro (Date comparison, bukan string)
-      const entry = kubro.find(k =>
-        k.lokasi.nama === 'Lokasi 10' &&
-        k.tanggal.getDate()     === date.getDate()     &&
-        k.tanggal.getMonth()    === date.getMonth()    &&
-        k.tanggal.getFullYear() === date.getFullYear()
-      );
-      petugas = entry ? entry.komplek : '-';
+          data.push({
+            tanggal: date,
+            tgl: locStr(date),
+            hari: date.toLocaleDateString("id-ID", { weekday: "long" }),
+            petugas,
+            isJumat: dw === 5,
+            isMinggu: dw === 0,
+            isToday: date.getTime() === today.getTime(),
+          });
+        }
+        return data;
+      }
 
-    } else {
-      // Senin–Kamis–Sabtu → rotasi harian
-      petugas = KOMP_HARIAN[harian % KOMP_HARIAN.length];
-      harian++;
-    }
-
-    data.push({
-      tanggal : date,
-      tgl     : locStr(date),
-      hari    : date.toLocaleDateString('id-ID',{weekday:'long'}),
-      petugas,
-      isJumat : dw === 5,
-      isMinggu: dw === 0,
-      isToday : date.getTime() === today.getTime()
-    });
-  }
-  return data;
-}
-
-/* =============================================
+      /* =============================================
    SPLASH — ENTER APP
    ============================================= */
-function enterApp(){
-  const s = document.getElementById('splash');
-  const a = document.getElementById('app');
-  s.classList.add('out');
-  a.style.display = 'block';
-  setTimeout(()=> s.style.display='none', 560);
-  initApp();
-}
+      function enterApp() {
+        const s = document.getElementById("splash");
+        const a = document.getElementById("app");
+        s.classList.add("out");
+        a.style.display = "block";
+        setTimeout(() => (s.style.display = "none"), 560);
+        initApp();
+      }
 
-/* =============================================
+      /* =============================================
    NAVIGATION
    ============================================= */
-function navTo(id){
-  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
-  document.querySelectorAll('.bni').forEach(b=>b.classList.remove('on'));
-  document.getElementById('pg-'+id).classList.add('on');
-  const bni = document.querySelector(`.bni[data-p="${id}"]`);
-  if(bni) bni.classList.add('on');
-  window.scrollTo({top:0,behavior:'smooth'});
-  if(id==='kubro') renderKubro();
-  if(id==='tps')   renderTPS();
-  if(id==='catatan') loadNotes();
-}
+      function navTo(id) {
+        document
+          .querySelectorAll(".pg")
+          .forEach((p) => p.classList.remove("on"));
+        document
+          .querySelectorAll(".bni")
+          .forEach((b) => b.classList.remove("on"));
+        document.getElementById("pg-" + id).classList.add("on");
+        const bni = document.querySelector(`.bni[data-p="${id}"]`);
+        if (bni) bni.classList.add("on");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (id === "kubro") renderKubro();
+        if (id === "tps") renderTPS();
+        if (id === "catatan") loadNotes();
+      }
 
-/* =============================================
+      /* =============================================
    COUNTDOWN
    ============================================= */
-function tick(){
-  const now = new Date();
-  const nf  = nextFriday(now);
-  const ms  = nf - now;
-  if(ms<=0) return;
-  document.getElementById('cdD').textContent = Math.floor(ms/86400000);
-  document.getElementById('cdH').textContent = Math.floor((ms%86400000)/3600000);
-  document.getElementById('cdM').textContent = Math.floor((ms%3600000)/60000);
-  document.getElementById('cdS').textContent = Math.floor((ms%60000)/1000);
-  document.getElementById('hDateStr').textContent  = '📅 Jumat, ' + fmtTgl(nf);
-  document.getElementById('hNextDate').textContent = 'Menuju ' + fmtTgl(nf);
-}
+      function tick() {
+        const now = new Date();
+        const nf = nextFriday(now);
+        const ms = nf - now;
+        if (ms <= 0) return;
+        document.getElementById("cdD").textContent = Math.floor(ms / 86400000);
+        document.getElementById("cdH").textContent = Math.floor(
+          (ms % 86400000) / 3600000,
+        );
+        document.getElementById("cdM").textContent = Math.floor(
+          (ms % 3600000) / 60000,
+        );
+        document.getElementById("cdS").textContent = Math.floor(
+          (ms % 60000) / 1000,
+        );
+        document.getElementById("hDateStr").textContent =
+          "📅 Jumat, " + fmtTgl(nf);
+        document.getElementById("hNextDate").textContent =
+          "Menuju " + fmtTgl(nf);
+      }
 
-/* =============================================
+      /* =============================================
    HOME
    ============================================= */
-function renderHome(){
-  const now = new Date();
-  const tps = genTPS(now.getMonth(), now.getFullYear());
-  const today = tps.find(d=>d.isToday);
-  const val = today ? (today.isMinggu ? 'Libur' : 'Komp. '+today.petugas) : '–';
-  const chip = today?.isJumat ? 'Jumat Kubro' : today?.isMinggu ? 'Hari Libur' : 'Hari Ini';
-  document.getElementById('tpsToday').textContent = val;
-  document.getElementById('tpsChip').textContent = chip;
-  document.getElementById('periodeNow').textContent = BLN[now.getMonth()]+' '+now.getFullYear();
-  document.getElementById('kubroPeriode').textContent = 'Periode '+BLN[now.getMonth()]+' '+now.getFullYear();
-  document.getElementById('tpsPeriode').textContent   = 'Periode '+BLN[now.getMonth()]+' '+now.getFullYear();
+      function renderHome() {
+        const now = new Date();
+        const tps = genTPS(now.getMonth(), now.getFullYear());
+        const today = tps.find((d) => d.isToday);
+        const val = today
+          ? today.isMinggu
+            ? "Libur"
+            : "Komp. " + today.petugas
+          : "–";
+        const chip = today?.isJumat
+          ? "Jumat Kubro"
+          : today?.isMinggu
+            ? "Hari Libur"
+            : "Hari Ini";
+        document.getElementById("tpsToday").textContent = val;
+        document.getElementById("tpsChip").textContent = chip;
+        document.getElementById("periodeNow").textContent =
+          BLN[now.getMonth()] + " " + now.getFullYear();
+        document.getElementById("kubroPeriode").textContent =
+          "Periode " + BLN[now.getMonth()] + " " + now.getFullYear();
+        document.getElementById("tpsPeriode").textContent =
+          "Periode " + BLN[now.getMonth()] + " " + now.getFullYear();
 
-  // Next jumat schedule
-  const nf   = nextFriday(now);
-  const data = genKubro(nf.getMonth(), nf.getFullYear());
-  const rows = data.filter(d=>d.tgl===locStr(nf));
-  document.getElementById('nextJumatBadge').textContent = fmtTgl(nf);
-  const cnt  = document.getElementById('homeJadwal');
-  if(!rows.length){ cnt.innerHTML='<div class="empty"><div class="empty-icon">📅</div><p>Tidak ada jadwal</p></div>'; return; }
-  cnt.innerHTML = rows.map((r,i)=>`
-    <div class="jadwal-row ${i===0?'featured':''}">
-      <div class="jrow-num">${i===0?'★':i+1}</div>
+        // Next jumat schedule
+        const nf = nextFriday(now);
+        const data = genKubro(nf.getMonth(), nf.getFullYear());
+        const rows = data.filter((d) => d.tgl === locStr(nf));
+        document.getElementById("nextJumatBadge").textContent = fmtTgl(nf);
+        const cnt = document.getElementById("homeJadwal");
+        if (!rows.length) {
+          cnt.innerHTML =
+            '<div class="empty"><div class="empty-icon">📅</div><p>Tidak ada jadwal</p></div>';
+          return;
+        }
+        cnt.innerHTML = rows
+          .map(
+            (r, i) => `
+    <div class="jadwal-row ${i === 0 ? "featured" : ""}">
+      <div class="jrow-num">${i === 0 ? "★" : i + 1}</div>
       <div class="jrow-body">
         <div class="jrow-name">${r.lokasi.nama}</div>
         <div class="jrow-desc">${r.lokasi.detail}</div>
       </div>
       <div class="jrow-komplek">${r.komplek}</div>
-    </div>`).join('');
-}
+    </div>`,
+          )
+          .join("");
+      }
 
-/* =============================================
+      /* =============================================
    KUBRO
    ============================================= */
-function renderKubro(){
-  const now = new Date();
-  const data = genKubro(now.getMonth(), now.getFullYear());
-  const cnt  = document.getElementById('kubroList');
-  if(!data.length){
-    cnt.innerHTML='<div class="empty"><div class="empty-icon">📅</div><p>Tidak ada jadwal Jumat bulan ini</p></div>';
-    return;
-  }
-  let html='', curTgl='';
-  data.forEach(item=>{
-    if(item.tgl!==curTgl){
-      if(curTgl!=='') html+='</div>';
-      html+=`<div class="date-hdr">🕌 ${item.tgl}</div><div class="jadwal-list" style="padding:8px 16px 4px">`;
-      curTgl=item.tgl;
-    }
-    html+=`
+      function renderKubro() {
+        const now = new Date();
+        const data = genKubro(now.getMonth(), now.getFullYear());
+        const cnt = document.getElementById("kubroList");
+        if (!data.length) {
+          cnt.innerHTML =
+            '<div class="empty"><div class="empty-icon">📅</div><p>Tidak ada jadwal Jumat bulan ini</p></div>';
+          return;
+        }
+        let html = "",
+          curTgl = "";
+        data.forEach((item) => {
+          if (item.tgl !== curTgl) {
+            if (curTgl !== "") html += "</div>";
+            html += `<div class="date-hdr">🕌 ${item.tgl}</div><div class="jadwal-list" style="padding:8px 16px 4px">`;
+            curTgl = item.tgl;
+          }
+          html += `
       <div class="jadwal-row">
         <div class="jrow-num">${item.komplek}</div>
         <div class="jrow-body">
@@ -1173,209 +2154,332 @@ function renderKubro(){
           <div class="jrow-desc">${item.lokasi.detail}</div>
         </div>
       </div>`;
-  });
-  html+='</div>';
-  cnt.innerHTML=html;
-}
+        });
+        html += "</div>";
+        cnt.innerHTML = html;
+      }
 
-/* =============================================
+      /* =============================================
    TPS
    ============================================= */
-function renderTPS(){
-  const now  = new Date();
-  const data = genTPS(now.getMonth(), now.getFullYear());
-  const cnt  = document.getElementById('tpsTable');
-  if(!data.length){ cnt.innerHTML='<div class="empty"><div class="empty-icon">📋</div><p>Tidak ada data</p></div>'; return; }
-  const rows = data.map(d=>{
-    const cls = d.isToday?'r-today':d.isJumat?'r-jumat':d.isMinggu?'r-minggu':'';
-    const chip = d.isToday
-      ? `<span class="chip chip-green">${d.petugas}</span>`
-      : d.isJumat
-        ? `<span class="chip chip-gold">${d.petugas}</span>`
-        : d.isMinggu
-          ? `<span class="chip chip-red">${d.petugas}</span>`
-          : `<span class="chip chip-gray">${d.petugas}</span>`;
-    return `<tr class="${cls}"><td style="font-weight:600">${d.tgl}</td><td>${d.hari}</td><td>${chip}</td></tr>`;
-  }).join('');
-  cnt.innerHTML=`<table><thead><tr><th>Tanggal</th><th>Hari</th><th>Petugas</th></tr></thead><tbody>${rows}</tbody></table>`;
-}
+      function renderTPS() {
+        const now = new Date();
+        const data = genTPS(now.getMonth(), now.getFullYear());
+        const cnt = document.getElementById("tpsTable");
+        if (!data.length) {
+          cnt.innerHTML =
+            '<div class="empty"><div class="empty-icon">📋</div><p>Tidak ada data</p></div>';
+          return;
+        }
+        const rows = data
+          .map((d) => {
+            const cls = d.isToday
+              ? "r-today"
+              : d.isJumat
+                ? "r-jumat"
+                : d.isMinggu
+                  ? "r-minggu"
+                  : "";
+            const chip = d.isToday
+              ? `<span class="chip chip-green">${d.petugas}</span>`
+              : d.isJumat
+                ? `<span class="chip chip-gold">${d.petugas}</span>`
+                : d.isMinggu
+                  ? `<span class="chip chip-red">${d.petugas}</span>`
+                  : `<span class="chip chip-gray">${d.petugas}</span>`;
+            return `<tr class="${cls}"><td style="font-weight:600">${d.tgl}</td><td>${d.hari}</td><td>${chip}</td></tr>`;
+          })
+          .join("");
+        cnt.innerHTML = `<table><thead><tr><th>Tanggal</th><th>Hari</th><th>Petugas</th></tr></thead><tbody>${rows}</tbody></table>`;
+      }
 
-/* =============================================
+      /* =============================================
    EXPORT PDF
    ============================================= */
-function exportKubroPDF(){
-  if(!window.jspdf){ showToast('Library PDF belum siap, coba lagi.','err'); return; }
-  const {jsPDF}=window.jspdf;
-  const doc=new jsPDF('p','mm','a4');
-  const now=new Date(), bl=now.getMonth(), th=now.getFullYear();
-  const data=genKubro(bl,th);
-  if(!data.length){ showToast('Tidak ada data export','err'); return; }
-  doc.setFontSize(14); doc.text("JADWAL RO'AN JUMAT KUBRO",105,15,{align:'center'});
-  doc.setFontSize(11); doc.text(`${BLN[bl]} ${th}`,105,22,{align:'center'});
-  let groups={};
-  data.forEach(x=>{ if(!groups[x.tgl]) groups[x.tgl]=[]; groups[x.tgl].push([x.lokasi.nama,x.lokasi.detail,x.komplek]); });
-  Object.entries(groups).forEach(([tgl,rows],i)=>{
-    if(i>0) doc.addPage();
-    doc.setFontSize(12); doc.text(tgl,105,32,{align:'center'});
-    doc.autoTable({ startY:38, head:[['Lokasi','Keterangan','Komplek']], body:rows, theme:'grid',
-      headStyles:{fillColor:[26,92,66],textColor:255,fontStyle:'bold'},
-      styles:{fontSize:10,cellPadding:3,overflow:'linebreak'},
-      columnStyles:{0:{cellWidth:50},1:{cellWidth:'auto'},2:{cellWidth:30,halign:'center'}} });
-  });
-  doc.save(`roan_kubro_${BLN[bl]}_${th}.pdf`);
-  showToast('PDF berhasil diunduh','ok');
-}
+      function exportKubroPDF() {
+        if (!window.jspdf) {
+          showToast("Library PDF belum siap, coba lagi.", "err");
+          return;
+        }
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF("p", "mm", "a4");
+        const now = new Date(),
+          bl = now.getMonth(),
+          th = now.getFullYear();
+        const data = genKubro(bl, th);
+        if (!data.length) {
+          showToast("Tidak ada data export", "err");
+          return;
+        }
+        doc.setFontSize(14);
+        doc.text("JADWAL RO'AN JUMAT KUBRO", 105, 15, { align: "center" });
+        doc.setFontSize(11);
+        doc.text(`${BLN[bl]} ${th}`, 105, 22, { align: "center" });
+        let groups = {};
+        data.forEach((x) => {
+          if (!groups[x.tgl]) groups[x.tgl] = [];
+          groups[x.tgl].push([x.lokasi.nama, x.lokasi.detail, x.komplek]);
+        });
+        Object.entries(groups).forEach(([tgl, rows], i) => {
+          if (i > 0) doc.addPage();
+          doc.setFontSize(12);
+          doc.text(tgl, 105, 32, { align: "center" });
+          doc.autoTable({
+            startY: 38,
+            head: [["Lokasi", "Keterangan", "Komplek"]],
+            body: rows,
+            theme: "grid",
+            headStyles: {
+              fillColor: [26, 92, 66],
+              textColor: 255,
+              fontStyle: "bold",
+            },
+            styles: { fontSize: 10, cellPadding: 3, overflow: "linebreak" },
+            columnStyles: {
+              0: { cellWidth: 50 },
+              1: { cellWidth: "auto" },
+              2: { cellWidth: 30, halign: "center" },
+            },
+          });
+        });
+        doc.save(`roan_kubro_${BLN[bl]}_${th}.pdf`);
+        showToast("PDF berhasil diunduh", "ok");
+      }
 
-function exportTPSPDF(){
-  if(!window.jspdf){ showToast('Library PDF belum siap, coba lagi.','err'); return; }
-  const {jsPDF}=window.jspdf;
-  const doc=new jsPDF('p','mm','a4');
-  const now=new Date(), bl=now.getMonth(), th=now.getFullYear();
-  const data=genTPS(bl,th);
-  if(!data.length){ showToast('Tidak ada data export','err'); return; }
-  doc.setFontSize(14); doc.text("JADWAL RO'AN TPS",105,15,{align:'center'});
-  doc.setFontSize(11); doc.text(`${BLN[bl]} ${th}`,105,22,{align:'center'});
-  doc.autoTable({ startY:30, head:[['Tanggal','Hari','Petugas']], body:data.map(d=>[d.tgl,d.hari,d.petugas]),
-    theme:'grid', headStyles:{fillColor:[26,92,66],textColor:255,fontStyle:'bold'},
-    styles:{fontSize:10,cellPadding:3},
-    columnStyles:{0:{cellWidth:40},1:{cellWidth:40},2:{cellWidth:'auto'}} });
-  doc.save(`roan_tps_${BLN[bl]}_${th}.pdf`);
-  showToast('PDF berhasil diunduh','ok');
-}
+      function exportTPSPDF() {
+        if (!window.jspdf) {
+          showToast("Library PDF belum siap, coba lagi.", "err");
+          return;
+        }
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF("p", "mm", "a4");
+        const now = new Date(),
+          bl = now.getMonth(),
+          th = now.getFullYear();
+        const data = genTPS(bl, th);
+        if (!data.length) {
+          showToast("Tidak ada data export", "err");
+          return;
+        }
+        doc.setFontSize(14);
+        doc.text("JADWAL RO'AN TPS", 105, 15, { align: "center" });
+        doc.setFontSize(11);
+        doc.text(`${BLN[bl]} ${th}`, 105, 22, { align: "center" });
+        doc.autoTable({
+          startY: 30,
+          head: [["Tanggal", "Hari", "Petugas"]],
+          body: data.map((d) => [d.tgl, d.hari, d.petugas]),
+          theme: "grid",
+          headStyles: {
+            fillColor: [26, 92, 66],
+            textColor: 255,
+            fontStyle: "bold",
+          },
+          styles: { fontSize: 10, cellPadding: 3 },
+          columnStyles: {
+            0: { cellWidth: 40 },
+            1: { cellWidth: 40 },
+            2: { cellWidth: "auto" },
+          },
+        });
+        doc.save(`roan_tps_${BLN[bl]}_${th}.pdf`);
+        showToast("PDF berhasil diunduh", "ok");
+      }
 
-/* =============================================
+      /* =============================================
    CATATAN / NOTES
    ============================================= */
-let selFile = null;
-document.addEventListener('DOMContentLoaded',()=>{
-  const fi = document.getElementById('noteFile');
-  if(fi) fi.addEventListener('change',e=>{
-    if(e.target.files.length){
-      selFile=e.target.files[0];
-      document.getElementById('fileName').textContent=selFile.name;
-      document.getElementById('filePill').classList.add('show');
-    }
-  });
-  window.addEventListener('scroll',()=>{
-    document.getElementById('scrollUp').classList.toggle('show',window.scrollY>300);
-  });
-});
+      let selFile = null;
+      document.addEventListener("DOMContentLoaded", () => {
+        const fi = document.getElementById("noteFile");
+        if (fi)
+          fi.addEventListener("change", (e) => {
+            if (e.target.files.length) {
+              selFile = e.target.files[0];
+              document.getElementById("fileName").textContent = selFile.name;
+              document.getElementById("filePill").classList.add("show");
+            }
+          });
+        window.addEventListener("scroll", () => {
+          document
+            .getElementById("scrollUp")
+            .classList.toggle("show", window.scrollY > 300);
+        });
+      });
 
-function toggleForm(){
-  const f=document.getElementById('addForm');
-  const b=document.getElementById('formBtns');
-  if(f.style.display==='none'||!f.style.display){
-    f.style.display='block'; b.style.display='none';
-    document.getElementById('noteTitle').focus();
-  } else {
-    f.style.display='none'; b.style.display='flex';
-    clearForm();
-  }
-}
+      function toggleForm() {
+        const f = document.getElementById("addForm");
+        const b = document.getElementById("formBtns");
+        if (f.style.display === "none" || !f.style.display) {
+          f.style.display = "block";
+          b.style.display = "none";
+          document.getElementById("noteTitle").focus();
+        } else {
+          f.style.display = "none";
+          b.style.display = "flex";
+          clearForm();
+        }
+      }
 
-function clearForm(){
-  document.getElementById('noteTitle').value='';
-  document.getElementById('noteContent').value='';
-  document.getElementById('noteFile').value='';
-  document.getElementById('filePill').classList.remove('show');
-  selFile=null;
-}
+      function clearForm() {
+        document.getElementById("noteTitle").value = "";
+        document.getElementById("noteContent").value = "";
+        document.getElementById("noteFile").value = "";
+        document.getElementById("filePill").classList.remove("show");
+        selFile = null;
+      }
 
-function saveNote(){
-  const title=document.getElementById('noteTitle').value.trim();
-  const body=document.getElementById('noteContent').value.trim();
-  if(!title){ showModal('err','Gagal','Judul tidak boleh kosong.'); return; }
-  const notes=JSON.parse(localStorage.getItem('roanNotes')||'[]');
-  const note={id:Date.now(),title,body,file:null,date:new Date().toISOString()};
-  if(selFile){
-    const reader=new FileReader();
-    reader.onload=e=>{
-      note.file={name:selFile.name,data:e.target.result};
-      notes.unshift(note);
-      localStorage.setItem('roanNotes',JSON.stringify(notes));
-      loadNotes(); toggleForm();
-      showModal('ok','Tersimpan','Catatan dan dokumen berhasil disimpan.');
-    };
-    reader.onerror=()=>showModal('err','Gagal','Gagal membaca file.');
-    reader.readAsDataURL(selFile);
-  } else {
-    notes.unshift(note);
-    localStorage.setItem('roanNotes',JSON.stringify(notes));
-    loadNotes(); toggleForm();
-    showModal('ok','Tersimpan','Catatan berhasil disimpan.');
-  }
-}
+      function saveNote() {
+        const title = document.getElementById("noteTitle").value.trim();
+        const body = document.getElementById("noteContent").value.trim();
+        if (!title) {
+          showModal("err", "Gagal", "Judul tidak boleh kosong.");
+          return;
+        }
+        const notes = JSON.parse(localStorage.getItem("roanNotes") || "[]");
+        const note = {
+          id: Date.now(),
+          title,
+          body,
+          file: null,
+          date: new Date().toISOString(),
+        };
+        if (selFile) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            note.file = { name: selFile.name, data: e.target.result };
+            notes.unshift(note);
+            localStorage.setItem("roanNotes", JSON.stringify(notes));
+            loadNotes();
+            toggleForm();
+            showModal(
+              "ok",
+              "Tersimpan",
+              "Catatan dan dokumen berhasil disimpan.",
+            );
+          };
+          reader.onerror = () =>
+            showModal("err", "Gagal", "Gagal membaca file.");
+          reader.readAsDataURL(selFile);
+        } else {
+          notes.unshift(note);
+          localStorage.setItem("roanNotes", JSON.stringify(notes));
+          loadNotes();
+          toggleForm();
+          showModal("ok", "Tersimpan", "Catatan berhasil disimpan.");
+        }
+      }
 
-function loadNotes(){
-  const notes=JSON.parse(localStorage.getItem('roanNotes')||'[]');
-  const cnt=document.getElementById('notesList');
-  if(!notes.length){
-    cnt.innerHTML='<div class="card card-pad"><div class="empty"><div class="empty-icon">📭</div><p>Belum ada catatan</p></div></div>';
-    return;
-  }
-  cnt.innerHTML=notes.map(n=>{
-    const dt=new Date(n.date).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
-    return `<div class="note-card">
+      function loadNotes() {
+        const notes = JSON.parse(localStorage.getItem("roanNotes") || "[]");
+        const cnt = document.getElementById("notesList");
+        if (!notes.length) {
+          cnt.innerHTML =
+            '<div class="card card-pad"><div class="empty"><div class="empty-icon">📭</div><p>Belum ada catatan</p></div></div>';
+          return;
+        }
+        cnt.innerHTML = notes
+          .map((n) => {
+            const dt = new Date(n.date).toLocaleDateString("id-ID", {
+              day: "numeric",
+              month: "short",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+            return `<div class="note-card">
       <div class="note-hdr">
         <div class="note-title">${esc(n.title)}</div>
         <div class="note-date">${dt}</div>
       </div>
-      <div class="note-body">${esc(n.body)||'<em style="color:var(--t3)">Tidak ada deskripsi</em>'}</div>
-      ${n.file?`<a href="${n.file.data}" class="note-file" download="${n.file.name}">📎 ${n.file.name}</a>`:''}
+      <div class="note-body">${esc(n.body) || '<em style="color:var(--t3)">Tidak ada deskripsi</em>'}</div>
+      ${n.file ? `<a href="${n.file.data}" class="note-file" download="${n.file.name}">📎 ${n.file.name}</a>` : ""}
     </div>`;
-  }).join('');
-}
+          })
+          .join("");
+      }
 
-function esc(t){ if(!t) return ''; const d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
+      function esc(t) {
+        if (!t) return "";
+        const d = document.createElement("div");
+        d.textContent = t;
+        return d.innerHTML;
+      }
 
-function confirmReset(){
-  showModal('warn','Konfirmasi','Hapus semua catatan? Tindakan ini tidak dapat dibatalkan.',[
-    {text:'✕ Batal', cls:'btn-out', fn:closeModal},
-    {text:'🗑 Hapus', cls:'btn-red', fn:doReset}
-  ]);
-}
-function doReset(){ localStorage.removeItem('roanNotes'); loadNotes(); closeModal(); showModal('ok','Selesai','Semua catatan dihapus.'); }
+      function confirmReset() {
+        showModal(
+          "warn",
+          "Konfirmasi",
+          "Hapus semua catatan? Tindakan ini tidak dapat dibatalkan.",
+          [
+            { text: "✕ Batal", cls: "btn-out", fn: closeModal },
+            { text: "🗑 Hapus", cls: "btn-red", fn: doReset },
+          ],
+        );
+      }
+      function doReset() {
+        localStorage.removeItem("roanNotes");
+        loadNotes();
+        closeModal();
+        showModal("ok", "Selesai", "Semua catatan dihapus.");
+      }
 
-/* =============================================
+      /* =============================================
    MODAL & TOAST
    ============================================= */
-function showModal(type,title,text,acts=null){
-  const icoMap={ok:'✓',err:'✕',warn:'⚠'};
-  const el=document.getElementById;
-  el('mIco').className='modal-ico '+type;
-  el('mIco').textContent=icoMap[type];
-  el('mTitle').textContent=title;
-  el('mText').textContent=text;
-  const ab=el('mActs'); ab.innerHTML='';
-  if(acts){ acts.forEach(a=>{ const b=document.createElement('button'); b.className='btn '+a.cls; b.textContent=a.text; b.onclick=a.fn; ab.appendChild(b); }); }
-  else { ab.innerHTML='<button class="btn btn-p" onclick="closeModal()">OK</button>'; }
-  document.getElementById('modal').classList.add('on');
-}
-function closeModal(){ document.getElementById('modal').classList.remove('on'); }
+      function showModal(type, title, text, acts = null) {
+        const icoMap = { ok: "✓", err: "✕", warn: "⚠" };
+        const el = document.getElementById;
+        el("mIco").className = "modal-ico " + type;
+        el("mIco").textContent = icoMap[type];
+        el("mTitle").textContent = title;
+        el("mText").textContent = text;
+        const ab = el("mActs");
+        ab.innerHTML = "";
+        if (acts) {
+          acts.forEach((a) => {
+            const b = document.createElement("button");
+            b.className = "btn " + a.cls;
+            b.textContent = a.text;
+            b.onclick = a.fn;
+            ab.appendChild(b);
+          });
+        } else {
+          ab.innerHTML =
+            '<button class="btn btn-p" onclick="closeModal()">OK</button>';
+        }
+        document.getElementById("modal").classList.add("on");
+      }
+      function closeModal() {
+        document.getElementById("modal").classList.remove("on");
+      }
 
-let toastTimer;
-function showToast(msg,type='ok'){
-  clearTimeout(toastTimer);
-  const t=document.getElementById('toast');
-  t.className='toast '+type+' show';
-  document.getElementById('toastIcon').textContent=type==='ok'?'✓':'✕';
-  document.getElementById('toastMsg').textContent=msg;
-  toastTimer=setTimeout(()=>t.classList.remove('show'),3000);
-}
+      let toastTimer;
+      function showToast(msg, type = "ok") {
+        clearTimeout(toastTimer);
+        const t = document.getElementById("toast");
+        t.className = "toast " + type + " show";
+        document.getElementById("toastIcon").textContent =
+          type === "ok" ? "✓" : "✕";
+        document.getElementById("toastMsg").textContent = msg;
+        toastTimer = setTimeout(() => t.classList.remove("show"), 3000);
+      }
 
-/* =============================================
+      /* =============================================
    SCROLL TOP
    ============================================= */
-function scrollToTop(){ window.scrollTo({top:0,behavior:'smooth'}); }
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
 
-/* =============================================
+      /* =============================================
    INIT
    ============================================= */
-function initApp(){
-  renderHome();
-  tick();
-  setInterval(tick,1000);
-}
-</script>
-</body>
+      function initApp() {
+        renderHome();
+        tick();
+        setInterval(tick, 1000);
+      }
+    </script>
+  </body>
 </html>
