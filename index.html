@@ -963,9 +963,8 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.5; }
    ============================================= */
 const BLN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 const HARI = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-const KOMPLEK      = ['A','B','C','D','E','F','G','H','I','J'];
-const KOMP_HARIAN  = ['A','B','C','E','F','G','H','I','J'];
-const KOMP_JUMAT   = ['A','B','C','D','E','F','G','H','I','J'];
+const KOMPLEK     = ['A','B','C','D','E','F','G','H','I','J'];
+const KOMP_HARIAN = ['A','B','C','E','F','G','H','I','J'];
 const LOKASI = [
   { nama:'Lokasi 1',  detail:'Masjid Lt 1, 2 dan Depan perpustakaan' },
   { nama:'Lokasi 2',  detail:'Jeding Masjid' },
@@ -1016,30 +1015,57 @@ function genKubro(bulan, tahun){
 }
 
 function genTPS(bulan, tahun){
-  const data = [];
-  const base = new Date(2025,0,1);
-  let jf=5, harian=2, d=new Date(base);
-  const first = new Date(tahun,bulan,1);
+  const data    = [];
+  const kubro   = genKubro(bulan, tahun); // sumber tunggal kebenaran untuk Jumat
+  const base    = new Date(2025,0,1);
+  let harian    = 2;
+  let d         = new Date(base);
+  const first   = new Date(tahun,bulan,1);
+
+  // Hitung offset harian (Senin–Kamis–Sabtu) hingga awal bulan
+  // Jumat TIDAK ikut hitungan harian, karena diambil dari kubro
   while(d < first){
-    const dw=d.getDay();
-    if(dw===5) jf++;
-    else if(dw!==0) harian++;
+    const dw = d.getDay();
+    if(dw !== 0 && dw !== 5) harian++;
     d.setDate(d.getDate()+1);
   }
-  const last = new Date(tahun,bulan+1,0).getDate();
+
+  const last  = new Date(tahun,bulan+1,0).getDate();
   const today = new Date(); today.setHours(0,0,0,0);
+
   for(let day=1; day<=last; day++){
     const date = new Date(tahun,bulan,day);
-    const dw = date.getDay();
-    let petugas='';
-    if(dw===0){ petugas='Pengurus Kebersihan'; }
-    else if(dw===5){ petugas=KOMP_JUMAT[jf%10]; jf++; }
-    else { petugas=KOMP_HARIAN[harian%KOMP_HARIAN.length]; harian++; }
+    const dw   = date.getDay();
+    let petugas = '';
+
+    if(dw === 0){
+      // Minggu → pengurus kebersihan
+      petugas = 'Pengurus Kebersihan';
+
+    } else if(dw === 5){
+      // Jumat → ambil Komplek dari Lokasi 10 di genKubro (Date comparison, bukan string)
+      const entry = kubro.find(k =>
+        k.lokasi.nama === 'Lokasi 10' &&
+        k.tanggal.getDate()     === date.getDate()     &&
+        k.tanggal.getMonth()    === date.getMonth()    &&
+        k.tanggal.getFullYear() === date.getFullYear()
+      );
+      petugas = entry ? entry.komplek : '-';
+
+    } else {
+      // Senin–Kamis–Sabtu → rotasi harian
+      petugas = KOMP_HARIAN[harian % KOMP_HARIAN.length];
+      harian++;
+    }
+
     data.push({
-      tanggal:date, tgl:locStr(date),
-      hari:date.toLocaleDateString('id-ID',{weekday:'long'}),
-      petugas, isJumat:dw===5, isMinggu:dw===0,
-      isToday: date.getTime()===today.getTime()
+      tanggal : date,
+      tgl     : locStr(date),
+      hari    : date.toLocaleDateString('id-ID',{weekday:'long'}),
+      petugas,
+      isJumat : dw === 5,
+      isMinggu: dw === 0,
+      isToday : date.getTime() === today.getTime()
     });
   }
   return data;
@@ -1353,4 +1379,3 @@ function initApp(){
 </script>
 </body>
 </html>
-
